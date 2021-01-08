@@ -1,0 +1,50 @@
+[
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{2986bf2e-f118-4e78-b1f6-8301b174846d}.",
+        "name": "DuckDuckGo",
+        "trigger": "d ",
+        "url": "https://duckduckgo.com/?q=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{4f6cd982-a1fd-4a6f-8bd6-8332ed59a6f0}.png",
+        "name": "Ecosia",
+        "trigger": " e ",
+        "url": "https://www.ecosia.org/search?q=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{c0499b0c-1e66-4445-aa6a-45b4c8efe6c9}.png",
+        "name": "Wikipedia",
+        "trigger": "w ",
+        "url": "https://en.wikipedia.org/wiki/Special:Search?search=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{e03b682b-42be-4355-a4db-18bcd253a301}.svg",
+        "name": "Arch Wiki",
+        "trigger": " aw",
+        "url": "https://wiki.archlinux.org/index.php?title=Special:Search&search=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{9a8118cb-ce0f-4d4f-9cc5-864ff10c954c}.png",
+        "name": "Collins Dictionary",
+        "trigger": "c ",
+        "url": "https://www.collinsdictionary.com/dictionary/english/%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{6c3fc961-eac8-45a3-a55b-7b898ed3fbee}.",
+        "name": "GitHub",
+        "trigger": "gh ",
+        "url": "https://github.com/search?utf8=✓&q=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{0b0209f1-be87-4bcd-b01e-af48479a7b46}.",
+        "name": "Youtube",
+        "trigger": "y ",
+        "url": "https://www.youtube.com/results?search_query=%s"
+    },
+    {
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{7db3ef69-056c-49f2-9bae-3dbb9499117c}.png",
+        "name": "Google Translate",
+        "trigger": "gt ",
+        "url": "https://translate.google.com/?source=osdd#auto|auto|%s"
+    }
+]
