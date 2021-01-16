@@ -1,0 +1,17 @@
+#!/bin/bash
+inputFile="$( echo $1 | sed 's!~!\/home\/admin/.config/neovim!')"
+[ -z "$inputFile" ] && exit
+dir=$(dirname "$inputFile")
+
+case "$inputFile" in 
+
+	*ms)
+		eqn="$(grep "\.EQ" -i $inputFile | head -1)"
+		name="$(echo $inputFile | sed 's/\..*//')"
+		cd "$dir"
+		[ -z "$eqn" ] || {
+		       	groff -e "$inputFile" -ms -Tpdf > "$name.pdf" && exit
+		}
+		groff -ms "$inputFile" -Tpdf > "$name.pdf" 
+		;;
+esac

@@ -7,6 +7,8 @@ set autoindent
 nnoremap <\> :noh <Return>
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 map <C-n> :NERDTreeToggle<CR>
+map <C-g> :w<CR>:!bash ~/.config/nvim/compiler %:p<CR> 
+map <C-z> :! zathura --fork %:t:r.pdf<CR><CR>
 
 call plug#begin()
 
