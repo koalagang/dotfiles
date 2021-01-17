@@ -10,7 +10,7 @@ case "$inputFile" in
 		name="$(echo $inputFile | sed 's/\..*//')"
 		cd "$dir"
 		[ -z "$eqn" ] || {
-		       	groff -e "$inputFile" -ms -Tpdf > "$name.pdf" && exit
+		       	groff -e -t "$inputFile" -ms -Tpdf > "$name.pdf" && exit
 		}
 		groff -ms "$inputFile" -Tpdf > "$name.pdf" 
 		;;
