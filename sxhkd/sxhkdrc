@@ -1,0 +1,57 @@
+#------KOALA'S KEYBINDINGS
+
+#---System
+
+# Shutdown
+ctrl + alt + x ;
+	systemctl shutdown now
+
+# Reboot
+ctrl + alt + r ;
+	systemctl reboot
+
+# Suspend
+ctrl + alt + s ;
+	systemctl suspend
+
+# Log out
+ctrl + alt + l;
+	systemctl logout
+
+
+#---Applications
+
+# Launching main applications
+super + alt + {w,b,h,k,s,l,m,v,f,g,p,a}
+	{librewolf, brave, htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki}
+
+# Select area/window - Screenshot (instantly) and copy to clipboard
+super + {u}
+	maim -s | xclip -selection clipboard -t image/png
+
+# Select area/window - Screenshot (2 second delay) and copy to clipboard
+super + alt + {u}
+	maim -s -d 2 | xclip -selection clipboard -t image/png
+
+# Select area/window - Screenshot (instantly) and save to ~/Pictures
+Print
+	maim -s ~/Pictures/(date).png
+
+
+#---Windows
+
+# Kill window
+ctrl + shift + k
+	xdo kill
+
+# Close window
+ctrl + shift + c
+	xdo close
+
+# Minimise current window
+ctrl + shift + m
+	xdotool getactivewindow windowminimize
+
+# Increase window width
+shift + alt + {h,j,k,l}
+	xdo resize {-w -9, -h +9, -h -9, -w +9}
