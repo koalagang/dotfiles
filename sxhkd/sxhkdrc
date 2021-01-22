@@ -3,39 +3,43 @@
 #---System
 
 # Shutdown
-ctrl + alt + x ;
-	systemctl shutdown now
+ctrl + alt + x
+	shutdown now
 
 # Reboot
-ctrl + alt + r ;
-	systemctl reboot
+ctrl + alt + r
+	reboot
 
 # Suspend
-ctrl + alt + s ;
+ctrl + alt + s
 	systemctl suspend
 
-# Log out
-ctrl + alt + l;
-	systemctl logout
+# Lock
+ctrl + alt + l
+	xdg-screensaver lock
 
 
 #---Applications
 
 # Launching main applications
-super + alt + {w,b,h,k,s,l,m,v,f,g,p,a}
-	{librewolf, brave, htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki}
+super + alt + {b,h,k,s,l,m,v,f,g,p,a,d,n}
+	{brave, alacritty -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki}
 
-# Select area/window - Screenshot (instantly) and copy to clipboard
-super + {u}
+# Screenshot selected window or area instantly and copy to clipboard
+super + alt + {u}
 	maim -s | xclip -selection clipboard -t image/png
 
-# Select area/window - Screenshot (2 second delay) and copy to clipboard
-super + alt + {u}
+# Screenshot selected window or area with a 2 second delay and copy to clipboard
+super + ctrl + {u}
 	maim -s -d 2 | xclip -selection clipboard -t image/png
 
-# Select area/window - Screenshot (instantly) and save to ~/Pictures
+# Screenshot selected window or area instantly and save to ~/Pictures
+ctrl + alt + {u}
+	maim ~/Pictures/(date).png
+
+# Screenshot currently active window and save to ~/Pictures
 Print
-	maim -s ~/Pictures/(date).png
+	maim -i (xdotool getactivewindow) ~/Pictures/(date).png -u
 
 
 #---Windows
