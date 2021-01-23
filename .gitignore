@@ -1,3 +1,6 @@
 newsboat/urls
+newsboat/cache.db
+newsboat/history.cmdline
+newsboat/history.search
 spacefm/trash/*
-.netrwhist
+nvim/.netrwhist
