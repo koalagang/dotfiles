@@ -1,22 +1,134 @@
+"  \##|   |
+"##\\ |   |
+"   \\|   \'---'/   Dante (@koalagang)
+"    \   _'.'O'.'   https://github.com/koalagang
+"     | :___   \
+"     |  _| :  |
+"     | :__,___/    "An init.vim which aims to use as few plugins as possible, without losing out on valuable features."
+"     |   |
+"     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
+
+"INCOMPLETE GOALS:
+"create a working compiler script
+"make vim tell me coding errors
+"add shellcheck
+"add spellcheck (https://www.youtube.com/watch?v=ez1XBUqbS68)
+"create my own statusline
+"make :WQ do the same as :wq, :Q do the same as :q, etc
+"create an option to select all
+"tidy up this messy init.vim
+"implement tabular into the actual init.vim instead of using a plugin
+
+" I think these can be put on the same line - will look into when I decide to tidy up this mess of an init.vim
 set number
 set relativenumber
 set tabstop=4
-set softtabstop=0 noexpandtab
+set softtabstop=0
 set shiftwidth=4
 set autoindent
-nnoremap <\> :noh <Return>
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-map <C-n> :NERDTreeToggle<CR>
-map <C-g> :w<CR>:!bash ~/.config/nvim/compiler %:p<CR> 
-map <C-z> :! zathura --fork %:t:r.pdf<CR><CR>
+set nobackup
+set smartcase
+set ignorecase
+set expandtab
+set cursorline
+set noswapfile
+hi CursorLine gui=underline cterm=underline
+
+set path+=**
+set wildmenu
+set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp
+nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a
+nnoremap <C-t> :tabe <CR>
+let mapleader = ','
+"select everything - NOTE: (1) it does not work if your cursor is near the bottom of the page (2) it will not select the entirety of the final line, so you might want to leave an empty line at the bottom of your files
+vnoremap <C-a> gg G
+
+"Allows interacting with the system clipboard
+vnoremap <C-c> "+y
+vnoremap <C-v> "+p
+vnoremap <C-x> "+d
+nnoremap <C-c> "+yy
+nnoremap <C-v> "+pp
+nnoremap <C-x> "+dd
+
+" Splits
+map <C-J> <C-W><C-J>
+map <C-K> <C-W><C-K>
+map <C-L> <C-W><C-L>
+map <C-H> <C-W><C-H>
+map <leader>v :vs<CR>
+map <leader>h :split<CR>
+
+"Tweaks for browsing
+let g:netrw_banner=0            " disable annoying banner
+let g:netrw_browse_split=2      " use vertical split (2 = vertical, 1 = horizontal = default)
+let g:netrw_liststyle=3         " tree view
+nnoremap <C-n> :edit . <Return>
+
+"Clean up trailing spaces
+function! CleanExtraSpaces()
+    let save_cursor = getpos(".")
+    let old_query = getreg('/')
+    silent! %s/\s\+$//e
+    call setpos('.', save_cursor)
+    call setreg('/', old_query)
+endfun
+autocmd BufWritePre * :call CleanExtraSpaces()
+
+nnoremap <Space> :noh <CR>
+""map <C-g> :w<CR> :!bash ~/.config/nvim/compiler %:p<CR>
+""map <C-p> :w<CR> :!bash ~/.config/nvim/pdfroff-compiler %:p<CR>
+map <C-z> :!zathura --fork %:t:r.pdf<CR><CR>
 
 call plug#begin()
-
-Plug 'preservim/nerdtree'
+Plug 'Yggdroot/indentLine'
 Plug 'mhinz/vim-startify'
 Plug 'ap/vim-css-color'
-Plug 'itchyny/lightline.vim'
-
+Plug 'vimwiki/vimwiki'
+Plug 'godlygeek/tabular'
+Plug 'itchyny/lightline.vim'    "I plan on writing my own statusline, but until then I will use lightline
 call plug#end()
 
-set t_Co=256
+"Plug commands
+":PlugInstall                                                                                          - installs plugins
+":PlugUpdate                                                                                           - updates plugins
+":PlugDiff                                                                                             - shows changes
+":PlugClean                                                                                            - remove plugins (first remove or comment them out and then restart vim)
+"To view rollback to an older version of a plugin, run :PlugDiff and then press 'X' on each paragraph.
+
+set t_Co=256 "enable 256 colours
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap < <><left>
+
+" allows you to use HJKL to navigate in insert mode if you hold control
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+
+"Colours
+highlight LineNr           ctermfg=5    ctermbg=none    cterm=none
+highlight CursorLineNr     ctermfg=7    ctermbg=8       cterm=none
+highlight VertSplit        ctermfg=0    ctermbg=8       cterm=none
+highlight Statement        ctermfg=2    ctermbg=none    cterm=none
+highlight Directory        ctermfg=4    ctermbg=none    cterm=none
+highlight Comment          ctermfg=4    ctermbg=none    cterm=none
+highlight Constant         ctermfg=12   ctermbg=none    cterm=none
+highlight Special          ctermfg=4    ctermbg=none    cterm=none
+highlight Identifier       ctermfg=6    ctermbg=none    cterm=none
+highlight PreProc          ctermfg=5    ctermbg=none    cterm=none
+highlight String           ctermfg=12   ctermbg=none    cterm=none
+highlight Number           ctermfg=1    ctermbg=none    cterm=none
+highlight Function         ctermfg=1    ctermbg=none    cterm=none
+let g:indentLine_color_term = 14
+
+"EXPERIMENTING"
+""map <leader>s :!clear && shellckeck %<CR>
+map <leader>c :w! \| !~/Desktop/scripts/compiler "<c-r>%"<CR>
+""map <leader>p :!opout <c-r>%<CR><CR>
+

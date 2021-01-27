@@ -18,7 +18,7 @@
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  #TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -62,7 +62,7 @@ window:
   #   - Fullscreen
   #
   startup_mode: Maximized
-  
+
   # Window title
   title: Alacritty Terminal
 
@@ -214,14 +214,14 @@ colors:
 
   # Bright colors
   bright:
-      black:   '#3B4252'
-      red:     '#BF616A'
-      green:   '#EB49CF'
-      yellow:  '#EBCB8B'
-      blue:    '#81A1C1'
-      magenta: '#B48EAD'
-      cyan:    '#AEE0F4'
-      white:   '#ECEFF4'
+      black:   '#4B4252'
+      red:     '#CF616A'
+      green:   '#FB49CF'
+      yellow:  '#FBCB8B'
+      blue:    '#82A1C1'
+      magenta: '#C48EAD'
+      cyan:    '#B7B3C9'
+      white:   '#FCEFF4'
 
   # Dim colors
   #

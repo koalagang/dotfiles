@@ -1,5 +1,4 @@
 #------KOALA'S KEYBINDINGS
-
 #---System
 
 # Shutdown
@@ -22,20 +21,22 @@ ctrl + alt + l
 #---Applications
 
 # Launching main applications
-super + alt + {b,h,k,s,l,m,v,f,g,p,a,d,n}
-	{brave, alacritty -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki}
+super + alt + {b,w,h,k,s,l,m,v,f,g,p,a,d,n}
+	{brave, qutebrowser, $TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/Discord, ~/Desktop/.netflix/Netflix}
+
+#---Screenshots
 
 # Screenshot selected window or area instantly and copy to clipboard
 super + alt + {u}
-	maim -s | xclip -selection clipboard -t image/png
+	maim -s | xclip -selection clipboard -t image/png -u
 
 # Screenshot selected window or area with a 2 second delay and copy to clipboard
 super + ctrl + {u}
 	maim -s -d 2 | xclip -selection clipboard -t image/png
 
 # Screenshot selected window or area instantly and save to ~/Pictures
-ctrl + alt + {u}
-	maim ~/Pictures/(date).png
+super + Print
+	maim ~/Pictures/(date).png -u
 
 # Screenshot currently active window and save to ~/Pictures
 Print
@@ -46,7 +47,7 @@ Print
 
 # Kill window
 ctrl + shift + k
-	xdo kill
+	notify-send (xdotool getactivewindow getwindowname) "has been killed." && xdo kill
 
 # Close window
 ctrl + shift + c
@@ -59,3 +60,10 @@ ctrl + shift + m
 # Increase window width
 shift + alt + {h,j,k,l}
 	xdo resize {-w -9, -h +9, -h -9, -w +9}
+
+
+#---Misc
+
+# Restart sxhkd
+ctrl + alt + {c}
+	notify-send "Refreshed sxhkd configs." && kill sxhkd && sxhkd &
