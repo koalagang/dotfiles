@@ -9,8 +9,9 @@
 "     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
 "
 "INCOMPLETE GOALS:
-"complete my statusline
+"create my own statusline
 "tidy up this messy init.vim
+"implement tabular into the actual init.vim instead of using a plugin
 
 " I think these can be put on the same line - will look into when I decide to tidy up this mess of an init.vim
 set number
@@ -19,7 +20,6 @@ set tabstop=4
 set softtabstop=0
 set shiftwidth=4
 set autoindent
-set smartindent
 set nobackup
 set smartcase
 set ignorecase
@@ -27,8 +27,6 @@ set expandtab
 set cursorline
 set noswapfile
 hi CursorLine gui=underline cterm=underline
-
-map <C-o> :bro ol <CR> "Navigate recently used files
 
 "Accidentally using capitals is not a problem
 cnoreabbrev W w
@@ -46,7 +44,8 @@ set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.t
 nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a
 nnoremap <C-t> :tabe <CR>
 let mapleader = ','
-noremap <C-a> gg v G $ "Select everything
+"select everything - NOTE: it will not select the entirety of the final line, so you might want to leave an empty line at the bottom of your files
+noremap <C-a> gg v G
 map <leader>s :!shellcheck %<CR>
 map <leader>c :w! \| !bash ~/compiler2 "<c-r>%"<CR><CR>
 map <leader>p :w !python3 %<CR>
@@ -62,7 +61,6 @@ vnoremap <C-x> "+d
 noremap <C-v> "+p
 nnoremap <C-c> "+yy
 nnoremap <C-x> "+dd
-inoremap <C-v> <Esc> "+p a
 nnoremap <F1> :!bash clearclipboard<CR><CR>
 
 " Splits
@@ -90,9 +88,11 @@ map <C-z> :!zathura --fork %:t:r.pdf<CR><CR>
 
 call plug#begin()
 Plug 'Yggdroot/indentLine'
+Plug 'mhinz/vim-startify'
 Plug 'ap/vim-css-color'
 Plug 'vimwiki/vimwiki'
-""Plug 'itchyny/lightline.vim'    "I plan on writing my own statusline, but until then I will use lightline
+Plug 'godlygeek/tabular'
+Plug 'itchyny/lightline.vim'    "I plan on writing my own statusline, but until then I will use lightline
 call plug#end()
 
 "Plug commands
@@ -141,26 +141,3 @@ autocmd BufNewFile,BufRead  *    try
 autocmd BufNewFile,BufRead  *    set encoding=utf-8
 autocmd BufNewFile,BufRead  *    endtry
 
-let g:currentmode={
-       \ 'n'  : 'NORMAL ',
-       \ 'v'  : 'VISUAL ',
-       \ 'V'  : 'V·Line ',
-       \ '' : 'V·Block ',
-       \ 'i'  : 'INSERT ',
-       \ 'R'  : 'Replace ',
-       \ 'Rv' : 'V·Replace ',
-       \ 'c'  : 'Command ',
-       \}
-
-let s:mode_partition = '%{ GetModeColor().GetModeName() }'
-
-set laststatus=2
-set statusline+=\ %{toupper(g:currentmode[mode()])}
-set statusline+=%F
-set statusline+=\ %r
-set statusline+=%=
-set statusline+=%m
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\ %-7([%{&fileformat}]%)
-set statusline+=\ %l/%L
