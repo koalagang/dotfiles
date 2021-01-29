@@ -7,8 +7,8 @@
 "     | :__,___/    "An init.vim which aims to use as few plugins as possible, without losing out on valuable features."
 "     |   |
 "     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
-
-
+"     |   |
+"     |   |
 "---Basics
 set number relativenumber
 set tabstop=4 softtabstop=0 shiftwidth=4 expandtab autoindent smartindent
@@ -18,6 +18,7 @@ set cursorline
 hi CursorLine gui=underline cterm=underline
 let mapleader = ','
 nnoremap r <C-r>
+inoremap <C-z> <Esc> :undo <CR>
 
 
 "---Navigation
@@ -28,13 +29,13 @@ set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.t
 nnoremap <C-t> :tabe <CR>
 nnoremap <C-f> :find<Space>
 nnoremap <Space> :noh <CR>
-noremap <C-a> gg v G $ "Select everything
+noremap <C-a> gg v G $ " Select everything
 
 " Finding and replacing or deleting:
 nnoremap S :%s//g<Left><Left>
 "-  e.g. :s%s/x/y/g finds every x and replaces them all with a y.
 "-  e.g. :s%s/x/g finds every x and deletes them all.
-"
+
 " Mouse
 set mouse=nir " If your terminal allows you to click hyperlinks, enter command mode (:) to press them
 set mousehide
@@ -102,8 +103,6 @@ vnoremap <C-x> "+d
 noremap <C-v> "+p
 nnoremap <C-c> "+yy
 nnoremap <C-x> "+dd
-inoremap <C-v> <Esc> "+p a
-nnoremap <F1> :!bash clearclipboard<CR><CR> " Clear the system register (clipboard)
 
 
 "---Plugins
@@ -163,7 +162,7 @@ highlight PreProc          ctermfg=5    ctermbg=none    cterm=none
 highlight String           ctermfg=12   ctermbg=none    cterm=none
 highlight Number           ctermfg=1    ctermbg=none    cterm=none
 highlight Function         ctermfg=1    ctermbg=none    cterm=none
-set t_Co=256 "enable 256 colours
+set t_Co=256 " Enable 256 colours
 let g:indentLine_color_term = 14 " Changes the colour of indentlines (created by the indentline plugin)
 
 " Statusline
@@ -209,4 +208,4 @@ nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a
 map <leader>s :!shellcheck %<CR>
 map <leader>c :w! \| !bash compiler "<c-r>%"<CR><CR>
 map <leader>p :w !python3 %<CR>
-map <C-z> :!zathura --fork %:t:r.pdf<CR><CR>
+nnoremap <C-z> :!zathura --fork %:t:r.pdf<CR><CR> " Open the current file in Zathura
