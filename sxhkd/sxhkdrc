@@ -21,8 +21,8 @@ ctrl + alt + l
 #---Applications
 
 # Launching main applications
-super + alt + {b,w,h,k,s,l,m,v,f,g,p,a,d,n}
-	{brave, qutebrowser, $TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/Discord, ~/Desktop/.netflix/Netflix}
+super + alt + {b,w,h,k,s,l,m,v,f,g,p,a,d,n,c}
+	{brave, qutebrowser, $TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll}
 
 #---Screenshots
 
