@@ -3,11 +3,16 @@
 SETUVAR __fish_initialized:3100
 SETUVAR _fish_abbr__3A_Q:exit
 SETUVAR _fish_abbr__3A_q:exit
+SETUVAR _fish_abbr_bw:buku\x20\x2dw
 SETUVAR _fish_abbr_cc:calcurse
 SETUVAR _fish_abbr_co:paru\x20\x2dc
 SETUVAR _fish_abbr_conf:/home/admin/\x2econfig/
 SETUVAR _fish_abbr_cp:cp\x20\x2di
 SETUVAR _fish_abbr_dot:/home/admin/Desktop/github/dotfiles/
+SETUVAR _fish_abbr_ga:git\x20add
+SETUVAR _fish_abbr_gc:git\x20clone
+SETUVAR _fish_abbr_gm:git\x20commit
+SETUVAR _fish_abbr_gp:git\x20push
 SETUVAR _fish_abbr_gs:git\x20status
 SETUVAR _fish_abbr_hist:history
 SETUVAR _fish_abbr_histc:history\x20clear
@@ -61,3 +66,4 @@ SETUVAR fish_pager_color_completion:\x1d
 SETUVAR fish_pager_color_description:B3A06D\x1eyellow
 SETUVAR fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
+SETUVAR fish_user_paths:/usr/local/bin\x1e/home/admin/Desktop/scripts/

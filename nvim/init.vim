@@ -13,7 +13,7 @@
 set number relativenumber
 set tabstop=4 softtabstop=0 shiftwidth=4 expandtab autoindent smartindent
 set smartcase ignorecase
-set nobackup noswapfile
+set nobackup noswapfile lazyredraw
 set cursorline
 hi CursorLine gui=underline cterm=underline
 let mapleader = ','
@@ -29,7 +29,7 @@ set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.t
 nnoremap <C-t> :tabe <CR>
 nnoremap <C-f> :find<Space>
 nnoremap <Space> :noh <CR>
-noremap <C-a> gg v G $ " Select everything
+noremap <C-a> gg v G $ " Select everything; press again to unselect
 
 " Finding and replacing or deleting:
 nnoremap S :%s//g<Left><Left>
@@ -54,9 +54,9 @@ map <leader>h :split<CR>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
-let g:netrw_browse_split=2      " - use vertical split (2 = vertical, 1 = horizontal = default)
 let g:netrw_liststyle=3         " - tree view
 nnoremap <C-n> :edit . <Return>
+
 " Allows you to use HJKL to navigate in insert mode if you hold control
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -82,7 +82,6 @@ inoremap < <><left>
 
 
 "---Yanking and pasting
-"
 " Register A
 vnoremap y "ay
 vnoremap d "ad
@@ -107,11 +106,9 @@ nnoremap <C-x> "+dd
 
 "---Plugins
 call plug#begin()
-
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'vimwiki/vimwiki'
-
 call plug#end()
 
 " Plug commands
@@ -126,10 +123,10 @@ call plug#end()
 map <F5> :set nospell                           " - Turn off spellcheck
 map <F6> :setlocal spell! spelllang=en_gb<CR>   " - Use British spellcheck
 map <F7> :set spell! spelllang=en_us<CR>        " - Use American spellcheck
+"so autocorrect.vim "sources my autocorrect database; NOTE: this may slow down vim startup time, depending on the size of the database and the power of your computer
 
 
 "---Tidying
-"
 "Convert text to UTF-8
 setglobal termencoding=utf-8 fileencodings=
 scriptencoding utf-8
@@ -204,8 +201,10 @@ set statusline+=\ %l/%L]
 
 
 " Misc
-nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a
+nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a "HTML template
 map <leader>s :!shellcheck %<CR>
 map <leader>c :w! \| !bash compiler "<c-r>%"<CR><CR>
 map <leader>p :w !python3 %<CR>
-nnoremap <C-z> :!zathura --fork %:t:r.pdf<CR><CR> " Open the current file in Zathura
+nnoremap <leader>z :!zathura --fork %:t:r.pdf<CR><CR> " Open the current file in Zathura
+map <leader>a :set autochdir<CR>
+nnoremap <leader>b :3 <CR>"+p :wq<CR> "for use with buku

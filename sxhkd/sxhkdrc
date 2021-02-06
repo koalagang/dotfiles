@@ -1,41 +1,46 @@
 #------KOALA'S KEYBINDINGS
+
 #---System
 
 # Shutdown
-ctrl + alt + x
+super + shift + x
 	shutdown now
 
 # Reboot
-ctrl + alt + r
+super + shift + r
 	reboot
 
 # Suspend
-ctrl + alt + s
+super + shift + s
 	systemctl suspend
 
 # Lock
-ctrl + alt + l
+super + shift + l
 	xdg-screensaver lock
 
 
 #---Applications
 
 # Launching main applications
-super + alt + {b,w,h,k,s,l,m,v,f,g,p,a,d,n,c}
-	{brave, qutebrowser, $TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll}
+super + alt + {h,k,s,l,m,v,f,g,p,a,d,n,c}
+	{$TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll}
+
+# Brave Profiles
+super + alt + {w,b}
+    {brave --profile-directory="Default", brave --profile-directory="Profile 2"}
+
+# Buku
+ctrl + ~g
+    alacritty -e buku -w
 
 #---Screenshots
 
-# Screenshot selected window or area instantly and copy to clipboard
-super + alt + {u}
-	maim -s | xclip -selection clipboard -t image/png -u
-
 # Screenshot selected window or area with a 2 second delay and copy to clipboard
-super + ctrl + {u}
+super + alt + {u}
 	maim -s -d 2 | xclip -selection clipboard -t image/png
 
-# Screenshot selected window or area instantly and save to ~/Pictures
-super + Print
+# Screenshot selected window or area with a 2 second delay and save to ~/Pictures
+ctrl + alt + {u}
 	maim ~/Pictures/(date).png -u
 
 # Screenshot currently active window and save to ~/Pictures

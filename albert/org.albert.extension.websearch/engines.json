@@ -6,9 +6,9 @@
         "url": "https://duckduckgo.com/?q=%s"
     },
     {
-        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{4f6cd982-a1fd-4a6f-8bd6-8332ed59a6f0}.png",
+        "iconPath": "/home/admin/.config/albert/org.albert.extension.websearch/{cb28fa6b-6b12-4784-ad50-673dcae6a6c0}.png",
         "name": "Ecosia",
-        "trigger": " e ",
+        "trigger": "e ",
         "url": "https://www.ecosia.org/search?q=%s"
     },
     {
