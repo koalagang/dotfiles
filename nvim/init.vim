@@ -4,7 +4,7 @@
 "    \   _'.'O'.'   https://github.com/koalagang
 "     | :___   \    (╯°□°）╯︵ sɔɐɯ ǝ
 "     |  _| :  |
-"     | :__,___/    "An init.vim which aims to use as few plugins as possible, without losing out on valuable features."
+"     | :__,___/    "A vim config which aims to use as few plugins as possible without losing out on valuable features."
 "     |   |
 "     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
 "     |   |
@@ -17,27 +17,31 @@ set nobackup noswapfile lazyredraw
 set cursorline
 hi CursorLine gui=underline cterm=underline
 let mapleader = ','
-nnoremap r <C-r>
-inoremap <C-z> <Esc> :undo <CR>
-
 
 "---Navigation
-map <C-o> :bro ol <CR> " Navigate recently used files
+map <c-o> :bro ol <cr> " Navigate recently used files
 set path+=** " Search current directory recursively
 set wildmenu
 set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp " Ignore unnecessary file extensions in wildmenu
-nnoremap <C-t> :tabe <CR>
-nnoremap <C-f> :find<Space>
-nnoremap <Space> :noh <CR>
-noremap <C-a> gg v G $ " Select everything; press again to unselect
+nnoremap <c-f> :find<space>
+nnoremap <space> :noh<cr>
+noremap <c-a> gg v G $
+nnoremap <c-up> dd 2k p
+nnoremap <c-down> dd p
+nnoremap J L
+nnoremap K H
+nnoremap <return> M
+" For when I am using the Norwegian keyboard layout
+nnoremap Ø :
+nnoremap - /
 
 " Finding and replacing or deleting:
-nnoremap S :%s//g<Left><Left>
+nnoremap S :%s//g<left><left>
 "-  e.g. :s%s/x/y/g finds every x and replaces them all with a y.
 "-  e.g. :s%s/x/g finds every x and deletes them all.
 
 " Mouse
-set mouse=nir " If your terminal allows you to click hyperlinks, enter command mode (:) to press them
+set mouse=nir " If your terminal allows you to click hyperlinks, you must enter command mode (:) to press them
 set mousehide
 set mousefocus
 behave mswin
@@ -45,26 +49,37 @@ map <MiddleMouse>  "+p
 map <RightMouse> "+y
 
 " Splits
-map <C-J> <C-W><C-J>
-map <C-K> <C-W><C-K>
-map <C-L> <C-W><C-L>
-map <C-H> <C-W><C-H>
-map <leader>v :vs<CR>
-map <leader>h :split<CR>
+nnoremap <c-j> <c-w><c-j>
+nnoremap <c-k> <c-w><c-k>
+nnoremap <c-l> <c-w><c-l>
+nnoremap <c-h> <c-w><c-h>
+nnoremap <m-l> :vertical resize +2<cr>
+nnoremap <m-h> :vertical resize -2<cr>
+nnoremap <m-j> :resize +2<cr>
+nnoremap <m-k> :resize -2<cr>
+nnoremap <leader>v :vs<cr>
+nnoremap <leader>s :split<cr>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
 let g:netrw_liststyle=3         " - tree view
-nnoremap <C-n> :edit . <Return>
+nnoremap <c-n> :edit .<cr>
 
-" Allows you to use HJKL to navigate in insert mode if you hold control
-inoremap <C-h> <Left>
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-l> <Right>
+" Allows you to use HJKL to navigate in insert mode if you hold alt
+inoremap <m-h> <left>
+inoremap <m-j> <down>
+inoremap <m-k> <up>
+inoremap <m-l> <right>
 
+" Tabs
+nnoremap <m-t> :tabe<cr>
+nnoremap <m-n> :tabn<cr>
+nnoremap <m-p> :tabp<cr>
+nnoremap <m-q> :tabclose<cr>
+nnoremap tf :tabfind<space>
 
 " Accidentally using capitals to exit is not a problem
+" (although you should be using ZZ and ZQ to exit vim)
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev WQ wq
@@ -79,6 +94,13 @@ inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
 inoremap < <><left>
+" Prevent autosurround with left alt
+inoremap <m-"> "
+inoremap <m-'> '
+inoremap <m-(> (
+inoremap <m-[> [
+inoremap <m-{> {
+inoremap <m-<> <
 
 
 "---Yanking and pasting
@@ -97,12 +119,14 @@ nnoremap YY "byy
 nnoremap DD "bdd
 
 " System register
-vnoremap <C-c> "+y
-vnoremap <C-x> "+d
-noremap <C-v> "+p
-nnoremap <C-c> "+yy
-nnoremap <C-x> "+dd
+vnoremap <c-c> "+y
+vnoremap <c-x> "+d
+noremap <c-v> "+p
+nnoremap <c-c> "+yy
+nnoremap <c-x> "+dd
+inoremap <c-v> <esc> "+p <up> A
 
+noremap <c-p> P
 
 "---Plugins
 call plug#begin()
@@ -114,28 +138,32 @@ call plug#end()
 " Plug commands
 ":PlugInstall   - installs plugins
 ":PlugUpdate    - updates plugins
-":PlugDiff      - shows changes
+":PlugDiff      - shows changes (after running :PlugUpdate)
 ":PlugClean     - remove plugins (first remove or comment them out and then restart vim)
-"To view rollback to an older version of a plugin, run :PlugDiff and then press 'X' on each paragraph.
+"To rollback to an older version of a plugin, run :PlugDiff and then press 'X' on each paragraph.
 
 
 "Spellcheck
-map <F5> :set nospell                           " - Turn off spellcheck
-map <F6> :setlocal spell! spelllang=en_gb<CR>   " - Use British spellcheck
-map <F7> :set spell! spelllang=en_us<CR>        " - Use American spellcheck
-"so autocorrect.vim "sources my autocorrect database; NOTE: this may slow down vim startup time, depending on the size of the database and the power of your computer
-
+set spelllang=en_gb,nb_no
+nnoremap ss :set spell<cr>
+nnoremap sns :set nospell<cr>
+nnoremap sgb :setlocal spell! spelllang=en_gb<cr>
+noremap sus :set spell! spelllang=en_us<cr>
+nnoremap sno :set spell! spelllang=nb_no<cr><cr>
+nnoremap <down>s ]s
+nnoremap <right>s ]s
+nnoremap <up>s [s
+nnoremap <left>s [s
+nnoremap <leader>r z=
 
 "---Tidying
-"Convert text to UTF-8
+"Convert text to UTF-8 and fileformat to Unix
 setglobal termencoding=utf-8 fileencodings=
 scriptencoding utf-8
 set encoding=utf-8
 autocmd BufNewFile,BufRead  *    try
 autocmd BufNewFile,BufRead  *    set encoding=utf-8
 autocmd BufNewFile,BufRead  *    endtry
-
-"Convert fileformat to unix
 set fileformat=unix
 
 "Clean up trailing spaces and single lines at the end of files
@@ -200,11 +228,15 @@ set statusline+=\ [%p%%
 set statusline+=\ %l/%L]
 
 
-" Misc
-nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<CR>3jwf>a "HTML template
-map <leader>s :!shellcheck %<CR>
-map <leader>c :w! \| !bash compiler "<c-r>%"<CR><CR>
-map <leader>p :w !python3 %<CR>
-nnoremap <leader>z :!zathura --fork %:t:r.pdf<CR><CR> " Open the current file in Zathura
-map <leader>a :set autochdir<CR>
-nnoremap <leader>b :3 <CR>"+p :wq<CR> "for use with buku
+"---Misc
+" Some useful bindings
+nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
+map <c-s> :!shellcheck %<cr>
+map <leader>c :w! \| !bash compiler "<c-r>%"<cr><cr>
+map <leader>p :w !python3 %<cr>
+nnoremap <leader>z :!zathura --fork %:t:r.pdf<cr><cr>
+map <leader>a :set autochdir<cr>
+nnoremap <leader>b :3 <cr>"+p :wq<cr>
+nnoremap r <c-r>
+nnoremap <c-h> <c-left>
+nnoremap <c-l> <c-right>

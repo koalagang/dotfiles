@@ -3,40 +3,47 @@
 #---System
 
 # Shutdown
-super + shift + x
+ctrl + alt + x
 	shutdown now
 
 # Reboot
-super + shift + r
+ctrl + alt + r
 	reboot
 
 # Suspend
-super + shift + s
+ctrl + alt + s
 	systemctl suspend
 
 # Lock
-super + shift + l
-	xdg-screensaver lock
-
+ctrl + alt + l
+    betterlockscreen --lock blur
 
 #---Applications
 
 # Launching main applications
-super + alt + {h,k,s,l,m,v,f,g,p,a,d,n,c}
+mod4 + alt + {h,k,s,l,m,v,f,g,p,a,d,n,c}
 	{$TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll}
 
 # Brave Profiles
-super + alt + {w,b}
+mod4 + alt + {w,b}
     {brave --profile-directory="Default", brave --profile-directory="Profile 2"}
 
+# Dmenu
+mod4 + d
+    dmenu_run
+
 # Buku
-ctrl + ~g
-    alacritty -e buku -w
+#ctrl + ~b
+#    alacritty -e buku -w
+
+# Xmenu
+mod4 + x
+    sh /home/admin/.config/xmenu/xmenu.sh
 
 #---Screenshots
 
 # Screenshot selected window or area with a 2 second delay and copy to clipboard
-super + alt + {u}
+mod4 + alt + {u}
 	maim -s -d 2 | xclip -selection clipboard -t image/png
 
 # Screenshot selected window or area with a 2 second delay and save to ~/Pictures
@@ -47,28 +54,22 @@ ctrl + alt + {u}
 Print
 	maim -i (xdotool getactivewindow) ~/Pictures/(date).png -u
 
-
-#---Windows
-
-# Kill window
-ctrl + shift + k
-	notify-send (xdotool getactivewindow getwindowname) "has been killed." && xdo kill
-
-# Close window
-ctrl + shift + c
-	xdo close
-
-# Minimise current window
-ctrl + shift + m
-	xdotool getactivewindow windowminimize
-
-# Increase window width
-shift + alt + {h,j,k,l}
-	xdo resize {-w -9, -h +9, -h -9, -w +9}
-
+#---Media Controls
+{XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
+    playerctl {next, previous, play-pause}
+{XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
+    amixer set Master {toggle -q, 5%-, 5%+}
 
 #---Misc
 
+# Kill window
+control + alt + k
+    notify-send (xdotool getactivewindow getwindowname) "has been killed." && xdo kill
+
 # Restart sxhkd
-ctrl + alt + {c}
+mod4 + control + {c}
 	notify-send "Refreshed sxhkd configs." && kill sxhkd && sxhkd &
+
+# Keyboard layout
+mod4 + {u,n,g}
+    setxkbmap -layout {us, no, gb}
