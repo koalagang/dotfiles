@@ -41,7 +41,7 @@ nnoremap S :%s//g<left><left>
 "-  e.g. :s%s/x/g finds every x and deletes them all.
 
 " Mouse
-set mouse=nir " If your terminal allows you to click hyperlinks, you must enter command mode (:) to press them
+set mouse=nirv " If your terminal allows you to click hyperlinks, you must enter command mode (:) to press them
 set mousehide
 set mousefocus
 behave mswin
@@ -53,24 +53,24 @@ nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
 nnoremap <c-h> <c-w><c-h>
-nnoremap <m-l> :vertical resize +2<cr>
-nnoremap <m-h> :vertical resize -2<cr>
-nnoremap <m-j> :resize +2<cr>
-nnoremap <m-k> :resize -2<cr>
-nnoremap <leader>v :vs<cr>
-nnoremap <leader>s :split<cr>
+nnoremap <m-i> :vertical resize +2<cr>
+nnoremap <m-o> :vertical resize -2<cr>
+nnoremap <m-I> :resize +2<cr>
+nnoremap <m-O> :resize -2<cr>
+nnoremap <leader>sv :vs<cr>
+nnoremap <leader>sh :sp<cr>
+nnoremap <leader>ss <c-w><c-x>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
 let g:netrw_liststyle=3         " - tree view
 nnoremap <c-n> :edit .<cr>
 
-" Allows you to use HJKL to navigate in insert mode if you hold alt
-inoremap <m-h> <left>
-inoremap <m-j> <down>
-inoremap <m-k> <up>
-inoremap <m-l> <right>
-
+" Allows you to use HJKL to navigate in insert mode if you hold down ctrl
+inoremap <c-h> <left>
+inoremap <c-j> <down>
+inoremap <c-k> <up>
+inoremap <c-l> <right>
 " Tabs
 nnoremap <m-t> :tabe<cr>
 nnoremap <m-n> :tabn<cr>
@@ -94,6 +94,12 @@ inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
 inoremap < <><left>
+vnoremap " <esc>Bi"<esc>Ea"<esc>
+vnoremap ' <esc>Bi'<esc>Ea'<esc>
+vnoremap ( <esc>Bi(<esc>Ea)<esc>
+vnoremap [ <esc>Bi[<esc>Ea]<esc>
+vnoremap { <esc>Bi{<esc>Ea}<esc>
+vnoremap < <esc>Bi<<esc>Ea><esc>
 " Prevent autosurround with left alt
 inoremap <m-"> "
 inoremap <m-'> '
@@ -101,7 +107,12 @@ inoremap <m-(> (
 inoremap <m-[> [
 inoremap <m-{> {
 inoremap <m-<> <
-
+" This section is here so that holding alt does not prevent your from entering
+" the desired character
+inoremap <m-)> )
+inoremap <m-]> ]
+inoremap <m-}> }
+inoremap <m->> >
 
 "---Yanking and pasting
 " Register A
@@ -227,16 +238,29 @@ set statusline+=\ %-7([%{&fileformat}]%)
 set statusline+=\ [%p%%
 set statusline+=\ %l/%L]
 
+"---Markdown
+" Bold
+noremap <leader>i <esc>Bi*<esc>Ea*<esc>
+" Italics
+noremap <leader>b <esc>Bi**<esc>Ea**<esc>
+" Bold Italics
+noremap <leader>mbi <esc>Bi***<esc>Ea***<esc>
+" Headings
+nnoremap <leader>h1 <esc>Bi# <esc>
+nnoremap <leader>h2 <esc>Bi## <esc>
+nnoremap <leader>h3 <esc>Bi### <esc>
+nnoremap <leader>h4 <esc>Bi#### <esc>
+nnoremap <leader>h5 <esc>Bi##### <esc>
+nnoremap <leader>h6 <esc>Bi###### <esc>
 
 "---Misc
-" Some useful bindings
 nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 map <c-s> :!shellcheck %<cr>
 map <leader>c :w! \| !bash compiler "<c-r>%"<cr><cr>
-map <leader>p :w !python3 %<cr>
+map <leader>p :w! \| !python3 %<cr>
+map <leader>sh :w! \| !sh %<cr>
 nnoremap <leader>z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
-nnoremap <leader>b :3 <cr>"+p :wq<cr>
+"nnoremap <leader>b :3 <cr>"+p :wq<cr>
 nnoremap r <c-r>
-nnoremap <c-h> <c-left>
-nnoremap <c-l> <c-right>
+nnoremap XX ciw<backspace><esc>

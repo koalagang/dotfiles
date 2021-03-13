@@ -6,9 +6,7 @@ from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
 #from libqtile.utils import guess_terminal
 
-mod = "mod4"    # super
-mod1 = "mod1"   # left alt
-mod5 = "mod5"   # right alt
+mod = "mod4"
 terminal = "alacritty"
 
 keys = [
@@ -17,31 +15,31 @@ keys = [
         desc="Move focus down in stack pane"),
     Key([mod], "k", lazy.layout.up(),
         desc="Move focus up in stack pane"),
+    Key([mod], "h", lazy.layout.left(),
+        desc="Move focus left in stack pane"),
+    Key([mod], "l", lazy.layout.right(),
+        desc="Move focus right in stack pane"),
 
     # Move windows up or down in current stack
-    Key([mod, "control"], "j", lazy.layout.shuffle_down(),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
         desc="Move window down in current stack "),
-    Key([mod, "control"], "k", lazy.layout.shuffle_up(),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up(),
         desc="Move window up in current stack "),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
+        desc="Move window left in current stack "),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
+        desc="Move window right in current stack "),
 
-    # Switch window focus to other pane(s) of stack
-    Key([mod], "space", lazy.layout.next(),
-        desc="Switch window focus to other pane(s) of stack"),
+    # Manipulate windows
+    Key([mod, "control"], "i", lazy.layout.grow()),
+    Key([mod, "control"], "o", lazy.layout.shrink()),
+    Key([mod, "control"], "n", lazy.layout.normalize()),
+    Key([mod, "control"], "m", lazy.layout.maximize()),
+    Key([mod, "shift"], "space", lazy.layout.flip()),
 
-    # Swap panes of split stack
-    Key([mod, "shift"], "space", lazy.layout.rotate(),
-        desc="Swap panes of split stack"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    # Toggle between different layouts
+    Key([mod], "q", lazy.next_layout(), desc="Toggle previous layouts"),
+    Key([mod], "Tab", lazy.prev_layout(), desc="Toggle next layouts"),
     Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
@@ -49,25 +47,23 @@ keys = [
     Key([mod], "r", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
 
-    # Sound
-    Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer set Master 5%-")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer set Master 5%+")),
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "Return", lazy.spawn(terminal)),
 
-    # Keyboard Layout
-
+    Key([mod, "control"], "h", lazy.spawn("xdotool mousemove 1910 500")),
+    Key([mod, "control"], "l", lazy.spawn("xdotool mousemove 1925 500")),
 ]
 
 def init_group_names():
-    return[ ("WEB",{'layout': 'max'}),
-            ("MISC1",{'layout': 'monadwide'}),
-            ("MISC2",{'layout': 'monadwide'}),
-            ("CHAT",{'layout': 'monadtall'}),
-            ("MUS",{'layout': 'monadtall'}),
-            ("GAME",{'layout': 'max'}),
-            ("WATCH",{'layout': 'max'}),
-            ("SCHL1",{'layout': 'max'}),
-            ("SCHL2",{'layout': 'max'})]
+    return[ ("(1) MISC1",{'layout': 'bsp'}),
+            ("(2) MISC2",{'layout': 'monadwide'}),
+            ("(3) WEB",{'layout': 'monadtall'}),
+            ("(4) MUSIC",{'layout': 'monadtall'}),
+            ("(5) CHAT",{'layout': 'ratiotile'}),
+            ("(6) GAME",{'layout': 'floating'}),
+            ("(7) WATCH",{'layout': 'verticaltile'}),
+            ("(8) SCHL1",{'layout': 'max'}),
+            ("(9) SCHL2",{'layout': 'max'})]
 
 def init_groups():
     return [Group(name, **kwargs) for name, kwargs in group_names]
@@ -77,10 +73,8 @@ if __name__ in ["config", "__main__"]:
     groups = init_groups()
 
 for i, (name, kwargs) in enumerate(group_names, 1):
-    keys.append(Key([mod1], str(i), lazy.group[name].toscreen()))        # Switch to another group (left alt)
-    keys.append(Key([mod1, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group (left alt)
-    keys.append(Key([mod5], str(i), lazy.group[name].toscreen()))        # Switch to another group (right alt)
-    keys.append(Key([mod5, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group (right alt)
+    keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
+    keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
 
 colours = [["#3B4252", "#3B4252"],# panel background
           ["#4B4252", "#4B4252"], # background for current screen tab
@@ -90,17 +84,19 @@ colours = [["#3B4252", "#3B4252"],# panel background
           ["#B48EAD", "#B48EAD"], # color for the even widgets
           ["#EB49CF", "#EB49CF"]] # window name
 
+layout_theme = {"border_width": 2,
+                "margin": 4,
+                "border_focus": "EB49CF",
+                "border_normal": "B48EAD"
+                }
+
 layouts = [
-    layout.Max(),
-    layout.Bsp(margin=4),
-    layout.MonadTall(margin=4),
-    layout.MonadWide(margin=4),
-    layout.VerticalTile(margin=4),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.Stack(num_stacks=2),
-    # layout.Columns(),
-    # layout.Matrix(),
+    layout.Max(**layout_theme),
+    layout.Bsp(**layout_theme),
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**layout_theme),
+    layout.VerticalTile(**layout_theme),
+    layout.Floating(**layout_theme),
 ]
 
 widget_defaults = dict(
@@ -114,11 +110,6 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.Image(
-                filename = '~/.config/qtile/qtile.png',
-                background = colours[0],
-                #mouse_callbacks = {'Button3': xmenu},
-                    ),
                 widget.GroupBox(
                 font = "Ubuntu Bold",
                 fontsize = 12,
@@ -192,7 +183,179 @@ screens = [
                 colour_no_updates = colours[2],
                 display_format = '{updates} packages are out-of-date',
                 no_update_string = 'Your system is update-to-date!',
-                execute = 'alacritty -e paru -Syu',
+                execute = 'alacritty -e paru -Syu --noconfirm',
+                update_interval = 300,
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[5],
+                background = colours[4],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.TextBox(
+                text =  " 🌡",
+                padding = 2,
+                foreground = colours[2],
+                background = colours[5],
+                fontsize = 11
+                    ),
+                widget.ThermalSensor(
+                font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[2],
+                background = colours[5],
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[4],
+                background = colours[5],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.CPU(
+                 font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[2],
+                background = colours[4],
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[5],
+                background = colours[4],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.Memory(
+                font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[2],
+                background = colours[5],
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[4],
+                background = colours[5],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.TextBox(
+                text = "Vol:",
+                font = "Ubuntu Bold",
+                foreground = colours[2],
+                background = colours[4],
+                    ),
+                widget.Volume(
+                font = "Ubuntu Bold",
+                foreground = colours[2],
+                background = colours[4],
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[5],
+                background = colours[4],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.TextBox(
+                text=' ◀',
+                foreground = colours[4],
+                background = colours[5],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.Clock(
+                format='%A %b %d %H:%M',
+                font = "Ubuntu Bold",
+                fontsize = 13,
+                foreground = colours[2],
+                background = colours[4],
+                    ),
+            ], 24),
+    ),
+    Screen(
+        top=bar.Bar(
+            [
+                widget.GroupBox(
+                font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                active = colours[2],
+                inactive = colours [2],
+                highlight_method = "block",
+                this_current_screen_border = colours[5],
+                this_screen_border = colours[4],
+                foreground = colours[2],
+                background = colours[0],
+                    ),
+                widget.Prompt(
+                font = "Ubuntu",
+                fontsize = 12,
+                foreground = colours[2],
+                background = colours[5]
+                    ),
+                widget.WindowName(
+                font = "Ubuntu",
+                fontsize = 12,
+                foreground = colours[5],
+                background = colours[0],
+                    ),
+                widget.KeyboardLayout(
+                font = "Ubuntu",
+                fontsize = 12,
+                foreground = colours[2],
+                background = colours[0],
+                configured_keyboards = ['us','uk'],
+                    ),
+                widget.TextBox(
+                text=' ◀',
+                foreground = colours[5],
+                background = colours[0],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.CurrentLayoutIcon(
+                foreground = colours[0],
+                background = colours[5],
+                padding = 0,
+                scale = 0.7
+                    ),
+                widget.CurrentLayout(
+                font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[2],
+                background = colours[5],
+                padding = 10,
+                    ),
+                widget.TextBox(
+                text='◀',
+                foreground = colours[4],
+                background = colours[5],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.CheckUpdates(
+                font = "Ubuntu Bold",
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[2],
+                background = colours[4],
+                padding = 10,
+                colour_have_updates = colours[3],
+                colour_no_updates = colours[2],
+                display_format = '{updates} packages are out-of-date',
+                no_update_string = 'Your system is update-to-date!',
+                execute = 'alacritty -e paru -Syu --noconfirm',
                 update_interval = 300,
                     ),
                 widget.TextBox(
@@ -290,55 +453,7 @@ screens = [
                 fontsize = 13,
                 foreground = colours[2],
                 background = colours[4],
-                    ),
-            ], 24),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                active = colours[2],
-                inactive = colours [2],
-                highlight_method = "block",
-                this_current_screen_border = colours[5],
-                this_screen_border = colours[4],
-                foreground = colours[2],
-                background = colours[0],
-                    ),
-                widget.Prompt(
-                foreground = colours[2],
-                background = colours[5]
-                    ),
-                widget.WindowName(
-                foreground = colours[5],
-                background = colours[0],
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[4],
-                background = colours[0],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.CurrentLayoutIcon(
-                foreground = colours[0],
-                background = colours[4],
-                padding = 0,
-                scale = 0.7
-                    ),
-                widget.CurrentLayout(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[4],
-                padding = 10,
-                    ),
+                    )
             ], 24),
     ),
 ]
@@ -375,7 +490,9 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
     {'wmclass': 'gimp'},
-    {'wmclass': 'lutris'},
+    {'wmclass': 'virtualbox'},
+    {'wmclass': 'bleachbit'},
+    {'wmclass': 'megasync'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
@@ -387,12 +504,17 @@ def autostart():
         ['picom', '--experimental-backend'],
         ['xrandr', '--output', 'HDMI-0', '--mode', '1920x1080', '--output', 'HDMI-1-1', '--mode', '1920x1080', '--right-of', 'HDMI-0'],
         ['nitrogen', '--restore'],
+        ['redshift', '-O', '2500K'],
+        ['nvidia-settings', '--assign', 'CurrentMetaMode="nvidia-auto-select', '+0+0', '{', 'ForceFullCompositionPipeline', '=', 'On', '}"'],
         ['sxhkd'],
         ['dunst'],
+        ['unclutter', '--timeout', '1'],
+        ['xset', 'r', 'rate', '300', '40'],
         ['setxkbmap', '-layout', 'us'],
         ['nm-applet'],
+        #['mpd'],
+        #['mpDris2'],
     ]
-
     for p in processes:
         subprocess.Popen(p)
 

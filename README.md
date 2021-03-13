@@ -1,16 +1,15 @@
 # NOTE
-If you wish to use my Newsboat config, you must copy the folder into your home directory and then add a dot (.) to the beginning. You also need to create your own URLs file (call it 'urls') because I have placed mine into .gitignore.
+To block trackers you can copy my hosts file into your /etc/. I suggest you backup your local hosts file first, however. Also I do not block google.com, www.google.com or google.co.uk because I require them for school. Uncomment them if you wish to block them.
 
-`mv -r ~/dotfiles/newsboat/ ~/.newsboat && nvim ~/.newsboat/urls`
+`sudo cp /etc/hosts /etc/hosts.bak`
+`sudo cp ~/dotfiles/hosts /etc`
 
 lynx.cfg must be placed into your /etc/.
 
 `sudo cp ~/dotfiles/lynx.cfg /etc/`
 
-For the icons in my SpaceFM config, you require Papirus Dark Pink. If you do not already have this downloaded, the simplest way to do this is:
+For the icons in my SpaceFM config, you require the Papirus icons. If you do not already have this downloaded, the simplest way to do this is (for Arch [based] users):
 
 `yay -S papirus-folders-git`
 or
-`paru -S paprius-folders-git`
-
-The rest of the configs can easily be copied into `~/.config`.
+`paru -S papirus-folders-git`

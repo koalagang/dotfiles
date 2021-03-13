@@ -15,7 +15,6 @@ SETUVAR _fish_abbr_dot:/home/admin/Desktop/github/dotfiles/
 SETUVAR _fish_abbr_encrypt:gpg\x20\x2dc\x20\x2d\x2dno\x2dsymkey\x2dcache\x20\x2d\x2dcipher\x2dalgo\x20AES256
 SETUVAR _fish_abbr_ga:git\x20add
 SETUVAR _fish_abbr_gc:git\x20clone
-SETUVAR _fish_abbr_gm:git\x20commit
 SETUVAR _fish_abbr_gp:git\x20push
 SETUVAR _fish_abbr_gs:git\x20status
 SETUVAR _fish_abbr_hist:history
@@ -43,8 +42,7 @@ SETUVAR _fish_abbr_uc:ucollage\x20/home/admin/Pictures/
 SETUVAR _fish_abbr_unarc:arc\x20unarchive
 SETUVAR _fish_abbr_upd:paru\x20\x2dSyu\x20\x2d\x2dnoconfirm
 SETUVAR _fish_abbr_updc:paru\x20\x2dSyu\x20\x26\x26\x20paccache\x20\x2dr\x20\x26\x26\x20paccache\x20\x2druk0
-SETUVAR _fish_abbr_wiki:sr\x20wikipedia
-SETUVAR _fish_abbr_wp:lynx\x20https\x3a//en\x2ewikipedia\x2eorg/wiki/
+SETUVAR _fish_abbr_wp:sr\x20wikipedia
 SETUVAR _fish_abbr_yt:straw\x2dviewer\x20\x2dC
 SETUVAR _fish_abbr_ytm:ytmdl
 SETUVAR fish_color_autosuggestion:555\x1ebrblack

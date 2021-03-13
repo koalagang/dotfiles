@@ -21,24 +21,16 @@ ctrl + alt + l
 #---Applications
 
 # Launching main applications
-mod4 + alt + {h,k,s,l,m,v,f,g,p,a,d,n,c}
-	{$TERM -e htop, keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll}
+mod4 + alt + {k,s,l,m,v,f,g,p,a,d,n,c,q,x}
+	{keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll, qutebrowser, sh /home/admin/.config/xmenu/xmenu.sh}
 
 # Brave Profiles
 mod4 + alt + {w,b}
     {brave --profile-directory="Default", brave --profile-directory="Profile 2"}
 
-# Dmenu
-mod4 + d
-    dmenu_run
-
 # Buku
 #ctrl + ~b
 #    alacritty -e buku -w
-
-# Xmenu
-mod4 + x
-    sh /home/admin/.config/xmenu/xmenu.sh
 
 #---Screenshots
 
@@ -71,5 +63,5 @@ mod4 + control + {c}
 	notify-send "Refreshed sxhkd configs." && kill sxhkd && sxhkd &
 
 # Keyboard layout
-mod4 + {u,n,g}
-    setxkbmap -layout {us, no, gb}
+mod4 + {u,n,g,d}
+    setxkbmap -layout {us, no, gb, de}

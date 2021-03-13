@@ -61,7 +61,7 @@ window:
   #   - Maximized
   #   - Fullscreen
   #
-  startup_mode: Maximized
+  startup_mode: Windowed
 
   # Window title
   title: Alacritty Terminal
@@ -428,10 +428,11 @@ key_bindings:
   - { key: Key0,           mods: Control,                 action: ResetFontSize   }
   - { key: Plus,           mods: Control,                 action: IncreaseFontSize}
   - { key: Minus,          mods: Control,                 action: DecreaseFontSize}
+  - { key: I,              mods: Control|Shift,           action: ResetFontSize   }
+  - { key: K,              mods: Control|Shift,           action: IncreaseFontSize}
+  - { key: J,              mods: Control|Shift,           action: DecreaseFontSize}
   - { key: D,              mods: Control|Shift,           action: ScrollHalfPageDown}
   - { key: U,              mods: Control|Shift,           action: ScrollHalfPageUp}
-  - { key: Q,              mods: Control,                 chars: exit             }
-  - { key: L,              mods: Control|Shift,           chars: lynx duckduckgo.com}
 
 #debug:
   # Display the time it takes to redraw each frame.
