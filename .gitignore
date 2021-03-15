@@ -5,6 +5,5 @@ newsboat/urls
 newsboat/cache.db
 newsboat/history.cmdline
 newsboat/history.search
-spacefm/trash/*
 nvim/.netrwhist
 mpv/watch_later
