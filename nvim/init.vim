@@ -15,19 +15,21 @@ set tabstop=4 softtabstop=0 shiftwidth=4 expandtab autoindent smartindent
 set smartcase ignorecase
 set nobackup noswapfile lazyredraw
 set cursorline
-hi CursorLine gui=underline cterm=underline
+hi CursorLine   cterm=NONE ctermbg=black
+hi CursorColumn cterm=NONE ctermbg=black
+nnoremap cc :set cursorcolumn!<cr>
 let mapleader = ','
 
 "---Navigation
-map <c-o> :bro ol <cr> " Navigate recently used files
-set path+=** " Search current directory recursively
+map o :bro ol<cr>
+set path+=**
 set wildmenu
 set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp " Ignore unnecessary file extensions in wildmenu
 nnoremap <c-f> :find<space>
 nnoremap <space> :noh<cr>
-noremap <c-a> gg v G $
-nnoremap <c-up> dd 2k p
-nnoremap <c-down> dd p
+noremap <c-a> ggv^G$
+nnoremap <m-k> dd2kp
+nnoremap <m-j> ddp
 nnoremap J L
 nnoremap K H
 nnoremap <return> M
@@ -41,7 +43,7 @@ nnoremap S :%s//g<left><left>
 "-  e.g. :s%s/x/g finds every x and deletes them all.
 
 " Mouse
-set mouse=nirv " If your terminal allows you to click hyperlinks, you must enter command mode (:) to press them
+set mouse=nirv " If your terminal allows you to click links, you must enter command mode (:) to press them
 set mousehide
 set mousefocus
 behave mswin
@@ -79,7 +81,7 @@ nnoremap <m-q> :tabclose<cr>
 nnoremap tf :tabfind<space>
 
 " Accidentally using capitals to exit is not a problem
-" (although you should be using ZZ and ZQ to exit vim)
+" (although you should use ZZ and ZQ to exit vim)
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev WQ wq
@@ -136,8 +138,11 @@ noremap <c-v> "+p
 nnoremap <c-c> "+yy
 nnoremap <c-x> "+dd
 inoremap <c-v> <esc> "+p <up> A
+" NOTE: you can enter visual block mode with c-q
 
-noremap <c-p> P
+" Remove a line or word without copying to register
+nnoremap xx Vx
+nnoremap cix ciw<backspace><esc>
 
 "---Plugins
 call plug#begin()
@@ -156,16 +161,13 @@ call plug#end()
 
 "Spellcheck
 set spelllang=en_gb,nb_no
-nnoremap ss :set spell<cr>
-nnoremap sns :set nospell<cr>
-nnoremap sgb :setlocal spell! spelllang=en_gb<cr>
-noremap sus :set spell! spelllang=en_us<cr>
-nnoremap sno :set spell! spelllang=nb_no<cr><cr>
-nnoremap <down>s ]s
-nnoremap <right>s ]s
-nnoremap <up>s [s
-nnoremap <left>s [s
-nnoremap <leader>r z=
+nnoremap ss :set spell!<cr>
+nnoremap sgb :setlocal spell! spelllang=en_gb!<cr>
+noremap sus :set spell! spelllang=en_us!<cr>
+nnoremap sno :set spell! spelllang=nb_no!<cr><cr>
+nnoremap <leader>z z=
+nnoremap } ]s
+nnoremap { [s
 
 "---Tidying
 "Convert text to UTF-8 and fileformat to Unix
@@ -256,11 +258,10 @@ nnoremap <leader>h6 <esc>Bi###### <esc>
 "---Misc
 nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 map <c-s> :!shellcheck %<cr>
-map <leader>c :w! \| !bash compiler "<c-r>%"<cr><cr>
+map <leader>c :w! \| !sh compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
 map <leader>sh :w! \| !sh %<cr>
-nnoremap <leader>z :!zathura --fork %:t:r.pdf<cr><cr>
+nnoremap <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
-"nnoremap <leader>b :3 <cr>"+p :wq<cr>
 nnoremap r <c-r>
-nnoremap XX ciw<backspace><esc>
+nnoremap ; ciw<backspace><esc>

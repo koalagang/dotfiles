@@ -50,8 +50,10 @@ keys = [
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod], "Return", lazy.spawn(terminal)),
 
-    Key([mod, "control"], "h", lazy.spawn("xdotool mousemove 1910 500")),
-    Key([mod, "control"], "l", lazy.spawn("xdotool mousemove 1925 500")),
+    Key([mod, "control"], "j", lazy.spawn("xdotool mousemove 1910 500")),
+    Key([mod, "control"], "k", lazy.spawn("xdotool mousemove 1925 500")),
+    Key([mod, "control"], "h", lazy.screen.prev_group()),
+    Key([mod, "control"], "l", lazy.screen.next_group()),
 ]
 
 def init_group_names():
@@ -62,8 +64,8 @@ def init_group_names():
             ("(5) CHAT",{'layout': 'ratiotile'}),
             ("(6) GAME",{'layout': 'floating'}),
             ("(7) WATCH",{'layout': 'verticaltile'}),
-            ("(8) SCHL1",{'layout': 'max'}),
-            ("(9) SCHL2",{'layout': 'max'})]
+            ("(8) SCHL1",{'layout': 'monadtall'}),
+            ("(9) SCHL2",{'layout': 'monadtall'})]
 
 def init_groups():
     return [Group(name, **kwargs) for name, kwargs in group_names]
@@ -91,7 +93,7 @@ layout_theme = {"border_width": 2,
                 }
 
 layouts = [
-    layout.Max(**layout_theme),
+    #layout.Max(**layout_theme),
     layout.Bsp(**layout_theme),
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
@@ -184,6 +186,7 @@ screens = [
                 display_format = '{updates} packages are out-of-date',
                 no_update_string = 'Your system is update-to-date!',
                 execute = 'alacritty -e paru -Syu --noconfirm',
+                distro = "Arch_checkupdates",
                 update_interval = 300,
                     ),
                 widget.TextBox(

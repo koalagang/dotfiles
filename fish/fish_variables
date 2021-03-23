@@ -11,7 +11,6 @@ SETUVAR _fish_abbr_co:paru\x20\x2dc
 SETUVAR _fish_abbr_conf:/home/admin/\x2econfig/
 SETUVAR _fish_abbr_cp:cp\x20\x2di
 SETUVAR _fish_abbr_ddg:sr\x20duckduckgo
-SETUVAR _fish_abbr_dot:/home/admin/Desktop/github/dotfiles/
 SETUVAR _fish_abbr_encrypt:gpg\x20\x2dc\x20\x2d\x2dno\x2dsymkey\x2dcache\x20\x2d\x2dcipher\x2dalgo\x20AES256
 SETUVAR _fish_abbr_ga:git\x20add
 SETUVAR _fish_abbr_gc:git\x20clone
@@ -43,8 +42,8 @@ SETUVAR _fish_abbr_unarc:arc\x20unarchive
 SETUVAR _fish_abbr_upd:paru\x20\x2dSyu\x20\x2d\x2dnoconfirm
 SETUVAR _fish_abbr_updc:paru\x20\x2dSyu\x20\x26\x26\x20paccache\x20\x2dr\x20\x26\x26\x20paccache\x20\x2druk0
 SETUVAR _fish_abbr_wp:sr\x20wikipedia
-SETUVAR _fish_abbr_yt:straw\x2dviewer\x20\x2dC
-SETUVAR _fish_abbr_ytm:ytmdl
+SETUVAR _fish_abbr_yt:ytfzf
+SETUVAR _fish_abbr_ytt:ytfzf\x20\x2dt
 SETUVAR fish_color_autosuggestion:555\x1ebrblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:005fd7
