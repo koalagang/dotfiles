@@ -1,0 +1,42 @@
+# System
+alias 'fd'='fd -uu'
+alias 'upd'='paru -Syu --noconfirm'
+alias 'updc'='paru -Syu --noconfirm && sudo paccache -r && sudo paccache -ruk0'
+alias 'co'='paru -c'
+
+# Applications with long/many flags
+alias 'ls'='exa -l -h -g --git --git-ignore --sort=ext --colour-scale'
+alias 'cpcol'='colorpicker --short --one-shot --preview | xclip -selection clipboard'
+alias 'aw'='find /usr/share/doc/arch-wiki/html/en/*.html | fzf | xargs -r $BROWSER > /dev/null 2>&1'
+alias 'fz'='find . -maxdepth 3 | fzf | xargs -r $EDITOR ;'
+alias 'rss'='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'
+alias 'encrypt'='gpg -c --no-symkey-cache --cipher-algo AES256'
+
+# Misc
+alias 'cat'='bat'
+alias 'calc'='qalc'
+alias 'notes'='nvim $HOME/Documents/vimwiki/index.wiki'
+alias 'vi'='nvim'
+alias 'vf'='vifmrun'
+alias 'ddg'='sr duckduckgo'
+alias 'wp'='sr wikipedia'
+alias 'yt'='ytfzf -t'
+alias 'uc'='ucollage $HOME/Pictures'
+
+# Suffixes
+alias -s {txt,md,py,zsh,sh,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
+alias -s {png,jpg,jpeg,bpm,gif,xpm}='devour sxiv'
+alias -s {xcf}='devour gimp'
+alias -s {pdf,ps,eps,ps.gz}='devour zathura'
+alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,mpg,mpeg,vob,m2v,mov,webm,ts,mts,m4v,qt,divx}='devour mpv'
+alias -s {tar,tar.bz2,tbz2,tgz,tar.gz,tar.xz,txz,rar,zip,jar,war,ear,oxt,deb}='arc unarchive'
+alias -s {odt,doc,docx,xls,xlsx,odp.pptx,ppt,rtf}='devour libreoffice'
+alias -s {html}='lynx'
+
+# Functions
+glw (){
+    glow $1 -p -w 200
+}
+inv (){
+    pipe-viewer $1 --invidious
+}
