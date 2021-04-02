@@ -64,7 +64,7 @@ set norunexec
 
 " List of color schemes to try (picks the first one supported by the terminal)
 
-colorscheme Default
+colorscheme Flamingo
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -142,6 +142,19 @@ command! mkcd :mkdir %a | cd %a
 command! vgrep vim "+grep %a"
 command! reload :write | restart full
 
+command! ucollage ucollage %d
+nmap <c-u> :ucollage<cr>
+
+" Drag and drop implementation
+command! dragon dragon-drag-and-drop -a -x %f
+command! dragonstay dragon-drag-and-drop -a %f
+command! dragonindividual dragon-drag-and-drop %f
+command! dragondl dragondl
+map <c-d> :dragon<cr>
+map <c-s> :dragonstay<cr>
+map <c-i> :dragonindividual<cr>
+map dl :dragondl<cr>
+
 " ------------------------------------------------------------------------------
 
 " The file type is for the default programs to be used with
@@ -169,6 +182,13 @@ command! reload :write | restart full
 "
 " You can also add %CLEAR if you want to clear screen before running FUSE
 " program.
+
+" Markdown
+fileviewer {*.md},<application/md> glow -s dark %c
+filextype {*.md},<application/md> glow -p -s dark %c
+
+" Txt
+fileviewer {*.txt,*.py,*.zsh,*.sh,*.ms,*.yml,*.toml,*.conf,*.cfg,*.log,*.vim,*.bak},<application/md> pistol %c
 
 " Pdf
 filextype {*.pdf},<application/pdf> zathura %c %i &, apvlv %c, xpdf %c
@@ -219,8 +239,8 @@ fileviewer {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
 filextype {*.html,*.htm},<text/html>
         \ {Open with dwb}
         \ dwb %f %i &,
-        \ {Open with firefox}
-        \ firefox %f &,
+        \ {Open with qutebrowser}
+        \ qutebrowser %f &,
         \ {Open with uzbl}
         \ uzbl-browser %f %i &,
 filetype {*.html,*.htm},<text/html> links, lynx
@@ -390,6 +410,21 @@ filextype */
 " For Windows:
 " filetype * start, explorer
 
+" file types
+set classify=' :dir:/, :exe:, :reg:, :link:'
+" various file names
+set classify+=' ::../::, ::*.sh::, ::*.[hc]pp::, ::*.[hc]::, ::/^copying|license$/::, ::.git/,,*.git/::, ::*.epub,,*.fb2,,*.djvu::, ::*.pdf::, ::*.htm,,*.html,,**.[sx]html,,*.xml::'
+" archives
+set classify+=' ::*.7z,,*.ace,,*.arj,,*.bz2,,*.cpio,,*.deb,,*.dz,,*.gz,,*.jar,,*.lzh,,*.lzma,,*.rar,,*.rpm,,*.rz,,*.tar,,*.taz,,*.tb2,,*.tbz,,*.tbz2,,*.tgz,,*.tlz,,*.trz,,*.txz,,*.tz,,*.tz2,,*.xz,,*.z,,*.zip,,*.zoo::'
+" images
+set classify+=' ::*.bmp,,*.gif,,*.jpeg,,*.jpg,,*.ico,,*.png,,*.ppm,,*.svg,,*.svgz,,*.tga,,*.tif,,*.tiff,,*.xbm,,*.xcf,,*.xpm,,*.xspf,,*.xwd::'
+" audio
+set classify+=' ::*.aac,,*.anx,,*.asf,,*.au,,*.axa,,*.flac,,*.m2a,,*.m4a,,*.mid,,*.midi,,*.mp3,,*.mpc,,*.oga,,*.ogg,,*.ogx,,*.ra,,*.ram,,*.rm,,*.spx,,*.wav,,*.wma,,*.ac3::'
+" media
+set classify+=' ::*.avi,,*.ts,,*.axv,,*.divx,,*.m2v,,*.m4p,,*.m4v,,.mka,,*.mkv,,*.mov,,*.mp4,,*.flv,,*.mp4v,,*.mpeg,,*.mpg,,*.nuv,,*.ogv,,*.pbm,,*.pgm,,*.qt,,*.vob,,*.wmv,,*.xvid::'
+" office files
+set classify+=' ::*.doc,,*.docx::, ::*.xls,,*.xls[mx]::, ::*.pptx,,*.ppt::'
+
 " ------------------------------------------------------------------------------
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
@@ -480,15 +515,30 @@ nnoremap <f8> :delete<cr>
 nnoremap <a-i> :sync<cr>
 " Open directory under cursor in the other pane
 nnoremap <a-o> :sync %c<cr>
-" Swap panes
-nnoremap <c-u> <c-w>x
 
+nnoremap <space> :noh<cr>
+noremap <c-a> ggv^G$
+nnoremap r <c-r>
+nnoremap J L
+nnoremap K H
+nnoremap zi zm
+nnoremap ciw cw
+nnoremap bm :marks<cr>
+nnoremap S :%s//g<left><left>
+
+" Splits
 nnoremap <c-j> <c-w><c-j>
 nnoremap <c-k> <c-w><c-k>
 nnoremap <c-l> <c-w><c-l>
+" NOTE: although control-h works just fine in my terminal, Alacritty - it seems it does not work in KDE's Konsole
 nnoremap <c-h> <c-w><c-h>
+nnoremap <m-i> :vertical resize +2<cr>
+nnoremap <m-o> :vertical resize -2<cr>
+nnoremap <m-I> :resize +2<cr>
+nnoremap <m-O> :resize -2<cr>
 nnoremap ,sv :vs<cr>
 nnoremap ,sh :sp<cr>
+nnoremap ,sp <c-w><c-x>
 nnoremap ,o <c-w>o
 
 " ------------------------------------------------------------------------------

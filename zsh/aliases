@@ -1,27 +1,51 @@
 # System
-alias 'fd'='fd -uu'
-alias 'upd'='paru -Syu --noconfirm'
-alias 'updc'='paru -Syu --noconfirm && sudo paccache -r && sudo paccache -ruk0'
-alias 'co'='paru -c'
+alias fd='fd -uu'
+alias upd='paru -Syu --noconfirm'
+alias updc='paru -Syu --noconfirm && sudo paccache -r && sudo paccache -ruk0'
+alias co='paru -c'
+alias pr='doas pacman -R'
+alias prc='sudo pacman -R && sudo paccache -r && sudo paccache -ruk0'
 
-# Applications with long/many flags
-alias 'ls'='exa -l -h -g --git --git-ignore --sort=ext --colour-scale'
-alias 'cpcol'='colorpicker --short --one-shot --preview | xclip -selection clipboard'
-alias 'aw'='find /usr/share/doc/arch-wiki/html/en/*.html | fzf | xargs -r $BROWSER > /dev/null 2>&1'
-alias 'fz'='find . -maxdepth 3 | fzf | xargs -r $EDITOR ;'
-alias 'rss'='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'
-alias 'encrypt'='gpg -c --no-symkey-cache --cipher-algo AES256'
+# Applications with many flags
+alias ls='exa -l -h -g --git --git-ignore --sort=ext --colour-scale'
+alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'
+alias aw='find /usr/share/doc/arch-wiki/html/en/*.html | fzf | xargs -r $BROWSER > /dev/null 2>&1'
+alias fz='find . -maxdepth 3 | fzf | xargs -r $EDITOR ;'
+alias rss='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'
+alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'
 
 # Misc
-alias 'cat'='bat'
-alias 'calc'='qalc'
-alias 'notes'='nvim $HOME/Documents/vimwiki/index.wiki'
-alias 'vi'='nvim'
-alias 'vf'='vifmrun'
-alias 'ddg'='sr duckduckgo'
-alias 'wp'='sr wikipedia'
-alias 'yt'='ytfzf -t'
-alias 'uc'='ucollage $HOME/Pictures'
+alias cat='bat'
+alias calc='qalc'
+alias notes='nvim $HOME/Documents/vimwiki/index.wiki'
+alias vi='nvim'
+alias vf='vifmrun'
+alias ddg='sr duckduckgo'
+alias wp='sr wikipedia'
+alias yt='ytfzf -t'
+alias inv='pipe-viewer --invidious'
+alias uc='ucollage $HOME/Pictures'
+alias arc='arc archive'
+alias unarc='arc unarchive'
+alias cc='calcurse'
+alias md='mkdir'
+alias mv='mv -i'
+alias neo='neofetch'
+alias pvpnd='doas protonvpn d'
+alias pvpnf='doas protonvpn c -f'
+alias pvpnu='doas protonvpn c cc US'
+alias pvpnj='doas protonvpn c cc JP'
+alias tux='tuxi'
+alias tp='trash-put'
+alias te='trash-empty'
+alias tl='trash-list'
+alias tr='trash-restore'
+alias ga='git add'
+alias gr='git rm'
+alias gc='git clone'
+alias gp='git push'
+alias gs='git status'
+alias gd='git diff'
 
 # Suffixes
 alias -s {txt,md,py,zsh,sh,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
@@ -37,6 +61,7 @@ alias -s {html}='lynx'
 glw (){
     glow $1 -p -w 200
 }
-inv (){
-    pipe-viewer $1 --invidious
+
+gm (){
+    git commit $1
 }

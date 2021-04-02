@@ -33,6 +33,7 @@ nnoremap <m-j> ddp
 nnoremap J L
 nnoremap K H
 nnoremap <return> M
+nnoremap zz :w<cr>
 " For when I am using the Norwegian keyboard layout
 nnoremap Ø :
 nnoremap - /
@@ -61,7 +62,7 @@ nnoremap <m-I> :resize +2<cr>
 nnoremap <m-O> :resize -2<cr>
 nnoremap <leader>sv :vs<cr>
 nnoremap <leader>sh :sp<cr>
-nnoremap <leader>ss <c-w><c-x>
+nnoremap <leader>sp <c-w><c-x>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
@@ -101,7 +102,6 @@ vnoremap ' <esc>Bi'<esc>Ea'<esc>
 vnoremap ( <esc>Bi(<esc>Ea)<esc>
 vnoremap [ <esc>Bi[<esc>Ea]<esc>
 vnoremap { <esc>Bi{<esc>Ea}<esc>
-vnoremap < <esc>Bi<<esc>Ea><esc>
 " Prevent autosurround with left alt
 inoremap <m-"> "
 inoremap <m-'> '

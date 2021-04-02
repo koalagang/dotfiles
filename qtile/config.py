@@ -496,6 +496,7 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'virtualbox'},
     {'wmclass': 'bleachbit'},
     {'wmclass': 'megasync'},
+    {'wmclass': 'dragon-drag-and-drop'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"

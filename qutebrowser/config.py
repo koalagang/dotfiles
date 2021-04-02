@@ -34,9 +34,12 @@ config.bind('h', 'back')
 config.bind('l', 'forward')
 config.bind('D', 'bookmark-add')
 config.bind('L', 'search')
+config.bind('R', 'spawn --userscript readability') # readermode
+config.bind('pr', 'open https://outline.com/{url}') # another readmore mode (with pictures)
 
 # Aliases
 c.aliases = {'q': 'quit', 'Q': 'quit'} # it's nice to have these (although you should use ZQ or ZZ)
+c.aliases = {'read': 'spawn --userscript readability'}
 
 #---Limits & Delays
 c.completion.height = 200
@@ -68,6 +71,8 @@ c.url.start_pages = "about:blank"
 c.url.default_page = "about:blank"
 c.colors.webpage.preferred_color_scheme = "dark"
 # Dracula Theme
+# NOTE: for this theme to work you must download it with
+# `git clone https://github.com/dracula/qutebrowser-dracula-theme.git $HOME/.config/qutebrowser/dracula`
 import dracula.draw
 config.load_autoconfig()
 dracula.draw.blood(c, {

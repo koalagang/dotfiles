@@ -7,3 +7,5 @@ newsboat/history.cmdline
 newsboat/history.search
 nvim/.netrwhist
 mpv/watch_later
+zsh/.zcompdump
+vifm/vifminfo.json

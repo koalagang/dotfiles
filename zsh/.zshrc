@@ -12,6 +12,7 @@
 [[ $- != *i* ]] && return # If not running interactively, don't do anything
 setopt autocd # Cd just by typing in the directory
 source $HOME/.config/zsh/aliases # aliases
+xmodmap -e 'keycode 62 = Escape' # remap right shift to escape - useful for Vim users
 
 # History and cache
 HISTFILE=~/.cache/zsh/history
@@ -30,7 +31,7 @@ bindkey -M vicmd "j" down-line-or-history
 # Use vifm to switch directories (vifm version of Luke Smith's lf function)
 vifmcd () {
     tmp="$(mktemp)"
-    vifm --choose-dir="$tmp" "$@"
+    vifm --choose-dir="$tmp" "$@" --select $(pwd)
     if [ -f "$tmp" ]; then
         dir="$(cat "$tmp")"
         rm -f "$tmp"
@@ -76,6 +77,6 @@ bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
 # no need for fish ;)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # Syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # Fish-like autosuggestion
-source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # Fish-like abbreviations
+#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # Fish-like abbreviations ('zsh-abbr' on the AUR); uses file named 'abbreviations' in same directory as .zshrc
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null # Encourages the use of aliases
 source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile` via pacman)
