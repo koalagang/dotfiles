@@ -12,3 +12,5 @@ setxkbmap -layout us &
 nm-applet &
 mpd &
 mpDris2 &
+
+exec qtile
