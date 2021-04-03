@@ -6,6 +6,8 @@ newsboat/cache.db
 newsboat/history.cmdline
 newsboat/history.search
 nvim/.netrwhist
+nvim/plugged
 mpv/watch_later
 zsh/.zcompdump
 vifm/vifminfo.json
+qutebrowser/dracula

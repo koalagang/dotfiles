@@ -17,8 +17,14 @@ set nobackup noswapfile lazyredraw
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=black
 hi CursorColumn cterm=NONE ctermbg=black
-nnoremap cc :set cursorcolumn!<cr>
+nnoremap <silent> cc :set cursorcolumn!<cr>
 let mapleader = ','
+nnoremap zz :w<cr>
+nnoremap <silent> <space> :noh<cr>
+vnoremap < <gv
+vnoremap > >gv
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
 "---Navigation
 map o :bro ol<cr>
@@ -26,17 +32,14 @@ set path+=**
 set wildmenu
 set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp " Ignore unnecessary file extensions in wildmenu
 nnoremap <c-f> :find<space>
-nnoremap <space> :noh<cr>
 noremap <c-a> ggv^G$
 nnoremap <m-k> dd2kp
 nnoremap <m-j> ddp
 nnoremap J L
 nnoremap K H
 nnoremap <return> M
-nnoremap zz :w<cr>
-" For when I am using the Norwegian keyboard layout
-nnoremap Ø :
-nnoremap - /
+let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext': '.wiki'}]
+map <leader>v <Plug>VimwikiIndex
 
 " Finding and replacing or deleting:
 nnoremap S :%s//g<left><left>
@@ -69,16 +72,26 @@ let g:netrw_banner=0            " - disable annoying banner
 let g:netrw_liststyle=3         " - tree view
 nnoremap <c-n> :edit .<cr>
 
+" Floaterm
+" WARNING: don't use ctrl-j and ctrl-k to navigate with fzf - it freezes vim
+nnoremap <silent> fz :FloatermNew --height=0.4 --width=0.9 --name=fzf --position=top fzf<cr>
+nnoremap <silent> vf :FloatermNew --height=0.9 --width=0.9 --name=vifm vifm<cr>
+nnoremap <silent> <s-f> :FloatermNew --height=0.9 --width=0.9 --name=Floaterm<cr>
+" use `ctrl-c` to close the floaterm
+" Also, note that external scripts can't be binded to a script but you can
+" manually run them after opening an empty instance of floaterm,
+" e.g. run `:FloatermNew` and then run your script
+
 " Allows you to use HJKL to navigate in insert mode if you hold down ctrl
 inoremap <c-h> <left>
 inoremap <c-j> <down>
 inoremap <c-k> <up>
 inoremap <c-l> <right>
+
 " Tabs
-nnoremap <m-t> :tabe<cr>
-nnoremap <m-n> :tabn<cr>
-nnoremap <m-p> :tabp<cr>
-nnoremap <m-q> :tabclose<cr>
+nnoremap <Tab> gt
+nnoremap <S-Tab> gT
+nnoremap <silent> <s-t> :tabnew<cr>
 nnoremap tf :tabfind<space>
 
 " Accidentally using capitals to exit is not a problem
@@ -88,7 +101,7 @@ cnoreabbrev Q q
 cnoreabbrev WQ wq
 cnoreabbrev wQ wq
 cnoreabbrev Wq wq
-
+cnoreabbrev Qall qall
 
 " Autosurround
 inoremap " ""<left>
@@ -97,11 +110,6 @@ inoremap ( ()<left>
 inoremap [ []<left>
 inoremap { {}<left>
 inoremap < <><left>
-vnoremap " <esc>Bi"<esc>Ea"<esc>
-vnoremap ' <esc>Bi'<esc>Ea'<esc>
-vnoremap ( <esc>Bi(<esc>Ea)<esc>
-vnoremap [ <esc>Bi[<esc>Ea]<esc>
-vnoremap { <esc>Bi{<esc>Ea}<esc>
 " Prevent autosurround with left alt
 inoremap <m-"> "
 inoremap <m-'> '
@@ -149,6 +157,8 @@ call plug#begin()
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'vimwiki/vimwiki'
+" no need for fuzzy find or file manager plugins; just use native apps
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 " Plug commands

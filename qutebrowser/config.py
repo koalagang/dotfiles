@@ -71,8 +71,6 @@ c.url.start_pages = "about:blank"
 c.url.default_page = "about:blank"
 c.colors.webpage.preferred_color_scheme = "dark"
 # Dracula Theme
-# NOTE: for this theme to work you must download it with
-# `git clone https://github.com/dracula/qutebrowser-dracula-theme.git $HOME/.config/qutebrowser/dracula`
 import dracula.draw
 config.load_autoconfig()
 dracula.draw.blood(c, {
