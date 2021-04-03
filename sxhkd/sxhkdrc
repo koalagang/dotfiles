@@ -4,15 +4,15 @@
 
 # Shutdown
 ctrl + alt + x
-	shutdown now
+	loginctl poweroff
 
 # Reboot
 ctrl + alt + r
-	reboot
+	loginctl reboot
 
 # Suspend
 ctrl + alt + s
-	systemctl suspend
+	loginctl suspend
 
 # Lock
 ctrl + alt + l
@@ -24,13 +24,6 @@ ctrl + alt + l
 mod4 + alt + {k,s,l,m,v,f,g,p,a,d,n,c,q,x}
 	{keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll, qutebrowser, sh /home/admin/.config/xmenu/xmenu.sh}
 
-# Brave Profiles
-mod4 + alt + {w,b}
-    {brave --profile-directory="Default", brave --profile-directory="Profile 2"}
-
-# Buku
-#ctrl + ~b
-#    alacritty -e buku -w
 
 #---Screenshots
 
