@@ -9,10 +9,11 @@
 #     |   |         "Little did I know that these features can easily be implemented in a better shell which is also POSIX compliant."
 #     |   |
 # Misc
-[[ $- != *i* ]] && return # If not running interactively, don't do anything
-setopt autocd # Cd just by typing in the directory
+[[ $- != *i* ]] && return        # if not running interactively, don't do anything
+setopt autocd                    # cd just by typing in the directory
 source $HOME/.config/zsh/aliases # aliases
 xmodmap -e 'keycode 62 = Escape' # remap right shift to escape - useful for Vim users
+eval "$(starship init zsh)" # TIP: the Starship prompt indicates what VI mode you are in
 
 # History and cache
 HISTFILE=~/.cache/zsh/history
@@ -28,7 +29,7 @@ bindkey -M vicmd 'n' history-incremental-search-forward
 bindkey -M vicmd "k" up-line-or-history
 bindkey -M vicmd "j" down-line-or-history
 
-# Use vifm to switch directories (vifm version of Luke Smith's lf function)
+# Use vifm to switch directories (vifm adaption of Luke Smith's lf function)
 vifmcd () {
     tmp="$(mktemp)"
     vifm --choose-dir="$tmp" "$@" --select $(pwd)
@@ -39,11 +40,6 @@ vifmcd () {
     fi
 }
 bindkey -s '^o' 'vifmcd\n'
-
-# Prompt
-autoload -U colors && colors
-PS1='$(prompt)'
-eval "$(starship init zsh)" # TIP: the Starship prompt indicates what VI mode you are in
 
 # Tab completion
 autoload -U compinit && compinit -u
@@ -79,4 +75,4 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # Fish-like autosuggestion
 #source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # Fish-like abbreviations ('zsh-abbr' on the AUR); uses file named 'abbreviations' in same directory as .zshrc
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null # Encourages the use of aliases
-source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile` via pacman)
+source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile`)

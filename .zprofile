@@ -1,5 +1,5 @@
 if [[ "$(tty)" = "/dev/tty1" ]]; then
-	pgrep qtile || startx "$XDG_CONFIG_HOME/X11/xinitrc"
+	pgrep qtile || startx "$HOME/.config/.xinitrc"
 fi
 
 export ZDOTDIR="$HOME/.config/zsh"

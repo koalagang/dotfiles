@@ -21,6 +21,7 @@ nnoremap <silent> cc :set cursorcolumn!<cr>
 let mapleader = ','
 nnoremap zz :w<cr>
 nnoremap <silent> <space> :noh<cr>
+vnoremap <space> v
 vnoremap < <gv
 vnoremap > >gv
 nnoremap n nzzzv
@@ -38,6 +39,9 @@ nnoremap <m-j> ddp
 nnoremap J L
 nnoremap K H
 nnoremap <return> M
+vnoremap J L
+vnoremap K H
+vnoremap <return> M
 let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext': '.wiki'}]
 map <leader>v <Plug>VimwikiIndex
 
@@ -76,7 +80,7 @@ nnoremap <c-n> :edit .<cr>
 " WARNING: don't use ctrl-j and ctrl-k to navigate with fzf - it freezes vim
 nnoremap <silent> fz :FloatermNew --height=0.4 --width=0.9 --name=fzf --position=top fzf<cr>
 nnoremap <silent> vf :FloatermNew --height=0.9 --width=0.9 --name=vifm vifm<cr>
-nnoremap <silent> <s-f> :FloatermNew --height=0.9 --width=0.9 --name=Floaterm<cr>
+nnoremap <silent> <leader>t :FloatermNew --height=0.9 --width=0.9 --name=Floaterm<cr>
 " use `ctrl-c` to close the floaterm
 " Also, note that external scripts can't be binded to a script but you can
 " manually run them after opening an empty instance of floaterm,
