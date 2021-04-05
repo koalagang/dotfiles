@@ -69,7 +69,7 @@ nnoremap <m-I> :resize +2<cr>
 nnoremap <m-O> :resize -2<cr>
 nnoremap <leader>sv :vs<cr>
 nnoremap <leader>sh :sp<cr>
-nnoremap <leader>sp <c-w><c-x>
+nnoremap <leader>sw <c-w><c-x>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
@@ -272,9 +272,10 @@ nnoremap <leader>h6 <esc>Bi###### <esc>
 "---Misc
 nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 map <c-s> :!shellcheck %<cr>
-map <leader>c :w! \| !sh compiler "<c-r>%"<cr><cr>
+map <leader>c :w! \| !./compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
-map <leader>sh :w! \| !sh %<cr>
+map <leader>sh :w! \| :!shellcheck %<cr>
+map run :w! \| !sh %<cr>
 nnoremap <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
 nnoremap r <c-r>

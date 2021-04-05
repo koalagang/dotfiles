@@ -49,7 +49,7 @@ alias gm='git commit -m'
 alias gu='git add -u'
 alias ga.='git add .'
 alias glog='git log --graph --decorate --oneline'
-alias dot='/usr/bin/git --git-dir=$HOME/Desktop/git/dotfiles --work-tree=$HOME'
+alias dot='/usr/bin/git --git-dir=$HOME/Desktop/git/dotfiles --work-tree=$HOME'     # To use git bare repository to push dotfiles
 
 # Colourise grep
 alias grep='grep --colour=auto'
@@ -71,6 +71,7 @@ alias -s {html}='lynx'
 
 # File/folder extraction
 # usage: ex <file>
+# for example, to extract the file 'foo.tar.gz': `ex foo.tar.gz`
 ex () {
   if [ -f $1 ] ; then
     case $1 in
@@ -96,13 +97,13 @@ ex () {
 }
 
 # File/folder compression
-# usage: comp <folder>.<extension>
-# for example, to compress the folder 'foo' into a tar.gz: `comp foo.tar.gz`
+# usage: comp <file>.<extension>
+# for example, to compress the folder 'bar' into a tar.gz: `comp bar.tar.gz`
 comp (){
     if [[ $1 == *'.'* ]]; then
         echo $1 | cut -f1 -d'.' | read COMPRESS
         tar -c --auto-compress -f $1 $COMPRESS
-        echo "'"$COMPRESS"'" "was successfully compressed into '"$1"'"
+        echo "'"$COMPRESS"'" "was successfully compressed into '"$1"'."
     else
         echo "error: missing file extension"
     fi
