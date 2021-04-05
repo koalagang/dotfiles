@@ -77,7 +77,6 @@ let g:netrw_liststyle=3         " - tree view
 nnoremap <c-n> :edit .<cr>
 
 " Floaterm
-" WARNING: don't use ctrl-j and ctrl-k to navigate with fzf - it freezes vim
 nnoremap <silent> fz :FloatermNew --height=0.4 --width=0.9 --name=fzf --position=top fzf<cr>
 nnoremap <silent> vf :FloatermNew --height=0.9 --width=0.9 --name=vifm vifm<cr>
 nnoremap <silent> <leader>t :FloatermNew --height=0.9 --width=0.9 --name=Floaterm<cr>
@@ -272,7 +271,7 @@ nnoremap <leader>h6 <esc>Bi###### <esc>
 "---Misc
 nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 map <c-s> :!shellcheck %<cr>
-map <leader>c :w! \| !./compiler "<c-r>%"<cr><cr>
+map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
 map <leader>sh :w! \| :!shellcheck %<cr>
 map run :w! \| !sh %<cr>
