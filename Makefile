@@ -1,11 +1,13 @@
+# Inspired by Gavin "Gavinok" Freeborn https://www.youtube.com/watch?v=aP8eggU2CaU and Masashi "masasam" "Miyaura" https://github.com/masasam/dotfiles
 # DO NOT USE THIS MAKEFILE!
 # IT IS NOT READY FOR USE!
 
 BASE = $(PWD)
-PKGINSTALL = "sudo pacman --noconfirm --needed -S"
-USER = "admin" # Set this to the result of the command 'echo $USER'
-BINSH = "dash"
-LOGINSH = "zsh"
+MKDIR = mkdir -p
+PKGINSTALL = sudo pacman -S --noconfirm --needed
+USER = admin # Set this to the result of the command 'echo $USER'
+BINSH = dash
+LOGINSH = zsh
 
 dotfiles: ## Deploy dotfiles to their respective directories
 	mv -r $(PWD)/.config $(HOME)
@@ -20,18 +22,18 @@ scripts: ## Deploy scripts
 	mv -r $(PWD)/.local/bin $(HOME)/.local
 	mv -r $(PWD)/.local/share $(HOME)/.local
 
-initparu: ## Install Paru AUR helper
-	sudo pacman -S base-devel --needed
+initparu: ## Install Paru AUR helper - DO NOT run this with sudo
+	$(PKGINSTALL) base-devel
 	git clone https://aur.archlinux.org/paru.git initparu
 	sh -c "cd 'initparu' && makepkg -si"
 	exit
-	sudo rm -r paru
+	sudo rm -r initparu
 
 pkginstall: ## Install packages from official repos
 	sudo pacman -Syu --noconfirm
 	$(PKGINSTALL) < $(PWD)/archlinux/pacmanlist
 
-aurinstall: ## Install AUR packages [requires Paru installed]
+aurinstall: ## Install AUR packages [requires Paru installed] - DO NOT run this with sudo
 	paru -Syu --noconfirm
 	paru -S --needed --noconfirm < $(PWD)/archlinux/aurlist
 
@@ -43,22 +45,33 @@ pkgbackup: ## Backup list of packages
 systembackup: ## Backup your entire system [requires Timeshift installed]
 	sudo timeshift --create && echo "Timeshift backup complete!" ; notify-send "Timeshift backup complete!"
 
-loginshell: ## Change login shell
+shell: ## Change default shell (/bin/sh symlink) and login shell (interactive shell)
 	$(PKGINSTALL) $(LOGINSH)
 	chsh -s /bin/$(LOGINSH)
-	mkdir $(HOME)/.cache/$(LOGINSH) # store history file here
-
-defaultshell: ## Change /bin/sh symlink
+	$(MKDIR) $(HOME)/.cache/$(LOGINSH) # I source my zsh history from here
 	$(PKGINSTALL) $(BINSH)
-	sudo -ln -sfT /bin/dash /bin/sh
-	mv -r $(PWD)/bash2dash.hook /usr/share/libalpm/hooks
+	sudo -ln -sfT /bin/$(BINSH) /bin/sh
+	sudo touch /usr/share/libalpm/hooks/bash2$(BINSH).hook
+	printf "[Trigger]\nType = Package\nOperation = Install\nOperation = Upgrade\nTarget = bash\n\n[Action]\nDescription = Re-pointing /bin/sh symlink to $(BINSH)...\nWhen = PostTransaction\nExec = /usr/bin/ln -sfT $(BINSH) /usr/bin/sh\nDepends = $(BINSH)" > /usr/share/libalpm/hooks/bash2$(BINSH).hook # Create a pacman hook to keep $(BINSH) as the /bin/sh symlink
 
 refresh: ## Ensure that packages, mandb and the pkgfile are up-to-date
+	sudo pacman -Syu --noconfirm
 	$(PKGINSTALL) pkgfile
 	sudo pkgfile --update
 	sudo mandb
+
+pacmanconf: ## Enable the multilib and lib32 repositories, as well as pacman colours
+	sed -i '33s/#//g' /etc/pacman.conf # enable colour
+	sed -i '92s/#//g' /etc/pacman.conf # enable lib32
+	sed -i '93s/#//g' /etc/pacman.conf # enable lib32
+	sed -i '120s/#//g' /etc/pacman.conf # enable multilib
+	sed -i '121s/#//g' /etc/pacman.conf # enable multilib
+	sudo pacman -Syy
 
 help: ## Print this help statement
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	$(info )
+	$(info NOTE: avoid running make with sudo - it will prompt you if sudo is needed)
+	$(info )
