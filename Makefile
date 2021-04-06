@@ -50,9 +50,10 @@ shell: ## Change default shell (/bin/sh symlink) and login shell (interactive sh
 	chsh -s /bin/$(LOGINSH)
 	$(MKDIR) $(HOME)/.cache/$(LOGINSH) # I source my zsh history from here
 	$(PKGINSTALL) $(BINSH)
-	sudo -ln -sfT /bin/$(BINSH) /bin/sh
+	sudo ln -sfT $(BINSH) /bin/sh
+	# Create a pacman hook to keep $(BINSH) as the /bin/sh symlink
 	sudo touch /usr/share/libalpm/hooks/bash2$(BINSH).hook
-	printf "[Trigger]\nType = Package\nOperation = Install\nOperation = Upgrade\nTarget = bash\n\n[Action]\nDescription = Re-pointing /bin/sh symlink to $(BINSH)...\nWhen = PostTransaction\nExec = /usr/bin/ln -sfT $(BINSH) /usr/bin/sh\nDepends = $(BINSH)" > /usr/share/libalpm/hooks/bash2$(BINSH).hook # Create a pacman hook to keep $(BINSH) as the /bin/sh symlink
+	sudo printf "[Trigger]\nType = Package\nOperation = Install\nOperation = Upgrade\nTarget = bash\n\n[Action]\nDescription = Re-pointing /bin/sh symlink to $(BINSH)...\nWhen = PostTransaction\nExec = /usr/bin/ln -sfT $(BINSH) /usr/bin/sh\nDepends = $(BINSH)" > /usr/share/libalpm/hooks/bash2$(BINSH).hook
 
 refresh: ## Ensure that packages, mandb and the pkgfile are up-to-date
 	sudo pacman -Syu --noconfirm
@@ -72,6 +73,3 @@ help: ## Print this help statement
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	$(info )
-	$(info NOTE: avoid running make with sudo - it will prompt you if sudo is needed)
-	$(info )
