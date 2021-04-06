@@ -26,6 +26,9 @@ vnoremap < <gv
 vnoremap > >gv
 nnoremap n nzzzv
 nnoremap N Nzzzv
+nnoremap r <c-r>
+" Vim wiki syntax is used instead of markdown by default
+nnoremap md :set ft=markdown<cr>
 
 "---Navigation
 map o :bro ol<cr>
@@ -143,15 +146,16 @@ nnoremap YY "byy
 nnoremap DD "bdd
 
 " System register
+" NOTE: use ctrl-q to enter visual block mode (instead of ctrl-v)
 vnoremap <c-c> "+y
 vnoremap <c-x> "+d
 noremap <c-v> "+p
 nnoremap <c-c> "+yy
 nnoremap <c-x> "+dd
 inoremap <c-v> <esc> "+p <up> A
-" NOTE: you can enter visual block mode with c-q
 
 " Remove a line or word without copying to register
+" NOTE: use capital x (X) to remove single characters
 nnoremap xx Vx
 nnoremap cix ciw<backspace><esc>
 
@@ -261,15 +265,14 @@ noremap <leader>b <esc>Bi**<esc>Ea**<esc>
 " Bold Italics
 noremap <leader>mbi <esc>Bi***<esc>Ea***<esc>
 " Headings
-nnoremap <leader>h1 <esc>Bi# <esc>
-nnoremap <leader>h2 <esc>Bi## <esc>
-nnoremap <leader>h3 <esc>Bi### <esc>
-nnoremap <leader>h4 <esc>Bi#### <esc>
-nnoremap <leader>h5 <esc>Bi##### <esc>
-nnoremap <leader>h6 <esc>Bi###### <esc>
+nnoremap <leader>h1 <esc>I# <esc>
+nnoremap <leader>h2 <esc>I## <esc>
+nnoremap <leader>h3 <esc>I### <esc>
+nnoremap <leader>h4 <esc>I#### <esc>
+nnoremap <leader>h5 <esc>I##### <esc>
+nnoremap <leader>h6 <esc>I###### <esc>
 
 "---Misc
-nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 map <c-s> :!shellcheck %<cr>
 map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
@@ -277,5 +280,16 @@ map <leader>sh :w! \| :!shellcheck %<cr>
 map run :w! \| !sh %<cr>
 nnoremap <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
-nnoremap r <c-r>
-nnoremap ; ciw<backspace><esc>
+
+" Templates
+nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
+nnoremap ,md :-1read ~/.config/nvim/.skeleton.md<cr>GkA<space>
+
+" Commenting stuff out (in various languages) - single line commenting
+nnoremap <leader># <esc>I#<esc>
+nnoremap <leader>" <esc>I"<esc>
+nnoremap <leader>/ <esc>I//<esc>
+nnoremap <leader>- <esc>I--<esc>
+nnoremap <leader>% <esc>I%<esc>
+" Uncomment
+nnoremap ; <esc>I<del><esc>
