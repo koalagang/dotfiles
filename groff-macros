@@ -1,0 +1,19 @@
+.de BL
+.IP \(bu 2
+..
+
+.de bl
+.IP \(bu 2
+..
+
+.nr nums 1
+.de nu
+.IP \\n[nums]
+.nr nums +1
+..
+
+.nr nums 1
+.de NU
+.IP \\n[nums]
+.nr nums +1
+..
