@@ -13,8 +13,12 @@
 setopt autocd                           # cd just by typing in the directory
 source $HOME/.config/zsh/aliases.sh     # source aliases
 source $HOME/.config/zsh/functions.sh   # source functions
-xmodmap -e 'keycode 62 = Escape'        # remap right shift to escape - useful for Vim users
-eval "$(starship init zsh)"             # TIP: the Starship prompt indicates what VI mode you are in
+xmodmap -e 'keycode 62 = Escape'        # remap right shift to escape - useful for vim users
+eval "$(starship init zsh)"             # TIP: the Starship prompt indicates what vi mode you are in
+
+# z.lua
+eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)"
+export _ZL_DATA="$HOME/.cache/zsh/.zlua" # where to store z.lua memory
 
 # History and cache
 HISTFILE=~/.cache/zsh/history
@@ -38,16 +42,15 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots) # Include hidden files.
 
-# VI mode
+# vi mode
 bindkey '^[' vi-cmd-mode
 export KEYTIMEOUT=1
 
-# Edit line in Vim buffer alt-v
+# Edit line in vim buffer ctrl-v
 autoload edit-command-line; zle -N edit-command-line
-bindkey '-v' edit-command-line
-autoload -U edit-command-line && zle -N edit-command-line && bindkey -M vicmd "^v" edit-command-line # Enter Vim buffer from normal mode
+autoload -U edit-command-line && zle -N edit-command-line && bindkey -M vicmd "^v" edit-command-line # Enter vim buffer from normal mode
 
-# Use Vim keys in tab complete menu
+# Use vim keys in tab complete menu
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'k' vi-up-line-or-history

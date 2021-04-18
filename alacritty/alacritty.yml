@@ -88,7 +88,7 @@ scrolling:
   history: 5000
 
   # Scrolling distance multiplier.
-  multiplier: 0
+  multiplier: 5
 
 # Font configuration
 font:
@@ -330,10 +330,10 @@ cursor:
 # Live config reload (changes require restart)
 live_config_reload: true
 
-shell:
-  program: /bin/fish
-  args:
-    - --login
+#shell:
+#  program: /bin/zsh
+#  args:
+#    - --login
 
 mouse:
   # Click settings

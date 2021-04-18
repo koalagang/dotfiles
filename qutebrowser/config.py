@@ -73,6 +73,7 @@ c.url.start_pages = "about:blank"
 c.url.default_page = "about:blank"
 c.colors.webpage.preferred_color_scheme = "dark"
 # Dracula Theme
+# To download this theme: run `git clone https://github.com/dracula/qutebrowser-dracula-theme.git $HOME/.config/qutebrowser/dracula`
 import dracula.draw
 config.load_autoconfig()
 dracula.draw.blood(c, {
@@ -83,7 +84,6 @@ dracula.draw.blood(c, {
 })
 
 #---Privacy & Security
-# In ~/.config/qutebrowser/block-hosts I have added YouTube so that I only watch it via a dedicated application - this removes exposure to the YouTube algorithm
 c.content.blocking.enabled = True # I have this turned on but also -  see line 6 of this config
 c.content.javascript.enabled  = True
 c.content.headers.do_not_track = True

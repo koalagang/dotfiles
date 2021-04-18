@@ -1,8 +1,10 @@
-qtile/config.py.bak
 qtile/__pycache__
 qutebrowser/bookmarks
+newsboat/cache
 newsboat/urls
 newsboat/cache.db
+newsboat/cache.db.lock
+newsboat/cache.lock
 newsboat/history.cmdline
 newsboat/history.search
 nvim/.netrwhist

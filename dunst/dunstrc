@@ -1,3 +1,4 @@
+# Just a very slightly modifed version of Brodie Robertson's dunstrc https://github.com/BrodieRobertson/dotfiles/blob/master/config/dunst/dunstrc
 [global]
     ### Display ###
 

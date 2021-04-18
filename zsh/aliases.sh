@@ -1,23 +1,25 @@
 #---Pacman and Paru
-alias upd='paru -Syu --noconfirm'                                               # Update all packages
+alias upd='paru -Syu --noconfirm'                                               # Update all packages without confirmation
 alias updc='paru -Syu --noconfirm && sudo paccache -r && sudo paccache -ruk0'   # Update all packages and clear the cache
 alias co='paru -c'                                                              # Clear orphans
 alias pr='doas pacman -R'                                                       # Remove a package
 alias coc='sudo pacman -R && sudo paccache -r && sudo paccache -ruk0'           # Clear orphans and the cache
 
 #---Flags
-alias ls='exa -l -h -g --git --git-ignore --sort=ext --colour-scale'                                                    # A superior ls
+alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                                                         # A superior ls
 alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'                                     # Simple colour picker
-alias aw='find /usr/share/doc/arch-wiki/html/en/*.html | fzf | xargs -r $BROWSER > /dev/null 2>&1'                      # Search the Arch Wiki locally (arch-wiki-docs)
-alias fz='find . -maxdepth 3 | fzf | xargs -r $EDITOR ;'                                                                # Fuzzy find three directories down and open the selected file in $EDITOR
+alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'                    # Search the Arch Wiki locally (arch-wiki-docs)
+alias fz='fd . --max-depth 3 | fzf | xargs -r $EDITOR ;'                                                                # Fuzzy find three directories down and open the selected file in $EDITOR
 alias rss='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'    # Newsboat violates the XDG directory specifications by default
+alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'                                                                           # Same thing as above
 alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                                           # Encrypt a file symmetrically with AES256
 alias doas='doas --'                                                                                                    # Prevent doas flags
 alias glw='glow -p -w 200'                                                                                              # Markdown syntax highlighting
 alias l.='exa -a | egrep "^\."'                                                                                         # List dotfiles in current directory
 alias df='df -h'                                                                                                        # Use df in a more readable format
 alias free='free -m'                                                                                                    # List free storage space in MB
-alias fd='fd -uu'                                                                                                       # Find Rust rewrite (the `-uu` flag includes dotfiles and gitignore files)
+alias fd='fd -uu -i -a'                                                                                                 # Find Rust rewrite
+alias fdr='fd -uu -i -a --base-directory /'                                                                             # Search engine system with fd
 alias yt='ytfzf -t'                                                                                                     # Search YouTube (the `-t` flag allows for Ueberzug thumbnail previewing)
 alias inv='pipe-viewer --invidious'                                                                                     # Search Invidious
 #alias mv='mv -i'                                                                                                       # Check to confirm before running command
@@ -57,7 +59,7 @@ alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
 #---Suffixes
-# Devour is used for terminal swallowing
+# 'Devour' is used for terminal swallowing
 alias -s {txt,md,py,zsh,sh,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
 alias -s {png,jpg,jpeg,bpm,gif,xpm}='devour sxiv'
 alias -s {xcf}='devour gimp'
@@ -69,7 +71,8 @@ alias -s {html}='lynx'
 
 #---Misc
 alias cat='bat'                                         # TWO LEGS GOOD FOUR LEGS BAD
-alias calc='qalc'
+alias plocate='locate'                                  # A faster alternative to mlocate
+alias calc='quich'                                      # CLI calculator written in C
 alias notes='nvim $HOME/Documents/vimwiki/index.wiki'   # Open Vim wiki index
 alias vi='nvim'
 alias vf='vifmrun'                                      # Allows Ueberzug image viewing in vifm
@@ -79,8 +82,7 @@ alias ucp='ucollage $HOME/Pictures'                     # Preview all images in 
 alias uc='ucollage'                                     # Preview a specific image or directory
 alias cc='calcurse'
 alias md='mkdir'
-alias neo='neofetch'
+alias tch='touch'
 alias tux='tuxi'
-alias plz='sudo !!'                                     # Please (run previous command as root)
-alias pls='sudo !!'                                     # Please (run previous command as root)
 alias ...='cd ../..'
+alias scim='sc-im'

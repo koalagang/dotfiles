@@ -4,12 +4,13 @@
 "    \   _'.'O'.'   https://github.com/koalagang
 "     | :___   \    (╯°□°）╯︵ sɔɐɯ ǝ
 "     |  _| :  |
-"     | :__,___/    "A vim config which aims to use as few plugins as possible without losing out on valuable features."
+"     | :__,___/    "Plugins are great but can often be overkill. I aim to use as few plugins as possible without losing out on valuable features."
 "     |   |
 "     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
 "     |   |
 "     |   |
 "---Basics
+let mapleader = ','
 set number relativenumber
 set tabstop=4 softtabstop=0 shiftwidth=4 expandtab autoindent smartindent
 set smartcase ignorecase
@@ -17,41 +18,68 @@ set nobackup noswapfile lazyredraw
 set cursorline
 hi CursorLine   cterm=NONE ctermbg=black
 hi CursorColumn cterm=NONE ctermbg=black
-nnoremap <silent> cc :set cursorcolumn!<cr>
-let mapleader = ','
-nnoremap zz :w<cr>
-nnoremap <silent> <space> :noh<cr>
-vnoremap <space> v
-vnoremap < <gv
-vnoremap > >gv
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap r <c-r>
+nno <silent> cc :set cursorcolumn!<cr>
+nno zz :w<cr>
+nno <silent> <space> :noh<cr>
+vn <space> v
+vn < <gv
+vn > >gv
+nno n nzzzv
+nno N Nzzzv
+nno r <c-r>
 " Vim wiki syntax is used instead of markdown by default
-nnoremap md :set ft=markdown<cr>
+no md :set ft=markdown<cr>
 
-"---Navigation
-map o :bro ol<cr>
+" Line navigation and manipulation
+no <c-a> ggv^G$
+nno <m-k> dd2kp
+nno <m-j> ddp
+nno J L
+nno K H
+nno <return> M
+vn J L
+vn K H
+vn <return> M
+
+" Finding and replacing or deleting:
+nno S :%s//g<left><left>
+"-  e.g. :s%s/x/y/g finds every x and replaces them all with a y.
+"-  e.g. :s%s/x/g finds every x and deletes them all.
+
+" Fuzzy finding and navigating between files
+nno o :browse old<cr>
+nno fo :filter '.*' oldfiles<c-left><left><left>
+nno e :edit<space>
+nno bb :b <c-d>
+nno bp :bp<cr>
+nno bn :bn<cr>
+nno ff :find<space>
+nno <leader>A :argadd <c-r>=fnameescape(expand('%:p:h'))<cr>/*<c-d>
+nno fdo :edit ~/Documents/**/*
+nno f.c :edit ~/.config/**/*
+nno fde :edit ~/Desktop/**/*
 set path+=**
 set wildmenu
 set wildignore+=*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp " Ignore unnecessary file extensions in wildmenu
-nnoremap <c-f> :find<space>
-noremap <c-a> ggv^G$
-nnoremap <m-k> dd2kp
-nnoremap <m-j> ddp
-nnoremap J L
-nnoremap K H
-nnoremap <return> M
-vnoremap J L
-vnoremap K H
-vnoremap <return> M
+set wildignorecase
+" next completion on /
+cnoremap <expr> / wildmenumode() ? "\<C-E>" : "/"
+" if we type ':***' then it will change to ':**/*'
+cnoremap <expr> * getcmdline () =~ '.*\*\*$' ? '/*' : '*'
+" Find under root directory
+function! FindRootDirectory()
+    if !filereadable('Makefile') && !filereadable('makefile')
+        let root = systemlist('git -rev-parse --show-toplevel')[0]
+        if v:shell_error
+            return ''
+        endif
+        return root
+    endif
+    return expand('%:p:h')
+endfunction
+nno fr :edit <c-r>=FindRootDirectory()<cr>/**/*
 let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext': '.wiki'}]
 map <leader>v <Plug>VimwikiIndex
-
-" Finding and replacing or deleting:
-nnoremap S :%s//g<left><left>
-"-  e.g. :s%s/x/y/g finds every x and replaces them all with a y.
-"-  e.g. :s%s/x/g finds every x and deletes them all.
 
 " Mouse
 set mouse=nirv " If your terminal allows you to click links, you must enter command mode (:) to press them
@@ -62,43 +90,39 @@ map <MiddleMouse>  "+p
 map <RightMouse> "+y
 
 " Splits
-nnoremap <c-j> <c-w><c-j>
-nnoremap <c-k> <c-w><c-k>
-nnoremap <c-l> <c-w><c-l>
-nnoremap <c-h> <c-w><c-h>
-nnoremap <m-i> :vertical resize +2<cr>
-nnoremap <m-o> :vertical resize -2<cr>
-nnoremap <m-I> :resize +2<cr>
-nnoremap <m-O> :resize -2<cr>
-nnoremap <leader>sv :vs<cr>
-nnoremap <leader>sh :sp<cr>
-nnoremap <leader>sw <c-w><c-x>
+nno <c-j> <c-w><c-j>
+nno <c-k> <c-w><c-k>
+nno <c-l> <c-w><c-l>
+nno <c-h> <c-w><c-h>
+nno <m-i> :vertical resize +2<cr>
+nno <m-o> :vertical resize -2<cr>
+nno <m-I> :resize +2<cr>
+nno <m-O> :resize -2<cr>
+nno <leader>sv :vs<cr>
+nno <leader>sh :sp<cr>
+nno <leader>sw <c-w><c-x>
+nno sv :vs<space>
+nno sh :sp<space>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
 let g:netrw_liststyle=3         " - tree view
-nnoremap <c-n> :edit .<cr>
-
-" Floaterm
-nnoremap <silent> fz :FloatermNew --height=0.4 --width=0.9 --name=fzf --position=top fzf<cr>
-nnoremap <silent> vf :FloatermNew --height=0.9 --width=0.9 --name=vifm vifm<cr>
-nnoremap <silent> <leader>t :FloatermNew --height=0.9 --width=0.9 --name=Floaterm<cr>
-" use `ctrl-c` to close the floaterm
-" Also, note that external scripts can't be binded to a script but you can
-" manually run them after opening an empty instance of floaterm,
-" e.g. run `:FloatermNew` and then run your script
+let g:netrw_browse_split=4
+let g:netrw_winsize=15
+let g:netrw_preview=1
+nno <c-n> :Lexplore<cr>
 
 " Allows you to use HJKL to navigate in insert mode if you hold down ctrl
-inoremap <c-h> <left>
-inoremap <c-j> <down>
-inoremap <c-k> <up>
-inoremap <c-l> <right>
+ino <c-h> <left>
+ino <c-j> <down>
+ino <c-k> <up>
+ino <c-l> <right>
 
 " Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <s-t> :tabnew<cr>
-nnoremap tf :tabfind<space>
+nno <Tab> gt
+nno <S-Tab> gT
+nno <silent> <s-t> :tabnew<cr>
+nno tf :tabfind<space>
 
 " Accidentally using capitals to exit is not a problem
 " (although you should use ZZ and ZQ to exit vim)
@@ -110,62 +134,62 @@ cnoreabbrev Wq wq
 cnoreabbrev Qall qall
 
 " Autosurround
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap < <><left>
+ino " ""<left>
+ino ' ''<left>
+ino ( ()<left>
+ino [ []<left>
+ino { {}<left>
+ino < <><left>
 " Prevent autosurround with left alt
-inoremap <m-"> "
-inoremap <m-'> '
-inoremap <m-(> (
-inoremap <m-[> [
-inoremap <m-{> {
-inoremap <m-<> <
+ino <m-"> "
+ino <m-'> '
+ino <m-(> (
+ino <m-[> [
+ino <m-{> {
+ino <m-<> <
 " This section is here so that holding alt does not prevent your from entering
 " the desired character
-inoremap <m-)> )
-inoremap <m-]> ]
-inoremap <m-}> }
-inoremap <m->> >
+ino <m-)> )
+ino <m-]> ]
+ino <m-}> }
+ino <m->> >
 
 "---Yanking and pasting
 " Register A
-vnoremap y "ay
-vnoremap d "ad
-noremap p "ap
-nnoremap yy "ayy
-nnoremap dd "add
-
+vn y "ay
+vn d "ad
+no p "ap
+nno yy "ayy
+nno dd "add
 " Register B
-vnoremap Y "by
-vnoremap D "bd
-noremap P "bp
-nnoremap YY "byy
-nnoremap DD "bdd
-
+vn Y "by
+vn D "bd
+no P "bp
+nno YY "byy
+nno DD "bdd
 " System register
+" NOTE: to interact with the system register, you must have 'xclip' installed
 " NOTE: use ctrl-q to enter visual block mode (instead of ctrl-v)
-vnoremap <c-c> "+y
-vnoremap <c-x> "+d
-noremap <c-v> "+p
-nnoremap <c-c> "+yy
-nnoremap <c-x> "+dd
-inoremap <c-v> <esc> "+p <up> A
+vn <c-c> "+y
+vn <c-x> "+d
+no <c-v> "+p
+nno <c-c> "+yy
+nno <c-x> "+dd
+ino <c-v> <esc> "+p <up> A
 
 " Remove a line or word without copying to register
 " NOTE: use capital x (X) to remove single characters
-nnoremap xx Vx
-nnoremap cix ciw<backspace><esc>
+nno xx Vx
+nno cix ciw<backspace><esc>
 
 "---Plugins
 call plug#begin()
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'vimwiki/vimwiki'
-" no need for fuzzy find or file manager plugins; just use native apps
-Plug 'voldikss/vim-floaterm'
+" Plugin which adds support for GDscript and running the Godot Engine directly
+" from Vim
+Plug 'habamax/vim-godot'
 call plug#end()
 
 " Plug commands
@@ -175,16 +199,21 @@ call plug#end()
 ":PlugClean     - remove plugins (first remove or comment them out and then restart vim)
 "To rollback to an older version of a plugin, run :PlugDiff and then press 'X' on each paragraph.
 
+" Godot
+nno <buffer> grl :GodotRunLast<CR>
+nno <buffer> grr :GodotRun<CR>
+nno <buffer> grc :GodotRunCurrent<CR>
+nno <buffer> grf :GodotRunFZF<CR>
 
 "Spellcheck
 set spelllang=en_gb,nb_no
-nnoremap ss :set spell!<cr>
-nnoremap sgb :setlocal spell! spelllang=en_gb!<cr>
-noremap sus :set spell! spelllang=en_us!<cr>
-nnoremap sno :set spell! spelllang=nb_no!<cr><cr>
-nnoremap <leader>z z=
-nnoremap } ]s
-nnoremap { [s
+nno ss :set spell!<cr>
+nno sgb :setlocal spell! spelllang=en_gb!<cr>
+no sus :set spell! spelllang=en_us!<cr>
+nno sno :set spell! spelllang=nb_no!<cr><cr>
+nno <leader>z z=
+nno } ]s
+nno { [s
 
 "---Tidying
 "Convert text to UTF-8 and fileformat to Unix
@@ -195,7 +224,6 @@ autocmd BufNewFile,BufRead  *    try
 autocmd BufNewFile,BufRead  *    set encoding=utf-8
 autocmd BufNewFile,BufRead  *    endtry
 set fileformat=unix
-
 "Clean up trailing spaces and single lines at the end of files
 autocmd BufWritePre * %s/\s\+$//e
 autocmd BufWritePre * %s/\n\+\%$//e
@@ -259,37 +287,37 @@ set statusline+=\ %l/%L]
 
 "---Markdown
 " Bold
-noremap <leader>i <esc>Bi*<esc>Ea*<esc>
+no <leader>i <esc>Bi*<esc>Ea*<esc>
 " Italics
-noremap <leader>b <esc>Bi**<esc>Ea**<esc>
+no <leader>b <esc>Bi**<esc>Ea**<esc>
 " Bold Italics
-noremap <leader>mbi <esc>Bi***<esc>Ea***<esc>
+no <leader>mbi <esc>Bi***<esc>Ea***<esc>
 " Headings
-nnoremap <leader>h1 <esc>I# <esc>
-nnoremap <leader>h2 <esc>I## <esc>
-nnoremap <leader>h3 <esc>I### <esc>
-nnoremap <leader>h4 <esc>I#### <esc>
-nnoremap <leader>h5 <esc>I##### <esc>
-nnoremap <leader>h6 <esc>I###### <esc>
+nno <leader>h1 <esc>I# <esc>
+nno <leader>h2 <esc>I## <esc>
+nno <leader>h3 <esc>I### <esc>
+nno <leader>h4 <esc>I#### <esc>
+nno <leader>h5 <esc>I##### <esc>
+nno <leader>h6 <esc>I###### <esc>
 
 "---Misc
 map <c-s> :!shellcheck %<cr>
 map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
-map <leader>sh :w! \| :!shellcheck %<cr>
-map run :w! \| !sh %<cr>
-nnoremap <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
+map <leader>sc :w! \| :!shellcheck %<cr>
+map ./ :w! \| !./%<cr>
+nno <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
 
 " Templates
-nnoremap ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
-nnoremap ,md :-1read ~/.config/nvim/.skeleton.md<cr>GkA<space>
+nno ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
+nno ,md :-1read ~/.config/nvim/.skeleton.md<cr>GkA<space>
 
 " Commenting stuff out (in various languages) - single line commenting
-nnoremap <leader># <esc>I#<esc>
-nnoremap <leader>" <esc>I"<esc>
-nnoremap <leader>/ <esc>I//<esc>
-nnoremap <leader>- <esc>I--<esc>
-nnoremap <leader>% <esc>I%<esc>
+nno <leader># <esc>I#<esc>
+nno <leader>" <esc>I"<esc>
+nno <leader>/ <esc>I//<esc>
+nno <leader>- <esc>I--<esc>
+nno <leader>% <esc>I%<esc>
 " Uncomment
-nnoremap ; <esc>I<del><esc>
+nno ; <esc>I<del><esc>
