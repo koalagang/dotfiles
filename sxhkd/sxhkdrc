@@ -16,7 +16,7 @@ ctrl + alt + s
 
 # Lock
 ctrl + alt + l
-    betterlockscreen --lock blur
+    slock
 
 #---Applications
 

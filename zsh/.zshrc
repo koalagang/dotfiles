@@ -8,9 +8,9 @@
 #     |   |
 #     |   |
 #     |   |
-# Misc
+# Basics
 [[ $- != *i* ]] && return               # if not running interactively, don't do anything
-setopt autocd                           # cd just by typing in the directory
+setopt autocd                           # cd just by typing in the directory name
 source $HOME/.config/zsh/aliases.sh     # source aliases
 source $HOME/.config/zsh/functions.sh   # source functions
 xmodmap -e 'keycode 62 = Escape'        # remap right shift to escape - useful for vim users
@@ -24,7 +24,7 @@ export _ZL_DATA="$HOME/.cache/zsh/.zlua" # where to store z.lua memory
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=1000
 SAVEHIST=1000
-alias 'hist'='history 1 | less'
+alias 'hist'='history 1 | less' # how fish handles viewing history
 alias 'histc'='history -p'
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
@@ -63,7 +63,7 @@ bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
 
 # Plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # Syntax highlighting
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # Fish-like autosuggestion
-#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # Fish-like abbreviations ('zsh-abbr' on the AUR); uses file named 'abbreviations' in same directory as .zshrc
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # fish-like autosuggestion
+#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # fish-like abbreviations ('zsh-abbr' on the AUR); uses file named 'abbreviations' in same directory as .zshrc
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null # Encourages the use of aliases
 source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile`)
