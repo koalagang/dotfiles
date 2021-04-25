@@ -66,6 +66,12 @@ alias -s {pdf,ps,eps,ps.gz}='devour zathura'
 alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,mpg,mpeg,vob,m2v,mov,webm,ts,mts,m4v,qt,divx}='devour mpv'
 alias -s {html}='lynx'
 
+#---Window swallowing
+alias sxiv='devour sxiv'
+alias mpv='devour mpv'
+alias zathura='devour zathura'
+alias za='devour zathura'
+
 #---Misc
 alias cat='bat'                                          # TWO LEGS GOOD FOUR LEGS BAD
 alias plocate='locate'                                   # A faster alternative to mlocate
@@ -84,9 +90,4 @@ alias tux='tuxi'
 alias ...='cd ../..'
 alias scim='sc-im'
 alias ncmpcpp='nc'
-
-#---Window swallowing
-alias sxiv='devour sxiv'
-alias mpv='devour mpv'
-alias zathura='devour zathura'
-alias za='devour zathura'
+alias bashtop='bt'
