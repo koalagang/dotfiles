@@ -501,26 +501,25 @@ floating_layout = layout.Floating(float_rules=[
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
-@hook.subscribe.startup_once
-def autostart():
-    processes = [
-        ['lxsession'],
-        ['picom', '--experimental-backend'],
-        ['xrandr', '--output', 'HDMI-0', '--mode', '1920x1080', '--output', 'HDMI-1-1', '--mode', '1920x1080', '--right-of', 'HDMI-0'],
-        ['nitrogen', '--restore'],
-        ['redshift', '-O', '2500K'],
-        ['nvidia-settings', '--assign', 'CurrentMetaMode="nvidia-auto-select', '+0+0', '{', 'ForceFullCompositionPipeline', '=', 'On', '}"'],
-        ['sxhkd'],
-        ['dunst'],
-        ['unclutter', '--timeout', '1'],
-        ['xset', 'r', 'rate', '300', '40'],
-        ['setxkbmap', '-layout', 'us'],
-        ['nm-applet'],
-        #['mpd'],
-        #['mpDris2'],
-    ]
-    for p in processes:
-        subprocess.Popen(p)
+#@hook.subscribe.startup_once
+#def autostart():
+#    processes = [
+#        ['lxsession'],
+#        ['picom', '--experimental-backend'],
+#        ['xrandr', '--output', 'HDMI-0', '--mode', '1920x1080', '--output', 'HDMI-1-1', '--mode', '1920x1080', '--right-of', 'HDMI-0'],
+#        ['nitrogen', '--restore'],
+#        ['redshift', '-O', '2500K'],
+#        ['nvidia-settings', '--assign', 'CurrentMetaMode="nvidia-auto-select', '+0+0', '{', 'ForceFullCompositionPipeline', '=', 'On', '}"'],
+#        ['sxhkd'],
+#        ['dunst'],
+#        ['unclutter', '--timeout', '1'],
+#        ['xset', 'r', 'rate', '300', '40'],
+#        ['setxkbmap', '-layout', 'us'],
+#        ['nm-applet'],
+#        ['mpd'],
+#    ]
+#    for p in processes:
+#        subprocess.Popen(p)
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
