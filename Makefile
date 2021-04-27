@@ -11,7 +11,7 @@ BINSH = dash
 LOGINSH = zsh
 PACKAGES = packages.txt
 
-pacmanconf: ## Enable the multilib and lib32 repositories, as well as pacman colours - NOTE: only run this if you are on Artix
+pacmanconf: ## Enable the multilib and lib32 repositories, as well as pacman colours (Artix only)
 	sed -i '33s/#//g' /etc/pacman.conf # enable colour
 	sed -i '92s/#//g' /etc/pacman.conf # enable lib32
 	sed -i '93s/#//g' /etc/pacman.conf # enable lib32
@@ -22,7 +22,7 @@ pacmanconf: ## Enable the multilib and lib32 repositories, as well as pacman col
 initparu: ## Install Paru AUR helper - DO NOT run this with sudo
 	$(PKGINSTALL) base-devel
 	git clone https://aur.archlinux.org/paru.git initparu
-	sh -c "cd 'initparu' && makepkg -si"
+	sh -c "cd 'initparu' && makepkg -si --noconfirm"
 
 pkginstall: ## Install packages from official repos and the AUR - DO NOT run this with sudo
 	$(UPD)
@@ -62,6 +62,7 @@ shell: ## Change default shell (/bin/sh symlink) and login shell (interactive sh
 pkgbackup: ## Backup list of packages
 	$(MKDIR) $(PWD)/$(PACKAGES)
 	pacman -Qqe > $(PWD)/$(PACKAGES)
+	sed -i 's/paru-bin//g'
 
 refresh: ## Ensure that packages and the pkgfile are up-to-date
 	$(UPD) || sudo pacman -Syu --noconfirm

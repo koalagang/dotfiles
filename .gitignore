@@ -1,5 +1,7 @@
 qtile/__pycache__
 qutebrowser/bookmarks
+qutebrowser/dracula
+bpytop/error.log
 newsboat/cache
 newsboat/urls
 newsboat/cache.db
@@ -12,4 +14,3 @@ nvim/plugged
 mpv/watch_later
 zsh/.zcompdump
 vifm/vifminfo.json
-qutebrowser/dracula
