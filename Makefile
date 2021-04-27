@@ -26,7 +26,7 @@ initparu: ## Install Paru AUR helper - DO NOT run this with sudo
 
 pkginstall: ## Install packages from official repos and the AUR - DO NOT run this with sudo
 	$(UPD)
-	$(PKGINSTAL) < $(PWD)/$(PACKAGES) # the paru AUR helper can also be used to install from the offical repos
+	$(PKGINSTALL) $(cat $(PWD)/$(PACKAGES)) # the paru AUR helper can also be used to install from the offical repos
 
 suckless: ## Install my suckless builds
 	git clone https://github.com/koalagang/suckless-koala.git
