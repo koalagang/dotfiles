@@ -59,7 +59,7 @@ alias fgrep='fgrep --colour=auto'
 
 #---Suffixes
 # 'Devour' is used for terminal swallowing
-alias -s {txt,md,py,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
+alias -s {txt,md,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
 alias -s {png,jpg,jpeg,bpm,gif,xpm}='devour sxiv'
 alias -s {xcf}='devour gimp'
 alias -s {pdf,ps,eps,ps.gz}='devour zathura'
@@ -86,8 +86,7 @@ alias uc='ucollage'                                      # Preview a specific im
 alias cc='calcurse'
 alias md='mkdir'
 alias tch='touch'
-alias tux='tuxi'
 alias ...='cd ../..'
 alias scim='sc-im'
-alias nc='ncmpcpp'
+alias nc='ncspot'
 alias bp='bpytop'
