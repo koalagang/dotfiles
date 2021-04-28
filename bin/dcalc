@@ -1,0 +1,4 @@
+#!/bin/sh
+calc='quich' # your chosen commandline calculator
+equation=$(echo "" | dmenu -p "Enter equation" | xargs -I % $calc %)
+notify-send "Result" "$equation"

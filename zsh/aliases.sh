@@ -8,7 +8,6 @@ alias pr='doas pacman -R'                                                       
 alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                                                         # A superior ls
 alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'                                     # Simple colour picker
 alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'                    # Search the Arch Wiki locally (arch-wiki-docs)
-alias fz='fd . --max-depth 3 | fzf | xargs -r $EDITOR ;'                                                                # Fuzzy find three directories down and open the selected file in $EDITOR
 alias rss='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'    # Newsboat violates the XDG directory specifications by default
 alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'                                                                           # Same thing as above
 alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                                           # Encrypt a file symmetrically with AES256
@@ -17,8 +16,8 @@ alias glw='glow -p -w 200'                                                      
 alias l.='exa -a | egrep "^\."'                                                                                         # List dotfiles in current directory
 alias df='df -h'                                                                                                        # Use df in a more readable format
 alias free='free -m'                                                                                                    # List free storage space in MB
-alias fd='fd -uu -i -a'                                                                                                 # Find Rust rewrite
-alias fdr='fd -uu -i -a --base-directory /'                                                                             # Search engine system with fd
+alias fd='fd -uu -i -a'                                                                                                 # A find Rust rewrite
+alias fda='fd -uu -i -a --base-directory /'                                                                             # Search entire system with fd
 alias yt='ytfzf -t'                                                                                                     # Search YouTube (the `-t` flag allows for Ueberzug thumbnail previewing)
 alias inv='pipe-viewer --invidious'                                                                                     # Search Invidious
 #alias mv='mv -i'                                                                                                       # Check to confirm before running command if it replaces already any existing file
@@ -58,7 +57,7 @@ alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
 #---Suffixes
-# 'Devour' is used for terminal swallowing
+# 'Devour' is used for window swallowing
 alias -s {txt,md,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
 alias -s {png,jpg,jpeg,bpm,gif,xpm}='devour sxiv'
 alias -s {xcf}='devour gimp'
@@ -74,7 +73,6 @@ alias za='devour zathura'
 
 #---Misc
 alias cat='bat'                                          # TWO LEGS GOOD FOUR LEGS BAD
-alias plocate='locate'                                   # A faster alternative to mlocate
 alias calc='quich'                                       # CLI calculator written in C
 alias notes='$EDITOR $HOME/Documents/vimwiki/index.wiki' # Open Vim wiki index
 alias vi='nvim'

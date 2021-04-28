@@ -51,15 +51,21 @@ vifmcd () {
 }
 bindkey -s '^o' 'vifmcd\n'
 
-# Copying files to clipboard (using xclip)
+# Copy files to clipboard (using xclip)
 xcp () {
     case $1 in
-        *.png)  xclip -selection clipboard -target image/png $1 ;;
-        *.jpg)  xclip -selection clipboard -target image/jpg $1 ;;
         *.jpeg) xclip -selection clipboard -target image/jpeg $1 ;;
+        *.jpg)  xclip -selection clipboard -target image/jpg $1 ;;
+        *.png)  xclip -selection clipboard -target image/png $1 ;;
         *.bpm)  xclip -selection clipboard -target image/bpm $1 ;;
         *.xpm)  xclip -selection clipboard -target image/xpm $1 ;;
         *.gif)  xclip -selection clipboard -target image/gif $1 ;;
         *)      xclip -selection clipboard $1 ;;
     esac
+}
+
+# Fuzzy find and then open the result
+fz () {
+    FIND=$(fd . --max-depth 3 | fzf)
+    xdg-open ${FIND}
 }

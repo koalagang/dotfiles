@@ -1,7 +1,3 @@
-if [[ "$(tty)" = "/dev/tty1" ]]; then
-	pgrep qtile || startx "$HOME/.config/x11/xinitrc"
-fi
-
 export ZDOTDIR="$HOME/.config/zsh"
 export PATH="$PATH:$HOME/.local/bin"
 export EDITOR="nvim"
