@@ -69,3 +69,9 @@ fz () {
     FIND=$(fd . --max-depth 3 | fzf)
     xdg-open ${FIND}
 }
+
+# View sxhkd bindings \
+# due to the apostrophes ('') and inverted commas ("") this had to be made a function
+hkd () {
+    cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | fzf
+}

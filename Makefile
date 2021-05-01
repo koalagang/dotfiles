@@ -38,16 +38,15 @@ suckless: ## Install my suckless builds
 dotfiles: ## Deploy dotfiles
 	$(MKDIR) $(HOME)/.config
 	mv -r $(PWD)/.config $(HOME)
-	mv $(PWD)/.zprofile $(HOME)
+	mv $(PWD)/.zshenv $(HOME)
 	mv $(PWD)/.bashrc $(HOME)
 	sudo cp $(HOME)/.config/hosts /etc/
 	sudo touch /etc/doas.conf && sudo echo "permit $(USER) as root" > /etc/doas.conf
 	rm $(HOME)/.bash_logout && rm $(HOME)/.bash_history # Cleaning my home directory of unnecessary files (I don't use bash interactively)
-	$(MKDIR) $(HOME)/.local/share/virtualbox			# Directory for storing my virtual machines
 	$(PKGINSTALL) xdg-user-dirs && xdg-user-dirs-update
 
 scripts: ## Deploy scripts
-	mv -r $(PWD)/.local/bin $(HOME)/.local
+	mv -r $(PWD)/.local $(HOME)
 
 shell: ## Change default shell (/bin/sh symlink) and login shell (interactive shell)
 	sudo $(PKGINSTALL) $(LOGINSH)

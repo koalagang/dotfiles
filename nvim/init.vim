@@ -36,6 +36,8 @@ nno <m-k> dd2kp
 nno <m-j> ddp
 nno J L
 nno K H
+nno L $
+nno H ^
 nno <return> M
 vn J L
 vn K H
