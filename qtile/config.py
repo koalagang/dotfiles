@@ -1,13 +1,15 @@
 from typing import List  # noqa: F401
 
 import subprocess
-from libqtile import bar, layout, widget, hook
+from libqtile import bar, layout, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Screen, Match
 from libqtile.lazy import lazy
-#from libqtile.utils import guess_terminal
+from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = "alacritty"
+terminal = guess_terminal()
+
+#---Qtile specific bindings (see my sxhkdrc for wm-agnostic bindings)
 
 keys = [
     # Switch between windows in current stack pane
@@ -40,51 +42,40 @@ keys = [
     # Toggle between different layouts
     Key([mod], "q", lazy.next_layout(), desc="Toggle previous layouts"),
     Key([mod], "Tab", lazy.prev_layout(), desc="Toggle next layouts"),
-    Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
 
+    # Restart or shutdown qtile
     Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
-    Key([mod], "r", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
 
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
-    Key([mod], "Return", lazy.spawn(terminal)),
-
-    Key([mod, "control"], "j", lazy.spawn("xdotool mousemove 1910 500")),
-    Key([mod, "control"], "k", lazy.spawn("xdotool mousemove 1925 500")),
-    Key([mod, "control"], "h", lazy.screen.prev_group()),
+    # Move between workspaces
     Key([mod, "control"], "l", lazy.screen.next_group()),
+    Key([mod, "control"], "h", lazy.screen.prev_group()),
+
+    # Enter fullscreen mode
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
+
+    # Move focus between monitors
+    Key([mod, "control"], "j", lazy.to_screen(0)),
+    Key([mod, "control"], "k", lazy.to_screen(1)),
 ]
 
-def init_group_names():
-    return[ ("(1) MISC1",{'layout': 'bsp'}),
-            ("(2) MISC2",{'layout': 'monadwide'}),
-            ("(3) WEB",{'layout': 'monadtall'}),
-            ("(4) MUSIC",{'layout': 'monadtall'}),
-            ("(5) CHAT",{'layout': 'ratiotile'}),
-            ("(6) GAME",{'layout': 'floating'}),
-            ("(7) WATCH",{'layout': 'verticaltile'}),
-            ("(8) SCHL1",{'layout': 'monadtall'}),
-            ("(9) SCHL2",{'layout': 'monadtall'})]
+#---Groups/workspaces
 
-def init_groups():
-    return [Group(name, **kwargs) for name, kwargs in group_names]
+group_names = [("MISC",{'layout': 'monadtall'}),
+            ("WEB",{'layout': 'monadtall'}),
+            ("WATCH",{'layout': 'monadtall'}),
+            ("MUSIC",{'layout': 'monadtall'}),
+            ("GAME",{'layout': 'floating'}),
+            ("CHAT",{'layout': 'monadtall'}),
+            ("DEV",{'layout': 'monadwide'}),
+            ("STUDY",{'layout': 'monadtall'})]
 
-if __name__ in ["config", "__main__"]:
-    group_names = init_group_names()
-    groups = init_groups()
+groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
+# Uses numbers 1 to 9 for workspaces
 for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group
-
-colours = [["#3B4252", "#3B4252"],# panel background
-          ["#4B4252", "#4B4252"], # background for current screen tab
-          ["#E5E9F0", "#E5E9F0"], # font color for group names
-          ["#BF616A", "#BF616A"], # border line color for current tab
-          ["#A7B3C9", "#A7B3C9"], # border line color for other tab and odd widgets
-          ["#B48EAD", "#B48EAD"], # color for the even widgets
-          ["#EB49CF", "#EB49CF"]] # window name
 
 layout_theme = {"border_width": 2,
                 "margin": 4,
@@ -93,373 +84,210 @@ layout_theme = {"border_width": 2,
                 }
 
 layouts = [
-    #layout.Max(**layout_theme),
-    layout.Bsp(**layout_theme),
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
-    layout.VerticalTile(**layout_theme),
     layout.Floating(**layout_theme),
 ]
 
+#---Widgets and the panel
+
+colours = [["#3B4252", "#3B4252"], # panel background
+          ["#E5E9F0", "#E5E9F0"],  # font colour for group names
+          ["#A7B3C9", "#A7B3C9"],  # colour for even widgets
+          ["#B48EAD", "#B48EAD"]]  # colour for odd widgets
+
 widget_defaults = dict(
-    font='sans',
+    font='Ubuntu Bold',
     fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
+def init_widgets_list():
+    widgets_list = [
                 widget.GroupBox(
-                font = "Ubuntu Bold",
                 fontsize = 12,
                 padding_y = 5,
                 padding_x = 5,
-                active = colours[2],
-                inactive = colours [2],
+                active = colours[1],
+                inactive = colours [1],
                 highlight_method = "block",
-                this_current_screen_border = colours[5],
-                this_screen_border = colours[4],
-                foreground = colours[2],
+                this_current_screen_border = colours[3],
+                this_screen_border = colours[2],
+                foreground = colours[1],
                 background = colours[0],
-                    ),
-                widget.Prompt(
-                font = "Ubuntu",
-                fontsize = 12,
-                foreground = colours[2],
-                background = colours[5]
                     ),
                 widget.WindowName(
                 font = "Ubuntu",
                 fontsize = 12,
-                foreground = colours[5],
+                foreground = colours[3],
                 background = colours[0],
                     ),
                 widget.KeyboardLayout(
                 font = "Ubuntu",
                 fontsize = 12,
-                foreground = colours[2],
+                foreground = colours[1],
                 background = colours[0],
-                configured_keyboards = ['us','uk'],
                     ),
                 widget.TextBox(
                 text=' ◀',
-                foreground = colours[5],
+                foreground = colours[3],
                 background = colours[0],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.CurrentLayoutIcon(
-                foreground = colours[0],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[3],
                 padding = 0,
                 scale = 0.7
                     ),
                 widget.CurrentLayout(
-                font = "Ubuntu Bold",
                 fontsize = 12,
                 padding_y = 5,
                 padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[3],
                 padding = 10,
                     ),
                 widget.TextBox(
                 text='◀',
-                foreground = colours[4],
-                background = colours[5],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.CheckUpdates(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
                 foreground = colours[2],
-                background = colours[4],
-                padding = 10,
-                colour_have_updates = colours[3],
-                colour_no_updates = colours[2],
-                display_format = '{updates} packages are out-of-date',
-                no_update_string = 'Your system is update-to-date!',
-                execute = 'alacritty -e paru -Syu --noconfirm',
-                distro = "Arch_checkupdates",
-                update_interval = 300,
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[5],
-                background = colours[4],
+                background = colours[3],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.TextBox(
-                text =  " 🌡",
+                text =  " ",
                 padding = 2,
-                foreground = colours[2],
-                background = colours[5],
-                fontsize = 11
+                foreground = colours[1],
+                background = colours[2],
+                fontsize = 25
                     ),
                 widget.ThermalSensor(
-                font = "Ubuntu Bold",
                 fontsize = 12,
                 padding_y = 5,
                 padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[2],
                     ),
                 widget.TextBox(
                 text='◀',
-                foreground = colours[4],
-                background = colours[5],
+                foreground = colours[3],
+                background = colours[2],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.CPU(
-                 font = "Ubuntu Bold",
                 fontsize = 12,
                 padding_y = 5,
                 padding_x = 5,
-                foreground = colours[2],
-                background = colours[4],
+                foreground = colours[1],
+                background = colours[3],
                     ),
                 widget.TextBox(
                 text='◀',
-                foreground = colours[5],
-                background = colours[4],
+                foreground = colours[2],
+                background = colours[3],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.Memory(
-                font = "Ubuntu Bold",
                 fontsize = 12,
                 padding_y = 5,
                 padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[2],
                     ),
                 widget.TextBox(
                 text='◀',
-                foreground = colours[4],
-                background = colours[5],
+                foreground = colours[3],
+                background = colours[2],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.TextBox(
                 text = "Vol:",
-                font = "Ubuntu Bold",
-                foreground = colours[2],
-                background = colours[4],
-                    ),
-                widget.Volume(
-                font = "Ubuntu Bold",
-                foreground = colours[2],
-                background = colours[4],
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[5],
-                background = colours[4],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.TextBox(
-                text=' ◀',
-                foreground = colours[4],
-                background = colours[5],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.Clock(
-                format='%A %b %d %H:%M',
-                font = "Ubuntu Bold",
-                fontsize = 13,
-                foreground = colours[2],
-                background = colours[4],
-                    ),
-            ], 24),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                active = colours[2],
-                inactive = colours [2],
-                highlight_method = "block",
-                this_current_screen_border = colours[5],
-                this_screen_border = colours[4],
-                foreground = colours[2],
-                background = colours[0],
-                    ),
-                widget.Prompt(
-                font = "Ubuntu",
-                fontsize = 12,
-                foreground = colours[2],
-                background = colours[5]
-                    ),
-                widget.WindowName(
-                font = "Ubuntu",
-                fontsize = 12,
-                foreground = colours[5],
-                background = colours[0],
-                    ),
-                widget.KeyboardLayout(
-                font = "Ubuntu",
-                fontsize = 12,
-                foreground = colours[2],
-                background = colours[0],
-                configured_keyboards = ['us','uk'],
-                    ),
-                widget.TextBox(
-                text=' ◀',
-                foreground = colours[5],
-                background = colours[0],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.CurrentLayoutIcon(
-                foreground = colours[0],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[3],
                 padding = 0,
-                scale = 0.7
-                    ),
-                widget.CurrentLayout(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
-                padding = 10,
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[4],
-                background = colours[5],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.CheckUpdates(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[4],
-                padding = 10,
-                colour_have_updates = colours[3],
-                colour_no_updates = colours[2],
-                display_format = '{updates} packages are out-of-date',
-                no_update_string = 'Your system is update-to-date!',
-                execute = 'alacritty -e paru -Syu --noconfirm',
-                update_interval = 300,
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[5],
-                background = colours[4],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.TextBox(
-                text =  " 🌡",
-                padding = 2,
-                foreground = colours[2],
-                background = colours[5],
-                fontsize = 11
-                    ),
-                widget.ThermalSensor(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[4],
-                background = colours[5],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.CPU(
-                 font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[4],
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[5],
-                background = colours[4],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.Memory(
-                font = "Ubuntu Bold",
-                fontsize = 12,
-                padding_y = 5,
-                padding_x = 5,
-                foreground = colours[2],
-                background = colours[5],
-                    ),
-                widget.TextBox(
-                text='◀',
-                foreground = colours[4],
-                background = colours[5],
-                padding = -4,
-                fontsize = 32,
-                    ),
-                widget.TextBox(
-                text = "Vol:",
-                font = "Ubuntu Bold",
-                foreground = colours[2],
-                background = colours[4],
                     ),
                 widget.Volume(
-                font = "Ubuntu Bold",
-                foreground = colours[2],
-                background = colours[4],
+                foreground = colours[1],
+                background = colours[3],
+                padding = 5,
+                execute = terminal + ' -e bpytop',
                     ),
+
+
                 widget.TextBox(
                 text='◀',
-                foreground = colours[5],
-                background = colours[4],
+                foreground = colours[2],
+                background = colours[3],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.Systray(
-                font = "Ubuntu Bold",
-                foreground = colours[2],
-                background = colours[5],
+                foreground = colours[1],
+                background = colours[2],
                     ),
                 widget.TextBox(
+                text='◀',
+                foreground = colours[2],
+                background = colours[3],
+                padding = -4,
+                fontsize = 32,
+                    ),
+                widget.CheckUpdates(
+                fontsize = 12,
+                padding_y = 5,
+                padding_x = 5,
+                foreground = colours[1],
+                background = colours[2],
+                padding = 10,
+                display_format = '{updates} packages are out-of-date',
+                no_update_string = 'Your system is update-to-date!',
+                execute = terminal + ' -e paru -Syu --noconfirm',
+                distro = "Arch_checkupdates",
+                update_interval = 300,
+                    ),
+
+
+                widget.TextBox(
                 text=' ◀',
-                foreground = colours[4],
-                background = colours[5],
+                foreground = colours[3],
+                background = colours[2],
                 padding = -4,
                 fontsize = 32,
                     ),
                 widget.Clock(
                 format='%A %b %d %H:%M',
-                font = "Ubuntu Bold",
                 fontsize = 13,
-                foreground = colours[2],
-                background = colours[4],
-                    )
-            ], 24),
-    ),
-]
+                foreground = colours[1],
+                background = colours[3],
+                    ),
+                ]
+    return widgets_list
+
+def init_widgets_screen1():
+    widgets_screen1 = init_widgets_list()
+    del widgets_screen1[16:18]
+    return widgets_screen1
+
+def init_widgets_screen2():
+    widgets_screen2 = init_widgets_list()
+    del widgets_screen2[18:20]
+    return widgets_screen2
+
+def init_screens():
+    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), opacity=1.0, size=20)),
+            Screen(top=bar.Bar(widgets=init_widgets_screen2(), opacity=1.0, size=20))]
+
+if __name__ in ["config", "__main__"]:
+    widgets_list = init_widgets_list()
+    screens = init_screens()
+    widgets_screen1 = init_widgets_screen1()
+    widgets_screen2 = init_widgets_screen2()
 
 # Drag floating layouts.
 mouse = [
@@ -494,39 +322,11 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
     {'wmclass': 'gimp'},
     {'wmclass': 'virtualbox'},
-    {'wmclass': 'bleachbit'},
-    {'wmclass': 'megasync'},
     {'wmclass': 'dragon-drag-and-drop'},
+    {'wmclass': 'lutris'},
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 
-#@hook.subscribe.startup_once
-#def autostart():
-#    processes = [
-#        ['lxsession'],
-#        ['picom', '--experimental-backend'],
-#        ['xrandr', '--output', 'HDMI-0', '--mode', '1920x1080', '--output', 'HDMI-1-1', '--mode', '1920x1080', '--right-of', 'HDMI-0'],
-#        ['nitrogen', '--restore'],
-#        ['redshift', '-O', '2500K'],
-#        ['nvidia-settings', '--assign', 'CurrentMetaMode="nvidia-auto-select', '+0+0', '{', 'ForceFullCompositionPipeline', '=', 'On', '}"'],
-#        ['sxhkd'],
-#        ['dunst'],
-#        ['unclutter', '--timeout', '1'],
-#        ['xset', 'r', 'rate', '300', '40'],
-#        ['setxkbmap', '-layout', 'us'],
-#        ['nm-applet'],
-#        ['mpd'],
-#    ]
-#    for p in processes:
-#        subprocess.Popen(p)
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
+# Makes java apps work properly
 wmname = "LG3D"

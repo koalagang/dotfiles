@@ -1,60 +1,41 @@
 #------KOALA'S KEYBINDINGS
 
-#---System
+# Power options
+ctrl + alt + {x,r,s}
+	loginctl {poweroff, reboot, suspend}
 
-# Shutdown
-ctrl + alt + x
-	loginctl poweroff
-
-# Reboot
-ctrl + alt + r
-	loginctl reboot
-
-# Suspend
-ctrl + alt + s
-	loginctl suspend
-
-# Lock
+# Lockscreen
 ctrl + alt + l
     slock
 
-#---Applications
+# Dmenu
+mod4 + d ; {r,c,u,k,l,s,m}
+    {dmenu_run,dcalc,dmenuunicode,dmkill,dmlogout,dmsearch,maimpick}
 
-# Launching main applications
-mod4 + alt + {k,s,l,m,v,f,g,p,a,d,n,c,q,x}
-	{keepassxc, signal-desktop, lutris, multimc, steam, spacefm, gimp, lollypop, anki, ~/Desktop/.discord/discord, ~/Desktop/.netflix/netflix, ~/Desktop/.crunchyroll/crunchyroll, qutebrowser, sh /home/admin/.config/xmenu/xmenu.sh}
+# Terminal
+mod4 + Return
+    $TERMINAL
 
+# Applications
+mod4 + alt + {k,s,l,m,v,f,g,p,a,d,w,b}
+	{keepassxc,signal-desktop,lutris,multimc,steam,spacefm,gimp,lollypop,anki,discord,$BROWSER,brave}
 
-#---Screenshots
-
-# Screenshot selected window or area with a 2 second delay and copy to clipboard
-mod4 + alt + {u}
-	maim -s -d 2 | xclip -selection clipboard -t image/png
-
-# Screenshot selected window or area with a 2 second delay and save to ~/Pictures
-ctrl + alt + {u}
-	maim ~/Pictures/(date).png -u
-
-# Screenshot currently active window and save to ~/Pictures
-Print
-	maim -i (xdotool getactivewindow) ~/Pictures/(date).png -u
-
-#---Media Controls
+# Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
-    playerctl {next, previous, play-pause}
+    playerctl {next,previous,play-pause}
+
+# Volume controls
 {XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
-    amixer set Master {toggle -q, 5%-, 5%+}
+    amixer -D pulse sset Master {toggle -q,5%-,5%+}
 
-#---Misc
-
-# Kill window
-control + alt + k
-    notify-send (xdotool getactivewindow getwindowname) "has been killed." && xdo kill
+# Close window
+mod4 + c
+    xdo close
 
 # Restart sxhkd
-mod4 + control + {c}
-	notify-send "Refreshed sxhkd configs." && kill sxhkd && sxhkd &
+mod4 + b
+	notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
 
-# Keyboard layout
-mod4 + {u,n,g,d}
-    setxkbmap -layout {us, no, gb, de}
+# Keyboard layouts
+mod4 + {u,n,g}
+    setxkbmap -layout {us,no,gb}
