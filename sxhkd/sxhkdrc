@@ -28,9 +28,9 @@ mod4 + alt + {k,s,l,m,v,f,g,p,a,d,w,b}
 {XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
     amixer -D pulse sset Master {toggle -q,5%-,5%+}
 
-# Close window
-mod4 + c
-    xdo close
+# Close window (ps. 'p' is used because 'k' is already taken)
+mod4 + ctrl + {c,p}
+    xdo {close,kill && notify-send '$(xdotool getactivewindow getwindowname)' 'has been killed.'}
 
 # Restart sxhkd
 mod4 + b

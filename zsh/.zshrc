@@ -24,8 +24,6 @@ export _ZL_DATA="$HOME/.cache/zsh/.zlua" # where to store z.lua memory
 HISTFILE=~/.cache/zsh/history
 HISTSIZE=1000
 SAVEHIST=1000
-alias 'hist'='history 1 | less' # how fish handles viewing history
-alias 'histc'='history -p'
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY
@@ -33,6 +31,8 @@ bindkey -M vicmd 'N' history-incremental-search-backward
 bindkey -M vicmd 'n' history-incremental-search-forward
 bindkey -M vicmd "k" up-line-or-history
 bindkey -M vicmd "j" down-line-or-history
+alias hl='history 1 | less'
+alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -selection clipboard'
 
 # Tab completion
 autoload -U compinit && compinit -u

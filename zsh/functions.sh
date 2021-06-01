@@ -18,7 +18,7 @@ ex () {
             *.deb)       ar x $1      ;;
             *.tar.xz)    tar xf $1    ;;
             *.tar.zst)   unzstd $1    ;;
-            *)           echo "'$1' cannot be extracted with ex()" ;;
+            *)           echo "'$1' cannot be extracted with ex" ;;
         esac
     else
         echo "'$1' is not a valid file"
@@ -29,7 +29,7 @@ ex () {
 # usage: comp <file>.<extension>
 # for example, to compress the folder 'bar' into a tar.gz: `comp bar.tar.gz`
 # NOTE: if a folder has a dot in it (e.g. dmenu-5.0) then you must rename it to remove that before using this function
-comp () {
+comp () { # I PLAN TO IMPROVE THIS
     if [[ $1 == *'.'* ]]; then
         echo $1 | cut -f1 -d'.' | read COMPRESS
         tar -c --auto-compress -f $1 $COMPRESS
@@ -39,7 +39,8 @@ comp () {
     fi
 }
 
-# Use vifm to switch directories (vifm adaption of Luke Smith's lf function)
+# Use vifm to switch directories
+# I don't really use this as I prefer to use fzf and z.lua but it's nice to have it here
 vifmcd () {
     tmp="$(mktemp)"
     vifm --choose-dir="$tmp" "$@" --select $(pwd)
@@ -64,14 +65,13 @@ xcp () {
     esac
 }
 
-# Fuzzy find and then open the result
-fz () {
-    FIND=$(fd . --max-depth 3 | fzf)
-    xdg-open ${FIND}
+# View sxhkd bindings
+# due to the apostrophes ('') and inverted commas ("") this had to be made a function, even if it is a single-liner
+hk () {
+    cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | fzf
 }
 
-# View sxhkd bindings \
-# due to the apostrophes ('') and inverted commas ("") this had to be made a function
-hkd () {
-    cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | fzf
+# Query dict.org for a defintion
+dictd () {
+    curl dict://dict.org/d:$1 | less
 }

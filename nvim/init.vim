@@ -84,7 +84,7 @@ let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext'
 map <leader>v <Plug>VimwikiIndex
 
 " Mouse
-set mouse=nirv " If your terminal allows you to click links, you must enter command mode (:) to press them
+set mouse=nirv " If your terminal allows you to click links, you must enter command mode or shift-click to press them
 set mousehide
 set mousefocus
 behave mswin
@@ -103,8 +103,6 @@ nno <m-O> :resize -2<cr>
 nno <leader>sv :vs<cr>
 nno <leader>sh :sp<cr>
 nno <leader>sw <c-w><c-x>
-nno sv :vs<space>
-nno sh :sp<space>
 
 " Netrw
 let g:netrw_banner=0            " - disable annoying banner
@@ -142,6 +140,7 @@ ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
 ino < <><left>
+ino ` ``<left>
 " Prevent autosurround with left alt
 ino <m-"> "
 ino <m-'> '
@@ -149,6 +148,7 @@ ino <m-(> (
 ino <m-[> [
 ino <m-{> {
 ino <m-<> <
+ino <m-`> `
 " This section is here so that holding alt does not prevent your from entering
 " the desired character
 ino <m-)> )

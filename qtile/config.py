@@ -323,8 +323,17 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'gimp'},
     {'wmclass': 'virtualbox'},
     {'wmclass': 'dragon-drag-and-drop'},
+    # Gaming
+    {'wmclass': 'Steam'},
+    {'wmclass': 'Steam - Fatal Error'},
     {'wmclass': 'lutris'},
+    {'wmclass': 'System preferences'},
+    {'wmclass': 'Progress'},
+    {'wmclass': 'wineboot.exe'},
+    {'wmclass': 'control.exe'},
+    {'wmclass': 'unitycrashhandler64.exe'},
 ])
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 

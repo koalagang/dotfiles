@@ -36,14 +36,13 @@ suckless: ## Install my suckless builds
 	rm -r suckless-koala
 
 dotfiles: ## Deploy dotfiles
-	$(MKDIR) $(HOME)/.config
+	$(PKGINSTALL) xdg-user-dirs && xdg-user-dirs-update
 	mv -r $(PWD)/.config $(HOME)
 	mv $(PWD)/.zshenv $(HOME)
 	mv $(PWD)/.bashrc $(HOME)
 	sudo cp $(HOME)/.config/hosts /etc/
 	sudo touch /etc/doas.conf && sudo echo "permit $(USER) as root" > /etc/doas.conf
-	rm $(HOME)/.bash_logout && rm $(HOME)/.bash_history # Cleaning my home directory of unnecessary files (I don't use bash interactively)
-	$(PKGINSTALL) xdg-user-dirs && xdg-user-dirs-update
+	rm $(HOME)/.bash_logout $(HOME)/.bash_history $(HOME)/Templates $(HOME)/Public $(HOME)/Videos # Cleaning my home directory of unnecessary files)
 
 scripts: ## Deploy scripts
 	mv -r $(PWD)/.local $(HOME)
