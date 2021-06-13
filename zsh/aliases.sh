@@ -1,4 +1,7 @@
-# NOTE: fd (rust rewrite of find which is faster) is used instead of find
+# NOTES:
+# * aliases and functions are separate to the shell config file to make moving between them seamless
+# * fd (rust rewrite of find which is faster) is used instead of find
+# * shell specific commands (e.g. `history 1` for zsh or `history` for bash) are set in the respective config files
 
 #---Pacman and Paru
 alias upd='paru -Syu --noconfirm'                                               # Update all packages without confirmation
@@ -11,15 +14,15 @@ alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                 
 alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'                                     # Simple colour picker
 alias rss='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'    # Newsboat violates the XDG directory specifications by default
 alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'                                                                           # Same thing as above but with lynx
-alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                                           # Encrypt a file symmetrically with AES256
+alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                                           # Encrypt a file with AES256
 alias doas='doas --'                                                                                                    # Prevent doas flags
 alias l.='exa -a | egrep "^\."'                                                                                         # List dotfiles in current directory
 alias fda='fd -uu -i -a --base-directory /'                                                                             # Search entire system with fd
-alias hc="true > $HOME/.cache/$SHELL/history"
+alias record='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
 
 #---FZF
 alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'                    # Search the Arch Wiki locally (arch-wiki-docs)
-alias yt='ytfzf -t'                                                                                                     # Search YouTube (the `-t` flag allows for Ueberzug thumbnail previewing)
+alias yt='ytfzf -t -l -x --sort'                                                                                        # Search YouTube from the commandline and view in mpv
 alias fo='xdg-open "$(fd --type f | fzf )"'
 alias fo3='xdg-open "$(fd --type f --max-depth 3 | fzf)"'
 alias fcd='cd "$(fd --type d | fzf)"'
@@ -64,6 +67,8 @@ alias sxiv='devour sxiv'
 alias mpv='devour mpv'
 alias zathura='devour zathura'
 alias za='devour zathura'
+alias qutebrowser='devour qutebrowser'
+alias qtb='devour qutebrowser'
 
 #---Suffixes
 alias -s {txt,md,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
@@ -74,7 +79,6 @@ alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,
 alias -s {html}='lynx'
 
 #---Misc
-alias calc='quich'                                       # CLI calculator written in C
 alias ddg='sr duckduckgo'                                # Search DuckDuckGo with $TRUEBROWSER
 alias wp='sr wikipedia'                                  # Search Wikipedia with $TRUEBROWSER
 alias ucp='ucollage $HOME/Pictures'                      # Preview all images in Pictures directory with Ucollage

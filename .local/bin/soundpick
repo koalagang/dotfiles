@@ -3,36 +3,24 @@
 # AUTHOR: Dante (@koalagang) https://github.com/koalagang
 # Dependencies: dmenu or rofi, ffmpeg
 # Use dmenu or rofi to select a chosen audio file and run it in the background (on loop)
-# WARNING: do not play multiple sound files at once
-# - you will have to manually kill ffmpeg with `killall ffplay` to stop both
 
-# Store your sound files in $sounds_dir
 sounds_dir="$HOME/.local/share/soundpick"
-temp_file="/tmp/soundpick-pid"
-mkdir -p "$sounds_dir"
+mkdir "$sounds_dir" && notify-send "soundpick" "$sounds_dir was just created. Place your sound files in there." -t 5000
 
 # Use rofi if rofi is installed and dmenu if dmenu is installed
 # If both are installed then dmenu is used
-command -v "rofi" && menu="rofi -dmenu"
-command -v "dmenu" && menu="dmenu"
+menu="rofi -dmenu" >/dev/null && command -v dmenu >/dev/null && menu="dmenu"
 
 choice=$(printf "Choose a sound to play\nPlay a random sound\nStop sound" | $menu)
 
 if [ "$choice" = "Choose a sound to play" ]; then
-    SOUND=$(ls "$sounds_dir" | $menu -l 20) || notify-send "soundpick" "You didn't pick an option!" && exit 0
+    SOUND=$(ls "$sounds_dir" | $menu -l 20) && killall ffplay
     ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" &
-    # store the PID so that we can stop the sound later
-    touch "$temp_file"
-    echo "$!" > "$temp_file"
 elif [ "$choice" = "Play a random sound" ]; then
-    SOUND=$(ls "$sounds_dir" | shuf -n1)
+    SOUND=$(ls "$sounds_dir" | shuf -n1) && killall ffplay
     ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" &
-    # store the PID so that we can stop the sound later
-    touch "$temp_file"
-    echo "$!" > "$temp_file"
 elif [ "$choice"  = "Stop sound" ]; then
-    # Kill the instance of ffmpeg playing the sound
-    PID=$(cat "$temp_file")  || notify-send "soundpick" "No sound is currently playing." && exit 0
-    kill $PID
-    rm "$temp_file"
+    killall ffplay || notify-send "soundpick" "soundpick is not currently running!"
+else
+    notify-send "soundpick" "You didn't pick an option!"
 fi

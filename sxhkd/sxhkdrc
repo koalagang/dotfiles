@@ -1,24 +1,24 @@
-#------KOALA'S KEYBINDINGS
+#---KOALA'S KEYBINDINGS
+
+# Launch terminal
+mod4 + Return
+    $TERMINAL
 
 # Power options
 ctrl + alt + {x,r,s}
 	loginctl {poweroff, reboot, suspend}
 
-# Lockscreen
+# Lockscreen (slock)
 ctrl + alt + l
     slock
 
 # Dmenu
-mod4 + d ; {r,c,u,k,l,s,m}
-    {dmenu_run,dcalc,dmenuunicode,dmkill,dmlogout,dmsearch,maimpick}
+mod4 + d ; {r,c,u,k,l,s,m,p}
+    {dmenu_run,pycalcmenu,dmenuunicode,dmkill,dmlogout,dmsearch,magickshot,soundpick}
 
-# Terminal
-mod4 + Return
-    $TERMINAL
-
-# Applications
-mod4 + alt + {k,s,l,m,v,f,g,p,a,d,w,b}
-	{keepassxc,signal-desktop,lutris,multimc,steam,spacefm,gimp,lollypop,anki,discord,$BROWSER,brave}
+# Launch applications
+mod4 + alt + {k,s,l,m,g,d,w,b}
+	{keepassxc,signal-desktop,lutris,/opt/multimc/run.sh,steam,discord,$BROWSER,brave}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -28,14 +28,14 @@ mod4 + alt + {k,s,l,m,v,f,g,p,a,d,w,b}
 {XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
     amixer -D pulse sset Master {toggle -q,5%-,5%+}
 
-# Close window (ps. 'p' is used because 'k' is already taken)
+# Close window ('c' for close, 'p' for kill)
 mod4 + ctrl + {c,p}
-    xdo {close,kill && notify-send '$(xdotool getactivewindow getwindowname)' 'has been killed.'}
+    xdo {close,kill}
 
-# Restart sxhkd
-mod4 + b
+# Refresh sxhkd bindings
+mod4 + ctrl + b
 	notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
 
 # Keyboard layouts
 mod4 + {u,n,g}
-    setxkbmap -layout {us,no,gb}
+    setxkbmap -layout {us,no,gb} && xmodmap -e 'keycode 62 = Escape'

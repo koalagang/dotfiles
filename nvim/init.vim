@@ -6,7 +6,7 @@
 "     |  _| :  |
 "     | :__,___/    "Plugins are great but can often be overkill. I aim to use as few plugins as possible without losing out on valuable features."
 "     |   |
-"     |   |         "Inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM"
+"     |   |         "Vim inspiration: https://www.youtube.com/watch?v=XA2WjJbmmoM and https://www.youtube.com/watch?v=3TX3kV3TICU"
 "     |   |
 "     |   |
 "---Basics
@@ -27,17 +27,11 @@ vn > >gv
 nno n nzzzv
 nno N Nzzzv
 nno r <c-r>
-" Vim wiki syntax is used instead of markdown by default
-no md :set ft=markdown<cr>
 
 " Line navigation and manipulation
 no <c-a> ggv^G$
 nno <m-k> dd2kp
 nno <m-j> ddp
-nno J L
-nno K H
-nno L $
-nno H ^
 nno <return> M
 vn J L
 vn K H
@@ -157,19 +151,20 @@ ino <m-}> }
 ino <m->> >
 
 "---Yanking and pasting
+nno <silent> cr :let regs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"' \| let i=0 \| while (i<strlen(regs)) \| exec 'let @'.regs[i].'=""' \| let i=i+1 \| endwhile \| unlet regs<cr>
 " Register A
-vn y "ay
-vn d "ad
-no p "ap
+vno y "ay
+vno d "ad
+nno p "ap
 nno yy "ayy
 nno dd "add
 " Register B
-vn Y "by
-vn D "bd
-no P "bp
+vno Y "by
+vno D "bd
+nno P "bp
 nno YY "byy
 nno DD "bdd
-" System register
+" System register (register +)
 " NOTE: to interact with the system register, you must have 'xclip' installed
 " NOTE: use ctrl-q to enter visual block mode (instead of ctrl-v)
 vn <c-c> "+y
@@ -178,11 +173,6 @@ no <c-v> "+p
 nno <c-c> "+yy
 nno <c-x> "+dd
 ino <c-v> <esc> "+p <up> A
-
-" Remove a line or word without copying to register
-" NOTE: use capital x (X) to remove single characters
-nno xx Vx
-nno cix ciw<backspace><esc>
 
 "---Plugins
 call plug#begin()
@@ -307,7 +297,7 @@ map <c-s> :!shellcheck %<cr>
 map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
 map <leader>sc :w! \| :!shellcheck %<cr>
-map ./ :w! \| !./%<cr>
+map % :w! \| !./%<cr>
 nno <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
 

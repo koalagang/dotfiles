@@ -13,24 +13,16 @@ terminal = guess_terminal()
 
 keys = [
     # Switch between windows in current stack pane
-    Key([mod], "j", lazy.layout.down(),
-        desc="Move focus down in stack pane"),
-    Key([mod], "k", lazy.layout.up(),
-        desc="Move focus up in stack pane"),
-    Key([mod], "h", lazy.layout.left(),
-        desc="Move focus left in stack pane"),
-    Key([mod], "l", lazy.layout.right(),
-        desc="Move focus right in stack pane"),
+    Key([mod], "j", lazy.layout.down()),
+    Key([mod], "k", lazy.layout.up()),
+    Key([mod], "h", lazy.layout.left()),
+    Key([mod], "l", lazy.layout.right()),
 
     # Move windows up or down in current stack
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
-        desc="Move window down in current stack "),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(),
-        desc="Move window up in current stack "),
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
-        desc="Move window left in current stack "),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
-        desc="Move window right in current stack "),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down()),
+    Key([mod, "shift"], "k", lazy.layout.shuffle_up()),
+    Key([mod, "shift"], "h", lazy.layout.shuffle_left()),
+    Key([mod, "shift"], "l", lazy.layout.shuffle_right()),
 
     # Manipulate windows
     Key([mod, "control"], "i", lazy.layout.grow()),
@@ -40,12 +32,12 @@ keys = [
     Key([mod, "shift"], "space", lazy.layout.flip()),
 
     # Toggle between different layouts
-    Key([mod], "q", lazy.next_layout(), desc="Toggle previous layouts"),
-    Key([mod], "Tab", lazy.prev_layout(), desc="Toggle next layouts"),
+    Key([mod], "q", lazy.next_layout()),
+    Key([mod], "Tab", lazy.prev_layout()),
 
     # Restart or shutdown qtile
-    Key([mod, "control"], "r", lazy.restart(), desc="Restart qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown qtile"),
+    Key([mod, "control"], "r", lazy.restart()),
+    Key([mod, "control"], "q", lazy.shutdown()),
 
     # Move between workspaces
     Key([mod, "control"], "l", lazy.screen.next_group()),
@@ -320,10 +312,12 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'branchdialog'},  # gitk
     {'wname': 'pinentry'},  # GPG key password entry
     {'wmclass': 'ssh-askpass'},  # ssh-askpass
-    {'wmclass': 'gimp'},
     {'wmclass': 'virtualbox'},
     {'wmclass': 'dragon-drag-and-drop'},
+    {'wmclass': 'gimp'},
+    {'wmclass': 'display'}, # ImageMagick GUI
     # Gaming
+    {'wmclass': 'zenity'},
     {'wmclass': 'Steam'},
     {'wmclass': 'Steam - Fatal Error'},
     {'wmclass': 'lutris'},

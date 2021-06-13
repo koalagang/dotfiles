@@ -5,7 +5,7 @@ ex () {
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)   tar xjf $1   ;;
-            *.tar.gz)    tar xzf $1   ;;
+            *.tar.gz)    tar xf $1   ;;
             *.bz2)       bunzip2 $1   ;;
             *.rar)       unrar x $1   ;;
             *.gz)        gunzip $1    ;;
@@ -25,6 +25,7 @@ ex () {
     fi
 }
 
+# I PLAN TO REWRITE THE BELOW FUNCTION
 # File/folder compression
 # usage: comp <file>.<extension>
 # for example, to compress the folder 'bar' into a tar.gz: `comp bar.tar.gz`
@@ -66,12 +67,15 @@ xcp () {
 }
 
 # View sxhkd bindings
-# due to the apostrophes ('') and inverted commas ("") this had to be made a function, even if it is a single-liner
 hk () {
     cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | fzf
 }
 
-# Query dict.org for a defintion
+# Query dict.org for a word defintion
 dictd () {
-    curl dict://dict.org/d:$1 | less
+    curl --silent dict://dict.org/d:$1 | less
+}
+
+calc () {
+    python -c "print($1)"
 }

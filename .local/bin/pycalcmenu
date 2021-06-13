@@ -1,0 +1,4 @@
+#!/bin/sh
+# Dependencies: dmenu, python
+equation=$(echo | dmenu -p "Enter equation" | xargs -I % python -c "print(%)" )
+notify-send "Result" "$equation"

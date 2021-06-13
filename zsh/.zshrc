@@ -3,7 +3,7 @@
 #   \\|   \'---'/   Dante (@koalagang)
 #    \   _'.'O'.'   https://github.com/koalagang
 #     | :___   \
-#     |  _| :  |    "A modularised zsh config which also incorporates fish-like features."
+#     |  _| :  |    "A zsh config which also incorporates fish-like features."
 #     | :__,___/
 #     |   |
 #     |   |
@@ -19,9 +19,10 @@ eval "$(starship init zsh)"             # TIP: the Starship prompt indicates wha
 # z.lua
 eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)"
 export _ZL_DATA="$HOME/.cache/zsh/.zlua" # where to store z.lua memory
+alias zc="true > $HOME/.cache/zsh/.zlua" # clear z.lua memory
 
 # History and cache
-HISTFILE=~/.cache/zsh/history
+HISTFILE=$HOME/.cache/zsh/history
 HISTSIZE=1000
 SAVEHIST=1000
 setopt INC_APPEND_HISTORY
@@ -31,8 +32,9 @@ bindkey -M vicmd 'N' history-incremental-search-backward
 bindkey -M vicmd 'n' history-incremental-search-forward
 bindkey -M vicmd "k" up-line-or-history
 bindkey -M vicmd "j" down-line-or-history
+alias hc="true > $HOME/.cache/zsh/history" # clear history
 alias hl='history 1 | less'
-alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -selection clipboard'
+alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -selection clipboard' # view history using fzf and copy selected to clipboard
 
 # Tab completion
 autoload -U compinit && compinit -u
@@ -64,6 +66,6 @@ bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
 # Plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # Syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # fish-like autosuggestion
-#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # fish-like abbreviations ('zsh-abbr' on the AUR); uses file named 'abbreviations' in same directory as .zshrc
+#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # fish-like abbreviations ('zsh-abbr' on the AUR); uses file named `abbreviations` in $ZDOTDIR
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null # Encourages the use of aliases
 source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile`)

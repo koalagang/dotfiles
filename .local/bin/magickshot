@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# AUTHOR: @koalagang (https://github.com/koalagang)
+# Dependencies: imagemagick, dmenu, xclip
+
+TEMPFILE="/tmp/magickshot.png"
+SAVEFILE="$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png"
+
+case "$(printf "a selected area (copy)\\ncurrent window (copy)\\nfull screen (copy)\\na selected area (save)\\ncurrent window (save)\\nfull screen (save)" | dmenu -l 6 -p "Screenshot which area?")" in
+	"a selected area (copy)") killall unclutter && import "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" && unclutter --timeout 3 & ;;
+	"current window (copy)") import -window "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" ;;
+	"full screen (copy)") import -window root "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" ;;
+	"a selected area (save)") killall unclutter && import "$SAVEFILE" && notify-send "Screenshot saved!" && unclutter --timeout 3 & ;;
+	"current window (save)") import -window "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" "$SAVEFILE" && notify-send "Screenshot saved!" ;;
+	"full screen (save)") import -window root "$SAVEFILE" && notify-send "Screenshot saved!" ;;
+esac
