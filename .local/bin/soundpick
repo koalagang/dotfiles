@@ -1,26 +1,15 @@
 #!/bin/sh
-
 # AUTHOR: Dante (@koalagang) https://github.com/koalagang
 # Dependencies: dmenu or rofi, ffmpeg
 # Use dmenu or rofi to select a chosen audio file and run it in the background (on loop)
 
 sounds_dir="$HOME/.local/share/soundpick"
-mkdir "$sounds_dir" && notify-send "soundpick" "$sounds_dir was just created. Place your sound files in there." -t 5000
-
-# Use rofi if rofi is installed and dmenu if dmenu is installed
-# If both are installed then dmenu is used
+mkdir "$sounds_dir" && notify-send "Soundpick" "$sounds_dir was just created. Place your sound files in there." -t 5000
+# Use rofi if rofi is installed and dmenu if dmenu is installed. If both are installed then dmenu is used.
 menu="rofi -dmenu" >/dev/null && command -v dmenu >/dev/null && menu="dmenu"
 
-choice=$(printf "Choose a sound to play\nPlay a random sound\nStop sound" | $menu)
-
-if [ "$choice" = "Choose a sound to play" ]; then
-    SOUND=$(ls "$sounds_dir" | $menu -l 20) && killall ffplay
-    ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" &
-elif [ "$choice" = "Play a random sound" ]; then
-    SOUND=$(ls "$sounds_dir" | shuf -n1) && killall ffplay
-    ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" &
-elif [ "$choice"  = "Stop sound" ]; then
-    killall ffplay || notify-send "soundpick" "soundpick is not currently running!"
-else
-    notify-send "soundpick" "You didn't pick an option!"
-fi
+case "$(printf "Choose a sound to play\nPlay a random sound\nStop sound" | $menu)" in
+    "Choose a sound to play") SOUND="$(ls "$sounds_dir" | $menu -l 20)" && killall ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    "Play a random sound") SOUND="$(ls "$sounds_dir" | shuf -n1)" && killall ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    "Stop sound") killall ffplay || notify-send "Soundpick" "Soundpick is not currently running!" ;;
+esac
