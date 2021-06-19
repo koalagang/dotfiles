@@ -13,8 +13,8 @@ ctrl + alt + l
     slock
 
 # Dmenu
-mod4 + d ; {r,c,u,k,l,s,m,p}
-    {dmenu_run,pycalcmenu,dmenuunicode,dmkill,dmlogout,dmsearch,magickshot,soundpick}
+mod4 + d ; {r,c,u,k,l,m,s}
+    {dmenu_run,pycalcmenu,dmenuunicode,dmkill,dmlogout,magickshot,soundpick}
 
 # Launch applications
 mod4 + alt + {k,s,l,m,g,d,w,b}
@@ -28,14 +28,14 @@ mod4 + alt + {k,s,l,m,g,d,w,b}
 {XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
     amixer -D pulse sset Master {toggle -q,5%-,5%+}
 
-# Close window ('c' for close, 'p' for kill)
-mod4 + ctrl + {c,p}
-    xdo {close,kill}
-
 # Refresh sxhkd bindings
 mod4 + ctrl + b
 	notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
 
 # Keyboard layouts
-mod4 + {u,n,g}
+mod4 + shift + {u,n,g}
     setxkbmap -layout {us,no,gb} && xmodmap -e 'keycode 62 = Escape'
+
+# Take a screenshot (currently active monitor)
+Print
+    import -window root "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png"

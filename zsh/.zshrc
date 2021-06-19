@@ -23,8 +23,6 @@ alias zc="true > $HOME/.cache/zsh/.zlua" # clear z.lua memory
 
 # History and cache
 HISTFILE=$HOME/.cache/zsh/history
-HISTSIZE=1000
-SAVEHIST=1000
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY
@@ -35,6 +33,7 @@ bindkey -M vicmd "j" down-line-or-history
 alias hc="true > $HOME/.cache/zsh/history" # clear history
 alias hl='history 1 | less'
 alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -selection clipboard' # view history using fzf and copy selected to clipboard
+alias pc='history | cut -c 8- | tail -1 | xclip -selection clipboard' # view history using fzf and copy selected to clipboard
 
 # Tab completion
 autoload -U compinit && compinit -u

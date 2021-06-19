@@ -10,31 +10,31 @@ alias co='paru -c'                                                              
 alias pr='doas pacman -R'                                                       # Remove a package
 
 #---Long commands (mostly pipelines and flags)
-alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                                                         # A superior ls (written in rust)
-alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'                                     # Simple colour picker
-alias rss='newsboat -c $HOME/.config/newsboat/cache -C $HOME/.config/newsboat/config -u $HOME/.config/newsboat/urls'    # Newsboat violates the XDG directory specifications by default
-alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'                                                                           # Same thing as above but with lynx
-alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                                           # Encrypt a file with AES256
-alias doas='doas --'                                                                                                    # Prevent doas flags
-alias l.='exa -a | egrep "^\."'                                                                                         # List dotfiles in current directory
-alias fda='fd -uu -i -a --base-directory /'                                                                             # Search entire system with fd
+alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                               # A superior ls (written in rust)
+alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'           # Simple colour picker
+alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'
+alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                 # Encrypt a file with AES256
+alias doas='doas --'                                                                          # Prevent doas flags
+alias l.='exa -a | egrep "^\."'                                                               # List dotfiles in current directory
+alias fda='fd -uu -i -a --base-directory /'                                                   # Search entire system with fd
 alias record='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
 
 #---FZF
-alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'                    # Search the Arch Wiki locally (arch-wiki-docs)
-alias yt='ytfzf -t -l -x --sort'                                                                                        # Search YouTube from the commandline and view in mpv
+alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'    # Search the Arch Wiki locally (arch-wiki-docs)
+alias yt='ytfzf -t -l --sort'                                                                           # Search YouTube from the commandline and view in mpv
 alias fo='xdg-open "$(fd --type f | fzf )"'
 alias fo3='xdg-open "$(fd --type f --max-depth 3 | fzf)"'
 alias fcd='cd "$(fd --type d | fzf)"'
 alias getpath='fd --type f | fzf | tr -d "\n" | xclip -selection clipboard'
+alias scr='script=$(/bin/ls $HOME/.local/bin | fzf) && $EDITOR $HOME/.local/bin/$script'
 
 #---ProtonVPN
 alias pvpns='doas protonvpn s'          # View the current status
 alias pvpnd='doas protonvpn d'          # Disconnect from the currently connected server
 alias pvpnf='doas protonvpn c -f'       # Connect to the fastest server
-alias pvpnu='doas protonvpn c --cc US'    # Connect to the fastest US server
-alias pvpnn='doas protonvpn c --cc NL'    # Connect to the fasest Netherlands server
-alias pvpnj='doas protonvpn c --cc JP'    # Connect to the fastest Japan server
+alias pvpnu='doas protonvpn c --cc US'  # Connect to the fastest US server
+alias pvpnn='doas protonvpn c --cc NL'  # Connect to the fasest Netherlands server
+alias pvpnj='doas protonvpn c --cc JP'  # Connect to the fastest Japan server
 
 #---Trash CLI
 alias tp='trash-put'
@@ -79,13 +79,13 @@ alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,
 alias -s {html}='lynx'
 
 #---Misc
-alias ddg='sr duckduckgo'                                # Search DuckDuckGo with $TRUEBROWSER
-alias wp='sr wikipedia'                                  # Search Wikipedia with $TRUEBROWSER
-alias ucp='ucollage $HOME/Pictures'                      # Preview all images in Pictures directory with Ucollage
-alias uc='ucollage'                                      # Preview a specific image or directory with Ucollage
-alias dictt='trans -d'                                   # Use translate-shell shell as a dictionary
-alias cc='calcurse'                                      # TUI calendar
-alias vf='vifmrun'                                       # Allows Ueberzug image previewing in vifm
+alias ddg='sr duckduckgo'           # Search DuckDuckGo with $TRUEBROWSER
+alias wp='sr wikipedia'             # Search Wikipedia with $TRUEBROWSER
+alias ucp='ucollage $HOME/Pictures' # Preview all images in Pictures directory with Ucollage
+alias uc='ucollage'                 # Preview a specific image or directory with Ucollage
+alias dictt='trans -d'              # Use translate-shell shell as a dictionary
+alias cc='calcurse'                 # TUI calendar
+alias vf='vifmrun'                  # Allows Ueberzug image previewing in vifm
 alias vi='nvim'
 alias md='mkdir'
 alias tch='touch'
@@ -93,9 +93,9 @@ alias ...='cd ../..'
 alias scim='sc-im'
 alias nc='ncspot'
 alias bp='bpytop'
-alias glw='glow -p'
 alias pis='pistol'
 alias cat='bat'
 alias drag='dragon-drag-and-drop -a -x'
 alias drag-stay='dragon-drag-and-drop -a'
 alias ax='axel -n 10'
+alias rss='newsboat'

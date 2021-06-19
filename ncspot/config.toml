@@ -1,7 +1,7 @@
 [theme]
 background = ""
 primary = "light white"
-secondary = "light black"
+secondary = "light magenta"
 title = "green"
 playing = "green"
 playing_selected = "light green"
@@ -15,7 +15,7 @@ statusbar_progress = "green"
 statusbar_bg = "green"
 cmdline = "light white"
 cmdline_bg = "black"
-search_match = "light red"
+search_match = "light yellow"
 
 [keybindings]
 "=" = "volup 5"

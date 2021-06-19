@@ -30,10 +30,12 @@ config.bind('d', 'scroll-page 0 1')
 config.bind('u', 'scroll-page 0 -1')
 config.bind('j', 'scroll-page 0 0.1')
 config.bind('k', 'scroll-page 0 -0.1')
+config.bind('H', 'zoom-in')
+config.bind('L', 'zoom-out')
+config.bind('M', 'zoom')
 config.bind('h', 'back')
 config.bind('l', 'forward')
 config.bind('D', 'bookmark-add')
-config.bind('L', 'search')
 config.bind('R', 'spawn --userscript readability') # readermode
 config.bind('pr', 'open https://outline.com/{url}') # another readermode
 
@@ -52,7 +54,7 @@ c.tabs.show_switching_delay = 1500
 
 #---Appearance & Functionality
 # Very long URL for the default search engine because it has my SearX preferences saved to it
-c.url.searchengines = {'DEFAULT': 'https://searx.info/?preferences=eJx1VU2P2zYQ_TXVRXDQNIecdChaFAlQYIPayVUYkWN6KpKjDCl71V_foS3b1AY5rLEczseb92YoAxkdC2HqHEYU8I2H6GZw2GHcfd03ng34cmhgzmw4TB4zdo7ZeWwoqGc_Cb8u3UFmbALmE9vuy8v-0CQ4YkIQc-p-bfIJA3acDEgjmGafU8-xj3jpMwzdX-ATNpap10v2Z5SOQY_vWFxzjdqlvCgQz44MWzzvLMjYgD1DNGj7tdCahxIMXq0YHUVtbkKUPA_Y92eyyOmX3_4YKA-zGTH3PWU9xwWg74_ksdzCNLaBRFietu8XiOq9EqWGxbnMIlisYU5k1HYjpp08LG3gszJb1awD7lllDgq1croBuTJ7RaJt0RlbSnVpQWtJsyh_xelCIyWexWDtdLTCZJ-lMo8LZ04nHiH-1HzvJGWQPBV9q5R1ezBN6ZkFM7PfYLw1ck93FAjgaRBcCU_4X4RQB1jrWotHipSJ4yZXkXxAcWts6VdnJFFeaq_3rxVxpRbI0pbrtGXvNiwlZ1t-1qQyD4vDkNajI6dDBGkj-VEQ28THfAHB1pKgUUWXNQSFL4XwH3V6WihCJXZppGj4UNIYs8vnymMkM0JKTyI1pNADsmn9BNpt-VmhhCVgUGRtFojJ655vcMUprI5v1H_Upaj_Es_1_HoeUsZ3kioZBuZxQ-4D8CPs_YcPH1-rc8Kgm0SmTebEHhRyMoS6xleCKY4EphLS6pqWP8ftzVbdOURlI2CN6PvMeTO012nh5c0oF6uFDD_b6Cdc9mRXczXwd2kTGwLfBrQEdftv_R6Y55h0f9KpMlVk32W2s8X44zo9UPGEUXDiqpKj7GEoTDQYtw9gBF2XOhvmJXD0ellbA_-rhG4YgRPzlrZhM3hPdR7W5_s7-Vnrp-5Fwfa_G4NKzJ8vn_WRvwjlovfneN131BEQ9iXhNwo7TyP2J84jLunRyz3Z_rq95ethbp-vRV9_r4uowZ8Ohy_7Kv2nwvMtUE979MdeK7IEuD4xajsI6FdA-q___K1x-mSjNLoTqIX-B6WLsKw=&q={}', 'wp': 'http://en.wikipedia.org/w/index.php?search={}', 'aw': 'https://wiki.archlinux.org/?search={}', 'c': "https://www.collinsdictionary.com/dictionary/english/{}", 'gh': 'https://github.com/search?q={}', 'sp': 'https://www.startpage.com/do/dsearch?query={}', 'ddg': 'https://duckduckgo.com/?q={}', 'eco': 'https://www.ecosia.org/search?q={}'}
+c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}', 'wp': 'http://en.wikipedia.org/w/index.php?search={}', 'aw': 'https://wiki.archlinux.org/?search={}', 'c': "https://www.collinsdictionary.com/dictionary/english/{}", 'gh': 'https://github.com/search?q={}', 'sp': 'https://www.startpage.com/do/dsearch?query={}', 'ddg': 'https://duckduckgo.com/?q={}', 'eco': 'https://www.ecosia.org/search?q={}'}
 c.editor.command = ['alacritty','-e','nvim','{}']
 c.search.ignore_case = "always"
 c.statusbar.show = "in-mode"

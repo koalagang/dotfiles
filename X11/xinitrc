@@ -1,16 +1,14 @@
-lxsession &
-picom --experimental-backend &
+xcompmgr &
 sxhkd &
 dunst &
 unclutter --timeout 3 &
-nm-applet &
-mpd &
 
 xrandr --output HDMI-0 --mode 1920x1080 --output HDMI-1-1 --mode 1920x1080 --right-of HDMI-0 &
 nvidia-settings --assign CurrentMetaMode="nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }" &
-hsetroot -cover $HOME/.local/share/wall.jpg &
+xrdb $HOME/.config/X11/xresources
 redshift -O 2500K &
+xwallpaper --focus $HOME/.local/share/wall.jpg &
 xset r rate 300 40 &
 setxkbmap -layout us &
 
-exec qtile
+exec dwm
