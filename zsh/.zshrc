@@ -23,6 +23,8 @@ alias zc="true > $HOME/.cache/zsh/.zlua" # clear z.lua memory
 
 # History and cache
 HISTFILE=$HOME/.cache/zsh/history
+HISTSIZE=1000
+SAVEHIST=1000
 setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt EXTENDED_HISTORY
