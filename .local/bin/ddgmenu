@@ -1,0 +1,6 @@
+#!/bin/sh
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: ddgr, dmenu, awk, xargs, grep
+search="$(echo | dmenu -p 'Search: ')"
+choice="$(ddgr "$search" --json > "/tmp/ddgmenu.json" && awk -F ":" '/title/ {print $NF}' "/tmp/ddgmenu.json" | tr -d ',' | dmenu -l 20)" || notify-send "ddgmenu" "You didn't select anything!"
+grep -A1 "$choice" "/tmp/ddgmenu.json" | awk '/url/ {print $NF}' | xargs xdg-open

@@ -78,7 +78,7 @@ let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext'
 map <leader>v <Plug>VimwikiIndex
 
 " Mouse
-set mouse=nirv " If your terminal allows you to click links, you must enter command mode or shift-click to press them
+set mouse=nirv
 set mousehide
 set mousefocus
 behave mswin
@@ -99,8 +99,8 @@ nno <leader>sh :sp<cr>
 nno <leader>sw <c-w><c-x>
 
 " Netrw
-let g:netrw_banner=0            " - disable annoying banner
-let g:netrw_liststyle=3         " - tree view
+let g:netrw_banner=0            " disable annoying banner
+let g:netrw_liststyle=3         " tree view
 let g:netrw_browse_split=4
 let g:netrw_winsize=15
 let g:netrw_preview=1
@@ -135,7 +135,7 @@ ino [ []<left>
 ino { {}<left>
 ino < <><left>
 ino ` ``<left>
-" Prevent autosurround with left alt
+" Prevent autosurround with alt
 ino <m-"> "
 ino <m-'> '
 ino <m-(> (
@@ -151,6 +151,7 @@ ino <m-}> }
 ino <m->> >
 
 "---Yanking and pasting
+" Clear the registers
 nno <silent> cr :let regs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"' \| let i=0 \| while (i<strlen(regs)) \| exec 'let @'.regs[i].'=""' \| let i=i+1 \| endwhile \| unlet regs<cr>
 " Register A
 vno y "ay
@@ -159,8 +160,7 @@ nno p "ap
 nno yy "ayy
 nno dd "add
 " Register B
-vno Y "by
-vno D "bd
+vno Y "by vno D "bd
 nno P "bp
 nno YY "byy
 nno DD "bdd
@@ -191,7 +191,7 @@ call plug#end()
 ":PlugClean     - remove plugins (first remove or comment them out and then restart vim)
 "To rollback to an older version of a plugin, run :PlugDiff and then press 'X' on each paragraph.
 
-" Godot
+" Godot (game engine)
 nno <buffer> grl :GodotRunLast<CR>
 nno <buffer> grr :GodotRun<CR>
 nno <buffer> grc :GodotRunCurrent<CR>

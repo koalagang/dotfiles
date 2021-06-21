@@ -49,6 +49,9 @@ keys = [
     # Move focus between monitors
     Key([mod, "control"], "j", lazy.to_screen(0)),
     Key([mod, "control"], "k", lazy.to_screen(1)),
+
+    # Kill client
+    Key([mod, "control"], "c", lazy.window.kill()),
 ]
 
 #---Groups/workspaces
@@ -64,7 +67,7 @@ group_names = [("MISC",{'layout': 'monadtall'}),
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
-# Uses numbers 1 to 9 for workspaces
+# Uses numbers 1 to 8 for workspaces
 for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        # Switch to another group
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) # Send current window to another group

@@ -13,12 +13,12 @@ ctrl + alt + l
     slock
 
 # Dmenu
-mod4 + d ; {r,c,u,k,l,m,s}
-    {dmenu_run,pycalcmenu,dmenuunicode,dmkill,dmlogout,magickshot,soundpick}
+mod4 + d ; {r,c,u,k,m,s,g,e}
+    {dmenu_run,calcmenu,dmenuunicode,dmkill,magickshot,soundpick,ddgmenu,epicmenu}
 
 # Launch applications
 mod4 + alt + {k,s,l,m,g,d,w,b}
-	{keepassxc,signal-desktop,lutris,/opt/multimc/run.sh,steam,discord,$BROWSER,brave}
+	{keepassxc,signal-desktop,lutris,/opt/multimc/run.sh,steam,discord,qutebrowser,brave}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
