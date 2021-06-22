@@ -13,8 +13,8 @@ ctrl + alt + l
     slock
 
 # Dmenu
-mod4 + d ; {r,c,u,k,m,s,g,e}
-    {dmenu_run,calcmenu,dmenuunicode,dmkill,magickshot,soundpick,ddgmenu,epicmenu}
+mod4 + d ; {r,n,c,g,F3,F4,u,e,k,m,s}
+    {dmenu_run,calcmenu,colourmenu,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,magickshot,soundpick}
 
 # Launch applications
 mod4 + alt + {k,s,l,m,g,d,w,b}

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+process="$(ps -u $USER -o pid,%mem,%cpu,comm | sort -b -k2 -r | sed -n '1!p' | dmenu -i -l 20 | awk '{print $1}')"
+[ -z "$process" ] || choice="$(echo 'Yes\nNo' | dmenu -p 'Kill process?')"
+case "$choice" in
+    "Yes") kill -15 "$process" ;;
+    "No") exit 0 ;;
+esac

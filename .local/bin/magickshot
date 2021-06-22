@@ -5,12 +5,12 @@
 
 TEMPFILE="/tmp/magickshot.png"
 SAVEFILE="$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png"
-# Use rofi if rofi is installed and dmenu if dmenu is installed. If both are installed then dmenu is used.
-menu="rofi -dmenu" >/dev/null && command -v dmenu >/dev/null && menu="dmenu"
 
-case "$(printf "a selected area (copy)\ncurrent window (copy)\nfullscreen (copy)\na selected area (save)\ncurrent window (save)\nfullscreen (save)\nfullscreen (save) - split monitors [dual monitor users]" | $menu -l 7 -p "Screenshot which area?")" in
+case "$(printf "a selected area (copy)\ncurrent window (copy)\nfullscreen (copy)\na selected area (save)\ncurrent window (save)\nfullscreen (save)\nfullscreen (save) - split monitors [dual monitor users]" \
+    | dmenu -i -l 7 -p "Screenshot which area?")" in
 	"a selected area (copy)") killall unclutter && import "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" && unclutter --timeout 3 & ;;
-	"current window (copy)") import -window "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" ;;
+	"current window (copy)") import -window "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && \
+        notify-send "Screenshot copied!" ;;
 	"fullscreen (copy)") import -window root "$TEMPFILE" && xclip -selection clipboard -t image/png "$TEMPFILE" && notify-send "Screenshot copied!" ;;
 	"a selected area (save)") killall unclutter && import "$SAVEFILE" && notify-send "Screenshot saved!" && unclutter --timeout 3 & ;;
 	"current window (save)") import -window "$(xprop -root | awk '/_NET_ACTIVE_WINDOW\(WINDOW\)/{print $NF}')" "$SAVEFILE" && notify-send "Screenshot saved!" ;;

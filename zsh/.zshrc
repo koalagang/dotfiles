@@ -3,7 +3,7 @@
 #   \\|   \'---'/   Dante (@koalagang)
 #    \   _'.'O'.'   https://github.com/koalagang
 #     | :___   \
-#     |  _| :  |    "A zsh config which also incorporates fish-like features."
+#     |  _| :  |
 #     | :__,___/
 #     |   |
 #     |   |
@@ -64,9 +64,8 @@ bindkey -M menuselect 'up' vi-up-line-or-history
 bindkey -M menuselect 'right' vi-forward-char
 bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
 
-# Plugins
+# Plugins + scripts
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # Syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # fish-like autosuggestion
-#source /usr/share/zsh/plugins/zsh-abbr/zsh-abbr.zsh 2>/dev/null # fish-like abbreviations ('zsh-abbr' on the AUR); uses file named `abbreviations` in $ZDOTDIR
 source /usr/share/zsh/plugins/zsh-you-should-use/you-should-use.plugin.zsh 2>/dev/null # Encourages the use of aliases
-source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found (not technically a zsh plugin - just install `pkgfile`)
+source /usr/share/doc/pkgfile/command-not-found.zsh 2>/dev/null # Search repos for programs that can't be found

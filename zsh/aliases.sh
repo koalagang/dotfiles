@@ -11,13 +11,13 @@ alias pr='doas pacman -R'                                                       
 
 #---Long commands (mostly pipelines and flags)
 alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                               # A superior ls (written in rust)
-alias cpcol='colorpicker --short --one-shot --preview | xclip -selection clipboard'           # Simple colour picker
 alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'
 alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                 # Encrypt a file with AES256
 alias doas='doas --'                                                                          # Prevent doas flags
 alias l.='exa -a | egrep "^\."'                                                               # List dotfiles in current directory
 alias fda='fd -uu -i -a --base-directory /'                                                   # Search entire system with fd
-alias record='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
+alias record='ffmpeg -f x11grab -s 1920x1080 -i :0.0+0,0'
+alias record60fps='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
 
 #---FZF
 alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'    # Search the Arch Wiki locally (arch-wiki-docs)
@@ -26,7 +26,7 @@ alias fo='xdg-open "$(fd --type f | fzf )"'
 alias fo3='xdg-open "$(fd --type f --max-depth 3 | fzf)"'
 alias fcd='cd "$(fd --type d | fzf)"'
 alias getpath='fd --type f | fzf | tr -d "\n" | xclip -selection clipboard'
-alias scr='script=$(/bin/ls $HOME/.local/bin | fzf) && $EDITOR $HOME/.local/bin/$script'
+alias scr='script=$(command ls $HOME/.local/bin | fzf) && $EDITOR $HOME/.local/bin/$script'
 
 #---ProtonVPN
 alias pvpns='doas protonvpn s'          # View the current status

@@ -5,11 +5,11 @@
 # A dmenu script for using Epic Games on Linux.
 
 find_game () {
-    game="$(legendary list-$list | sed -e '/games/d' -e '/^$/d' -e '/Total/d' | tr -d '*' | dmenu -l 20)" || exit 0
+    game="$(legendary list-$list | sed -e '/games/d' -e '/^$/d' -e '/Total/d' | tr -d '*' | dmenu -i -l 20)" || exit 0
     app_name="$(echo "$game" | grep -oP '\(\K[^\)]+' | awk '{print $3}')"
 }
 
-case "$(printf "Launch a game\nInstall a game\nUninstall a game\nDownload all cloud saves\nSync cloud saves" | dmenu -p 'Epic Games')" in
+case "$(printf "Launch a game\nInstall a game\nUninstall a game\nDownload all cloud saves\nSync cloud saves" | dmenu -i -p 'Epic Games')" in
     "Launch a game") list="installed" && find_game && legendary launch "$app_name" ;;
     "Install a game") notify-send "Epic Games" "Logging in" && list="games" && find_game && notify-send "Epic Games" "Installing game." && echo "Y" | \
         legendary install "$app_name" && notify-send "Epic Games" "Game finished installing." ;;
