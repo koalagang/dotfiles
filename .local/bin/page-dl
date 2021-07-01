@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: wget
+# Download a webpage or an entire website with wget.
+# This could be achieved entirely without this script, just using wget alone but wget's options aren't exactly intuitive.
+
+for website in $@; do :; done
+run="wget --limit-rate=200k --convert-links --random-wait -pEe robots=off -U mozilla"
+
+usage () {
+    echo "\nUsage: page-dl <options> .."
+    echo "\n\texample 1: page-dl -ro 'github.com'"
+    echo "\texample 2: page-dl -t 60 'github.com'"
+    echo "\n\t-h\tshow this help text"
+    echo "\t-q\tsilence output"
+    echo "\t-d\tdon't pretend to be human (not recommended)"
+    echo "\t-r\tdownload pages recursively (i.e. download entire website)"
+    echo "\t-o\tonly download https pages (when using recursive mode)"
+    echo "\t-t\tset a timeout (stop downloading if activity has ceased for n seconds)"
+}
+
+quiet=False
+
+while getopts 'hqdrot:' OPT; do
+  case $OPT in
+    h)
+        usage
+        exit 0 ;;
+    q)
+        quiet=True ;;
+    d)
+        run="${run% --random-wait *}" ;;
+    r)
+        run="$run -r"
+        ;;
+    o)
+        run="$run --https-only"
+        ;;
+    t)
+        run="$run --timeout=$OPTARG"
+        ;;
+  esac
+done
+
+if [ $quiet = True ]; then
+    run="$run -q"
+fi
+
+[ -z $1 ] && echo 'page-dl: missing options\nTry `page-dl -h` for more options.' && exit 0
+
+$run $website
