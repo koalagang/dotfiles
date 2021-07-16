@@ -28,27 +28,19 @@ nno n nzzzv
 nno N Nzzzv
 nno r <c-r>
 
-" Line navigation and manipulation
-no <c-a> ggv^G$
-nno <m-k> dd2kp
+" Line manipulation
+nno <m-k> ddkkp
 nno <m-j> ddp
-nno <return> M
-vn J L
-vn K H
-vn <return> M
-
-" Finding and replacing or deleting:
+" Finding and replacing or deleting (works like sed)
 nno S :%s//g<left><left>
-"-  e.g. :s%s/x/y/g finds every x and replaces them all with a y.
-"-  e.g. :s%s/x/g finds every x and deletes them all.
 
 " Fuzzy finding and navigating between files
 nno o :browse old<cr>
 nno fo :filter '.*' oldfiles<c-left><left><left>
-nno e :edit<space>
-nno bb :b <c-d>
-nno bp :bp<cr>
-nno bn :bn<cr>
+nno <leader>e :edit<space>
+nno <leader>bb :b <c-d>
+nno <leader>bp :bp<cr>
+nno <leader>bn :bn<cr>
 nno ff :find<space>
 nno <leader>A :argadd <c-r>=fnameescape(expand('%:p:h'))<cr>/*<c-d>
 nno fdo :edit ~/Documents/**/*
@@ -74,8 +66,6 @@ function! FindRootDirectory()
     return expand('%:p:h')
 endfunction
 nno fr :edit <c-r>=FindRootDirectory()<cr>/**/*
-let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'default', 'ext': '.wiki'}]
-map <leader>v <Plug>VimwikiIndex
 
 " Mouse
 set mouse=nirv
@@ -90,10 +80,10 @@ nno <c-j> <c-w><c-j>
 nno <c-k> <c-w><c-k>
 nno <c-l> <c-w><c-l>
 nno <c-h> <c-w><c-h>
-nno <m-i> :vertical resize +2<cr>
-nno <m-o> :vertical resize -2<cr>
-nno <m-I> :resize +2<cr>
-nno <m-O> :resize -2<cr>
+nno <c-i> :vertical resize +2<cr>
+nno <c-o> :vertical resize -2<cr>
+nno <c-I> :resize +2<cr>
+nno <c-O> :resize -2<cr>
 nno <leader>sv :vs<cr>
 nno <leader>sh :sp<cr>
 nno <leader>sw <c-w><c-x>
@@ -151,8 +141,6 @@ ino <m-}> }
 ino <m->> >
 
 "---Yanking and pasting
-" Clear the registers
-nno <silent> cr :let regs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"' \| let i=0 \| while (i<strlen(regs)) \| exec 'let @'.regs[i].'=""' \| let i=i+1 \| endwhile \| unlet regs<cr>
 " Register A
 vno y "ay
 vno d "ad
@@ -178,9 +166,7 @@ ino <c-v> <esc> "+p <up> A
 call plug#begin()
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
-Plug 'vimwiki/vimwiki'
-" Plugin which adds support for GDscript and running the Godot Engine directly
-" from Vim
+" Plugin which adds support for GDscript and running the Godot Engine directly from Vim
 Plug 'habamax/vim-godot'
 call plug#end()
 
@@ -203,7 +189,6 @@ nno ss :set spell!<cr>
 nno sgb :setlocal spell! spelllang=en_gb!<cr>
 no sus :set spell! spelllang=en_us!<cr>
 nno sno :set spell! spelllang=nb_no!<cr><cr>
-nno <leader>z z=
 nno } ]s
 nno { [s
 
@@ -277,21 +262,6 @@ set statusline+=\ %-7([%{&fileformat}]%)
 set statusline+=\ [%p%%
 set statusline+=\ %l/%L]
 
-"---Markdown
-" Bold
-no <leader>i <esc>Bi*<esc>Ea*<esc>
-" Italics
-no <leader>b <esc>Bi**<esc>Ea**<esc>
-" Bold Italics
-no <leader>mbi <esc>Bi***<esc>Ea***<esc>
-" Headings
-nno <leader>h1 <esc>I# <esc>
-nno <leader>h2 <esc>I## <esc>
-nno <leader>h3 <esc>I### <esc>
-nno <leader>h4 <esc>I#### <esc>
-nno <leader>h5 <esc>I##### <esc>
-nno <leader>h6 <esc>I###### <esc>
-
 "---Misc
 map <c-s> :!shellcheck %<cr>
 map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
@@ -304,12 +274,3 @@ map <leader>a :set autochdir<cr>
 " Templates
 nno ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
 nno ,md :-1read ~/.config/nvim/.skeleton.md<cr>GkA<space>
-
-" Commenting stuff out (in various languages) - single line commenting
-nno <leader># <esc>I#<esc>
-nno <leader>" <esc>I"<esc>
-nno <leader>/ <esc>I//<esc>
-nno <leader>- <esc>I--<esc>
-nno <leader>% <esc>I%<esc>
-" Uncomment
-nno ; <esc>I<del><esc>

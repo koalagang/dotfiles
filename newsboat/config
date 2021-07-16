@@ -1,10 +1,10 @@
 auto-reload yes
 browser lynx
 
-#keybindings
+# Keybindings
 macro y set browser "mpv %u" ; open-in-browser ; set browser "lynx"
 macro i set browser "magick display %u" ; open-in-browser ; set browser "lynx"
-macro r set browser "python3 -m readability.readability -u '%u' > /tmp/readability.html 2>/dev/null && lynx /tmp/readability.html" ; open-in-browser ; set browser "lynx"
+macro r set browser "python3 -m readability.readability -u '%u' > /tmp/readability.html 2>/dev/null && lynx /tmp/readability.html" ; open-in-browser ; set browser "lynx" # View page using readability script
 bind-key o open-in-browser
 bind-key j down
 bind-key k up

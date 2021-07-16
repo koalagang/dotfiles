@@ -5,20 +5,20 @@ mod4 + Return
     $TERMINAL
 
 # Power options
-ctrl + alt + {x,r,s}
+ctrl + mod1 + {p,r,s}
 	loginctl {poweroff, reboot, suspend}
 
-# Lockscreen (slock)
-ctrl + alt + l
-    slock
+# Lockscreen
+ctrl + mod1 + {l,d}
+    slock { ,"$(xset dpms force off)"}
 
 # Dmenu
-mod4 + d ; {r,n,c,g,F3,F4,u,e,k,m,s}
-    {dmenu_run,calcmenu,colourmenu,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,magickshot,soundpick}
+mod4 + d ; {d,c,p,g,F3,F4,u,e,k,m,s,n,y,a,b,t,r}
+    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,magickshot,soundmenu,dnotes,ytfzf -D,awmenu,bookmenu,dtranslate,radiomenu}
 
 # Launch applications
-mod4 + alt + {k,s,l,m,g,d,w,b}
-	{keepassxc,signal-desktop,lutris,/opt/multimc/run.sh,steam,discord,qutebrowser,brave}
+mod4 + mod1 + {k,s,l,m,v,d,w,b,q,g}
+	{keepassxc,signal-desktop,lutris,/opt/multimc/run.sh,steam,discord,$BROWSER,brave,qutebrowser,godot}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -29,13 +29,14 @@ mod4 + alt + {k,s,l,m,g,d,w,b}
     amixer -D pulse sset Master {toggle -q,5%-,5%+}
 
 # Refresh sxhkd bindings
-mod4 + ctrl + b
+mod4 + ctrl + s
 	notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
 
 # Keyboard layouts
-mod4 + shift + {u,n,g}
+mod4 + s ; {u,n,g}
     setxkbmap -layout {us,no,gb} && xmodmap -e 'keycode 62 = Escape'
 
-# Take a screenshot (currently active monitor)
+# Take a screenshot (currently active monitor [dual monitor setup])
 Print
-    import -window root "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png"
+    import -window root "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" && convert "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" -crop 1920x1080 \
+    "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" && notify-send "Screenshot saved!"

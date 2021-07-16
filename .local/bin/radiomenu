@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, mpv
+# Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a browser ;)
+# To find the URL you need for your chosen radio, inspect element on the play button on the website and then press it.
+# This should point you to the URL (at least that's how it works for Chromium-based browsers). Easy as pie.
+# Some websites force you into creating an account to listen but if you can get the URL another way then you can listen without an account.
+# If, for example, you wanted to listen to BBC radio without creating an account you, could one of the URLs shown on this page:
+# https://gist.githubusercontent.com/bpsib/67089b959e4fa898af69fea59ad74bc3/raw/66afe675421d912a4461d3d86abe1b30b1d041fa/BBC-Radio.m3u
+# You can also play music from Soundcloud by using the 'share' URL; this can actually be used to bypass premium songs.
+
+# TODO:
+# implement a way to check what song is currently playing
+
+# URLs
+kpop_url="https://listen.moe/kpop/stream"
+jpop_url="https://listen.moe/stream"
+classical_url="https://live.musopen.org:8085/streamvbr0?1626306796133"
+
+case "$(printf 'K-pop\nJ-pop\nClassical\nStop radio' | dmenu -i)" in
+    'K-pop') pkill -n mpv ; mpv "$kpop_url" & ;;
+    'J-pop') pkill -n mpv ; mpv "$jpop_url" & ;;
+    'Classical') pkill -n mpv ; mpv "$classical_url" & ;;
+    'Stop radio') pkill -n mpv
+esac

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, any terminal, any terminal text editor (preferably vim)
+# Although it can be used with any terminal text editor, this script is intended for vim users; hence the index file (using the `gf` shortcut for zettlekasten).
+
+case "$(printf 'View notes\nCreate a new note\nDelete a note\nView notes index' | dmenu -i)" in
+    'View notes') note="$(ls $HOME/Documents/notes | sed '/index.md/d' | dmenu -i -l 20)" && $TERMINAL -e $EDITOR "$HOME/Documents/notes/$note" ;;
+    'Create a new note') note="$(printf '' | dmenu -p 'Enter note file name:')".md && $TERMINAL -e $EDITOR "$HOME/Documents/notes/$note" && echo "$note" >> "$HOME/Documents/notes/index.md" ;;
+    'Delete a note') note="$(ls $HOME/Documents/notes | dmenu -i -l 20)" &&
+    [ -z "$note" ] || choice="$(echo 'Yes\nNo' | dmenu -i -p "Are you sure you wish to delete '$note'?")"
+    case "$choice" in
+        'Yes') rm "$HOME/Documents/notes/$note" && notify-send 'Notes' "Deleted '$note'." ;;
+        'No') exit 0 ;;
+    esac ;;
+    'View notes index') $TERMINAL -e $EDITOR "$HOME/Documents/notes/index.md"
+esac

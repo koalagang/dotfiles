@@ -1,0 +1,5 @@
+#!/bin/sh
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Renames a file by stripping out the spaces and making all letters lowercase.
+# Not to be confused with the `rename` utility.
+newname="$(printf "$1" | tr '[:upper:]' '[:lower:]' | tr -d '[:punct:]' | sed 's/ /-/g')" && mv "$1" "$newname"

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, perl, xclip, any browser, wget, recode
+# Bookmenu is a browser independent bookmark manager.
+# When adding a bookmark the URL is pulled from the clipboard (you don't need to paste into dmenu).
+# I wanted to add options for importing and exporting bookmarks but I am unsure about how to convert csv files to html and vice versa.
+
+book_file="$HOME/.local/share/bookmarks.csv"   # file for storing bookmarks
+quick_file="$HOME/.local/share/quickmarks.txt" # manually add your quickmarks; ensure that they are equally tabbed (see my dotfiles repo for an example)
+# *Comment out* the below line if you don't want to filter out duplicates (you can't simply change it to a 0)
+filter_duplicates=1
+
+case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nView quickmarks' | dmenu -i)" in
+    'View bookmarks') title="$(cut -d',' -f1 "$book_file" | dmenu -l 20)" && grep "$title" "$book_file" | cut -d',' -f2 | xargs "$BROWSER" ;;
+    'Add a bookmark') url="$(xclip -selection c -o)" && title="$(wget -qO- "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html..)" \
+        && echo "$title,$url" >> "$book_file" && notify-send 'Bookmenu' "Added '$title' to bookmarks." && [ -z "$filter_duplicates" ] || ( unique="$(sort -u $book_file)" && echo "$unique" > "$book_file" ) ;;
+    'Remove a bookmark') title="$(cut -d',' -f1 "$book_file" | dmenu -l 20)" && grep "$title" "$book_file" && sed -i "/$title/d" "$book_file" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
+    'View quickmarks') mark="$(cat "$quick_file" | dmenu -i -l 10)" && cut -f2 "$quick_file" | grep "$mark" "$file" | xargs "$BROWSER"
+esac

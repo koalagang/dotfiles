@@ -1,9 +1,18 @@
-" koalagang (https://github.com/koalagang)
-" Vifm is great but I don't really use a file manager (I prefer just using fzf, z.lua, cd, mv, etc.) anymore
-" so this vifmrc is not maintained.
-" It is only being kept in my dotfiles repo in case I ever decide to come back to vifm
-" or somebody else wants to use my configs.
+" vim: filetype=vifm :
+" Sample configuration file for vifm (last updated: 9 September, 2020)
+" You can edit this file by hand.
+" The " character at the beginning of a line comments out the line.
+" Blank lines are ignored.
+" The basic format for each item is shown with an example.
+
 " ------------------------------------------------------------------------------
+
+
+"----- koalagang (https://github.com/koalagang)
+"----- Vifm is great but I don't really use a file manager (I prefer just using fzf, z.lua, cd, mv, etc.) anymore
+"----- so this vifmrc is not maintained.
+"----- It is only being kept in my dotfiles repo in case I ever decide to come back to vifm
+
 
 " Command used to edit files in various contexts.  The default is vim.
 " If you would like to use another vi clone such as Elvis or Vile

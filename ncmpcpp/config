@@ -30,3 +30,6 @@ progressbar_color = black:b
 progressbar_elapsed_color = blue:b
 statusbar_color = red
 statusbar_time_color = cyan:b
+
+# ueberzug cover art
+execute_on_song_change="~/.config/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp_cover_art.sh"

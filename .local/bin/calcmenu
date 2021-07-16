@@ -1,7 +1,8 @@
 #!/bin/sh
 # Dependencies: dmenu, python
-# NOTE: python is not an advanced calculator (in fact it can't even find the square root of n)
-# I am not a mathematician and python is good enough for me
-# but I recommend `quiche` if you need something more complicated.
-equation=$(echo | dmenu -p "Enter equation" | xargs -I % python -c "print(%)")
+# NOTE: python is not an advanced calculator.
+# I am not a mathematician so I don't need to calculate complex equations frequently
+# and python is good enough for me but I recommend `quiche` if you need something more powerful.
+equation=$(printf '' | dmenu -p "Enter equation" | xargs -I % python -c "print(%)")
+[ -z "$equation" ] && exit 0 # exit if no input is given
 notify-send "Result" "$equation"

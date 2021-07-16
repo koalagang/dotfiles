@@ -53,8 +53,7 @@ vifmcd () {
 }
 bindkey -s '^o' 'vifmcd\n'
 
-# Copy files to clipboard (using xclip)
-xcp () {
+xcp () { # Copy files to clipboard (using xclip)
     case $1 in
         *.jpeg) xclip -selection clipboard -target image/jpeg $1 ;;
         *.jpg)  xclip -selection clipboard -target image/jpg $1 ;;
@@ -66,16 +65,24 @@ xcp () {
     esac
 }
 
-# View sxhkd bindings
+ # View sxhkd bindings
+ # Although this is a one-liner, it has to be a function due to the various quotation marks and apostrophes
 hk () {
-    cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' | column -t -s $'\t' | fzf
+    awk '/^[a-z]/ && last {print $0,"\t",last} {last=""} /^#/{last=$0}' "$HOME/.config/sxhkd/sxhkdrc" | column -t -s $'\t' | fzf
 }
 
-# Query dict.org for a word defintion
-dictd () {
+dictd () { # Query dict.org for a word defintion
     curl --silent dict://dict.org/d:$1 | less
 }
 
-calc () {
+calc () { # Use python as a calculator
     python -c "print($1)"
+}
+
+unsuck () { # Run this after applying patches or configuring config.def.h (intended for use with suckless software)
+    sudo rm $1 config.h $1.o drw.o stest.o util.o x.o && sudo make clean install
+}
+
+bak () { # Backup a file
+    cp --backup=numbered $1 $1.bak
 }

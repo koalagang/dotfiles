@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# AUTHOR: Dante (@koalagang) https://github.com/koalagang
+# Dependencies: dmenu, ffmpeg
+# Use dmenu to select a chosen audio file and run it on loop
+
+# place your sound files in this directory
+sounds_dir="$HOME/.local/share/soundpick"
+
+case "$(printf "Choose a sound to play\nPlay a random sound\nStop sound" | dmenu -i)" in
+    "Choose a sound to play") SOUND="$(ls "$sounds_dir" | $menu -l 20)" && pkill -n ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    "Play a random sound") SOUND="$(ls "$sounds_dir" | shuf -n1)" && pkill -n ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    "Stop sound") pkill -n ffplay || notify-send "Soundpick" "No sound is currently playing!" ;;
+esac

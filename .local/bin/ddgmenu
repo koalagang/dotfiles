@@ -2,6 +2,6 @@
 # AUTHOR: koalagang (https://github.com/koalagang)
 # Dependencies: ddgr, dmenu
 # You can easily swap ddgr out with googler if you prefer that.
-search="$(echo | dmenu -p 'Search: ')"
+search="$(printf '' | dmenu -p 'Search: ')"
 choice="$(ddgr "$search" --json > "/tmp/ddgmenu.json" && awk -F ":" '/title/ {print $NF}' "/tmp/ddgmenu.json" | tr -d ',' | dmenu -i -l 20)" || exit 0
-grep -A1 "$choice" "/tmp/ddgmenu.json" | awk '/url/ {print $NF}' | xargs $BROWSER
+grep -A1 "$choice" "/tmp/ddgmenu.json" | awk '/url/ {print $NF}' | xargs "$BROWSER"

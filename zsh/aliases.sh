@@ -1,32 +1,26 @@
-# NOTES:
-# * aliases and functions are separate to the shell config file to make moving between them seamless
-# * fd (rust rewrite of find which is faster) is used instead of find
-# * shell specific commands (e.g. `history 1` for zsh or `history` for bash) are set in the respective config files
-
 #---Pacman and Paru
-alias upd='paru -Syu --noconfirm'                                               # Update all packages without confirmation
 alias updc='paru -Syu --noconfirm && sudo paccache -r && sudo paccache -ruk0'   # Update all packages and clear the cache
+alias clear-cache='sudo paccache -r && sudo paccache -ruk0'                     # Clear the cache
 alias co='paru -c'                                                              # Clear orphans
 alias pr='doas pacman -R'                                                       # Remove a package
 
 #---Long commands (mostly pipelines and flags)
-alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                               # A superior ls (written in rust)
+alias ls='exa -l -h -g --git --sort=ext --colour-scale --icons'                 # A superior ls (written in rust)
 alias lynx='lynx -cfg=$HOME/.config/lynx.cfg'
-alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                                 # Encrypt a file with AES256
-alias doas='doas --'                                                                          # Prevent doas flags
-alias l.='exa -a | egrep "^\."'                                                               # List dotfiles in current directory
-alias fda='fd -uu -i -a --base-directory /'                                                   # Search entire system with fd
+alias encrypt='gpg -c --no-symkey-cache --cipher-algo AES256'                   # Encrypt a file with AES256
+alias doas='doas --'                                                            # Prevent doas flags
+alias l.='ls -a | egrep "^\."'                                                  # List dotfiles in current directory
 alias record='ffmpeg -f x11grab -s 1920x1080 -i :0.0+0,0'
 alias record60fps='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
+alias ytdl='youtube-dl -f 137+140'                                              # Download videos with best audio quality and resolution
 
 #---FZF
-alias aw='fd . /usr/share/doc/arch-wiki/html/en/ -e html | fzf | xargs -r $BROWSER > /dev/null 2>&1'    # Search the Arch Wiki locally (arch-wiki-docs)
-alias yt='ytfzf -t -l --sort'                                                                           # Search YouTube from the commandline and view in mpv
-alias fo='xdg-open "$(fd --type f | fzf )"'
-alias fo3='xdg-open "$(fd --type f --max-depth 3 | fzf)"'
-alias fcd='cd "$(fd --type d | fzf)"'
-alias getpath='fd --type f | fzf | tr -d "\n" | xclip -selection clipboard'
+alias yt='ytfzf -t -l -s --sort --detach'
+alias fo3='xdg-open "$(find -maxdepth 3 -type f | fzf)"'
+alias fo6='xdg-open "$(find -maxdepth 6 -type f | fzf )"'
+alias fcd='cd "$(find -maxdepth 3 -type d | fzf)"'
 alias scr='script=$(command ls $HOME/.local/bin | fzf) && $EDITOR $HOME/.local/bin/$script'
+alias conf='xdg-open "$(find $HOME/.config/ -maxdepth 3 -type f | sed -e "/BraveSoftware/d" -e "/discord/d" -e "/GIMP/d" -e "/Signal/d" -e "/legendary/d" -e "/godot/d" -e "/aseprite/d" | fzf)"'
 
 #---ProtonVPN
 alias pvpns='doas protonvpn s'          # View the current status
@@ -62,7 +56,6 @@ alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
 #---Window swallowing
-# 'devour' is used for window swallowing
 alias sxiv='devour sxiv'
 alias mpv='devour mpv'
 alias zathura='devour zathura'
@@ -79,23 +72,23 @@ alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,
 alias -s {html}='lynx'
 
 #---Misc
-alias ddg='sr duckduckgo'           # Search DuckDuckGo with $TRUEBROWSER
 alias wp='sr wikipedia'             # Search Wikipedia with $TRUEBROWSER
 alias ucp='ucollage $HOME/Pictures' # Preview all images in Pictures directory with Ucollage
 alias uc='ucollage'                 # Preview a specific image or directory with Ucollage
 alias dictt='trans -d'              # Use translate-shell shell as a dictionary
 alias cc='calcurse'                 # TUI calendar
 alias vf='vifmrun'                  # Allows Ueberzug image previewing in vifm
+alias ax='axel -n 10'               # Open-source CLI alternative to Internet Download Manager (IDM)
 alias vi='nvim'
 alias md='mkdir'
-alias tch='touch'
 alias ...='cd ../..'
 alias scim='sc-im'
-alias nc='ncspot'
+alias ncs='ncspot'
+alias ncm='ncmpcpp'
+alias ncu='$HOME/.config/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp-ueberzug'
 alias bp='bpytop'
-alias pis='pistol'
-alias cat='bat'
 alias drag='dragon-drag-and-drop -a -x'
 alias drag-stay='dragon-drag-and-drop -a'
-alias ax='axel -n 10'
 alias rss='newsboat'
+alias cdsuck='cd $HOME/Desktop/github/suckless-koala'
+alias ani='ani-cli'
