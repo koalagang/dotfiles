@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, xclip, colorpicker
+
+case "$(printf 'custom\nblack\nred\ngreen\nyellow\nblue\nmagenta\ncyan\nwhite' | dmenu -i -p 'Pick a colour')" in
+    'custom')   colorpicker --short --one-shot --preview | tr -d '\n' | xclip -selection clipboard && notify-send 'colourpick' 'Copied custom hex to clipboard!' ;;
+    'black')    printf '#000000' | xclip -selection clipboard && notify-send 'colourpick' 'Copied black hex to clipboard!'   ;;
+    'red')      printf '#FF0000' | xclip -selection clipboard && notify-send 'colourpick' 'Copied red hex to clipboard!'     ;;
+    'green')    printf '#00FF00' | xclip -selection clipboard && notify-send 'colourpick' 'Copied green hex to clipboard!'   ;;
+    'yellow')   printf '#FFFF00' | xclip -selection clipboard && notify-send 'colourpick' 'Copied yellow hex to clipboard!'  ;;
+    'blue')     printf '#0000FF' | xclip -selection clipboard && notify-send 'colourpick' 'Copied blue hex to clipboard!'    ;;
+    'magenta')  printf '#FF00FF' | xclip -selection clipboard && notify-send 'colourpick' 'Copied magenta hex to clipboard!' ;;
+    'cyan')     printf '#00FFFF' | xclip -selection clipboard && notify-send 'colourpick' 'Copied cyan hex to clipboard!'    ;;
+    'white')    printf '#FFFFFF' | xclip -selection clipboard && notify-send 'colourpick' 'Copied white hex to clipboard!'
+esac

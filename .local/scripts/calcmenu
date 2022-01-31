@@ -1,0 +1,8 @@
+#!/bin/sh
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, bc
+# Note that bc is a lot more than just a basic command.
+# Like awk, it is a language which can be used for simple commands as well.
+equation="$(printf '' | dmenu -p 'Enter equation' | bc -l)"
+[ -z "$equation" ] && exit 0 # exit if no input is given
+notify-send 'Result' "$equation"

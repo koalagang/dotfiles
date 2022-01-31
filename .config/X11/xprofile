@@ -1,0 +1,20 @@
+#!/bin/sh
+
+pipewire &
+pipewire-pulse &
+wireplumber &
+
+xcompmgr &
+sxhkd &
+dunst &
+unclutter --timeout 3 &
+dwmblocks &
+
+xrandr --ouput HDMI-0 --mode 1920x1080 --output HDMI-1-1 --mode 1920x1080 --left-of HDMI-0
+nvffcp
+xrdb "$XDG_CONFIG_HOME/X11/xresources"
+redshift -O 2500K
+xwallpaper --focus "$XDG_DATA_HOME/wall.jpg"
+kbd-remaps
+
+exec "$wm"

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+while true; do
+    printf '1. dwm\n2. openbox\n'
+    read -p 'Select an environment: ' env
+    case "$env" in
+        1) wm='dwm' ; break ;;
+        2) wm='openbox' ; break ;;
+        *) echo 'Please select one of the options (answer with a number).'
+    esac
+done
+
+export wm
+
+startx "$XDG_CONFIG_HOME/X11/xinitrc"

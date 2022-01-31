@@ -1,0 +1,3 @@
+steam:
+  quit_steam_on_exit: true
+system: {}

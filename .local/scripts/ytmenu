@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, ytfzf, youtube-dl, axel
+
+case "$(printf 'Search\nHistory\nClear history\nDownload\nDownload with Axel\nFind link' | dmenu -i -l 7)" in
+    'Search') ytfzf -DN ;;
+    'History') ytfzf -DHN || notify-send 'ytmenu' 'History is empty!' ;;
+    'Clear history') ytfzf -x && notify-send 'ytmenu' 'History has been cleared' ;;
+    'Download') ytfzf -DNd ;;
+    'Download with Axel') ytfzf -DNL | xargs -I% youtube-dl --external-downloader 'axel' --external-downloader-args '-n 10' '%' ;;
+    'Find link') ytfzf -DL | xclip -sel c && notify-send 'ytmenu' 'Copied link to clipboard!'
+esac
+
+# TODO: create a subscriptions system
+# TODO: specify download directory

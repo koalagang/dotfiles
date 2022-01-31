@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# AUTHOR: Dante (@koalagang) https://github.com/koalagang
+# Dependencies: dmenu, ffmpeg
+# Use dmenu to select a chosen audio file and run it on loop
+# WARNING: it is not recommended that you use ffplay for other things at the same time, otherwise this script may accidentally kill your other content
+
+# place your sound files in this directory
+sounds_dir="$HOME/.local/share/soundmenu"
+
+[ -d "$sounds_dir" ] || mkdir "$sounds_dir" # make the soundmenu directory if it does not already exist
+
+case "$(printf 'Choose a sound to play\nPlay a random sound\nStop sound' | dmenu -i)" in
+    'Choose a sound to play') SOUND="$(find "$sounds_dir" -printf '%P\n' | sed '/^$/d' | dmenu -l 20)" && pkill -n ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    'Play a random sound') SOUND="$(find "$sounds_dir" -printf '%P\n' | sed '/^$/d' | shuf -n1)" && pkill -n ffplay ; ffplay -nodisp -loop 0 "$sounds_dir/$SOUND" & ;;
+    'Stop sound') pkill -n ffplay || notify-send "Soundmenu" "No sound is currently playing!" ;;
+esac

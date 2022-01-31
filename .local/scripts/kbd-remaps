@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: xorg-xmodmap, xorg-xset
+# A tiny script which improves my keyboard-based workflow.
+# I've set this to be called on startup.
+
+# remap right shift to escape
+xmodmap -e 'keycode 62 = Escape'
+
+# swap capslock and backspace
+xmodmap -e 'keycode 66 = BackSpace' # capslock -> backspace
+xmodmap -e 'keycode 22 = Caps_Lock' # backspace -> capslock
+xmodmap -e 'clear lock' # prevents old capslock from activating/deactivating capslock mode
+
+# speeds up:
+# movement of cursor when using arrow keys or hjkl in vim
+# rate at which characters are created when holding down a character key
+# rate at which characters are deleted when holding down backspace
+xset r rate 300 40

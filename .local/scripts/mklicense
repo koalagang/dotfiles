@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: just the GNU coreutils
+# Supported licenses: APGLv3.0, GPLv3.0, LGPLv3.0, MLv2.0, MIT, Apache License 2.0
+
+# Generate a license quickly and easily because GitHub doesn't fill in the details for you.
+# I wrote this script because I liked the idea of this https://github.com/cezaraugusto/mklicense project
+# but I thought that 150 lines of JavaScript is a bit overkill for such a simple program.
+# All the licenses were taken from https://choosealicense.com/ (which is curated by GitHub).
+# However, I have changed them slightly to make it easier to script them.
+# Don't worry! The licenses themselves haven't been properly changed. I've just replaced a few strings
+# like for example '[year]' in the MIT license was swapped out with '<year>' (so that I can easily replace that with your chosen year).
+# See my .local/share/mklicense directory for all the licenses.
+
+# shellcheck disable=SC2016
+
+# Where all the licenses are stored. Change this variable if you wish to use a different directory.
+licenses_dir="$HOME/.local/share/mklicense"
+# Where the license is saved to once it has been complete.
+save_dir="$HOME"
+
+printf '[1] AGPLv3.0\n[2] GPLv3.0\n[3] LGPLv3.0\n[4] MPLv2.0\n[6] MIT\n[5] Apache License 2.0\nSelect a license: ' ; read -r input
+case "$input" in
+    '1') license='AGPLv3.0' ; file="agplv3.txt" ;;
+    '2') license='GPLv3.0'  ; file="gplv3.txt"  ;;
+    '3') license='LGPLv3.0' ; file="lgplv3.txt" ;;
+    '4') license='MPLv2.0'  ; file="mplv2.txt"  ;;
+    '5') license='MIT'      ; file="mit.txt"    ;;
+    '6') license='Apache License 2.0' ; file="aplv2.txt"
+esac
+printf 'Project name: ' ; read -r projectname
+printf 'License begins in: ' ; read -r year
+printf "Project author's full name: " ; read -r fullname
+[ "$input" -eq 1 ] && printf 'Brief description: ' && read -r description
+set_desc (){
+desc_check="$(echo "$description" | fold -w 200 | head -n1)"
+until [ "$desc_check" = "$description" ]; do
+    printf '\nThat description is too long! Keep it a maximum of one line long.\nTry again.\nBrief description: '
+    read -r description
+    desc_check="$(echo "$description" | fold -w 200 | head -n1)"
+done
+}
+[ -n "$description" ] && set_desc
+
+write_to_license () {
+    sed -e "s/<year>/$year/g" -e "s/<name of author>/$fullname/g" -e "s/<description>/$description/g" "$licenses_dir/$file" > "$HOME/LICENSE" \
+        && echo "Your license has been written to '$save_dir/LICENSE'."
+}
+
+printf "\nSUMMARY\n-------\nProject name: %s\nLicense: %s\nProject author's full name: %s\n" "$projectname" "$license" "$fullname"
+[ -n "$description" ] && printf "Brief description: %s\n" "$description"
+while true; do
+    printf 'Is this correct? [Y/n] ' ; read -r yn
+    case $yn in
+        [Yy]*) write_to_license ; break ;;
+        [Nn]*) printf '\nRun `mklicense` again to try again.\n' ; exit ;;
+        '') write_to_license ; break ;;
+        *) echo 'Please answer yes or no.'
+    esac
+done

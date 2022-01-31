@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# nvffcp (nvidia force full composition pipeline)
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: nvidia (arch kernel users) or nvidia-lts (lts kernel users), nvidia-settings
+# A little script to prevent screen tearing using an Nvidia GPU.
+# If you use a tiling window manager, place this in your xinitrc/xprofile/autostart AFTER your xrandr command.
+# If you use a desktop environment then simply place it in your autostart.
+# This script is not needed if you only use one monitor because if that's the case then just run the following in your autostart:
+# nvidia-settings --assign CurrentMetaMode="nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
+# However, for multi-monitor users, that may break some things. Those people should use this script instead.
+# It is a slightly improved version of a script made by user 'vitkin' on this post:
+# https://unix.stackexchange.com/a/550695
+
+
+mode="$(nvidia-settings -q CurrentMetaMode -t)"
+[ -n "$mode" ] && mode="${mode#*" :: "}" && nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings" -a CurrentMetaMode="${mode//\}/, ForceFullCompositionPipeline=On\}}"
+
+#[ -n "$mode" ] && mode="${mode#*" :: "}" && nvidia-settings -a CurrentMetaMode="${mode//\}/, ForceFullCompositionPipeline=On\}}"

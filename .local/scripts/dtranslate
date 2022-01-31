@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, translate-shell, xclip
+# Translate a phrase into English.
+
+# Type `trans -S` into the terminal to see available engines
+# (though, in my experience, only google works).
+engine='google'
+
+case "$(printf 'from input\nfrom clipboard' | dmenu -i -p 'Translate')" in
+    'from input') phrase="$(printf '' | dmenu -p 'Enter phrase:')" ;;
+    'from clipboard') phrase="$(xclip -selection clipboard -o)"
+esac
+
+[ -z "$phrase" ] && exit 0 # exit if no input is given
+notify-send 'Translation' "$(trans -b "$phrase" -engine "$engine")"
+
+# TODO: add suport for other languages via language codes (e.g. DE)

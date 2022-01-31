@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: xclip, dmenu, mpv, wget, sxiv, newsboat, zathura, a browser (whatever is assigned to the $BROWSER environmental variable)
+# A script which will pull the contents of the clipboard and, if it is a valid URL, will handle it appropriately.
+# It is largely inspired by Luke Smith's dmenuhandler, linkhandler and rssadd scripts.
+
+download_dir="$HOME/Downloads"
+name_fix () { # Convert uppercase letters to lowercase and strip spaces and punctutation marks (aside from dots)
+    mv "$1" "$download_dir/$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed '/[[:punct:]]*/{ s/[^[:alnum:][:space:].-]//g}' | tr -s '[:blank:]' '-')"
+}
+
+# vendored from Luke Smith's rssadd script
+# https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/rssadd
+rss_add (){
+    RSSFILE="${XDG_CONFIG_HOME:-$HOME/.config}/newsboat/urls"
+    if awk '{print $1}' "$RSSFILE" | grep "^$url$" >/dev/null; then
+        notify-send "You already have this RSS feed."
+    else
+        echo "$url" >> "$RSSFILE" && notify-send "RSS feed added."
+    fi
+}
+
+view (){
+    case "$link" in
+    *mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtu.be*|*yewtu.be/watch*|*yewtu.be/playlist*|*invidous.snopyta.org/watch*|*invidious.snopyta.org/playlist*|*hooktube.com*|*bitchute.com*|*odysee.com*) notify-send 'Opening youtube video in mpv...' && mpv "$link" & ;;
+    *png|*jpg|*jpe|*jpeg) notify-send 'Downloading image...' && wget "$link" -O "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" &&
+        sxiv "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")"
+        rm -f "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" ;;
+    *gif*) notify-send 'Downloading gif...' && wget "$link" -O "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g").gif" &&
+        sxiv -a "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g").gif"
+        rm -f "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g").gif" ;;
+	*pdf|*cbz|*cbr) notify-send "Downloading document..." && wget "$link" -O "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" &&
+        zathura "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")"
+        rm -f "/tmp/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" ;;
+	*mp3|*flac|*opus|*mp3*) notify-send 'Playing audio in mpv...' && mpv "$link" & ;;
+    */rss*|*/feed*|*/feeds*|*/feed.xml*|*/feeds.xml*) rss_add "$link" ;;
+        # if linkmenu does not know how to handle the link then it will open it in a browser
+        *) notify-send 'linkmenu is unsure how to handle that URL' "opening in $BROWSER..." && $BROWSER "$link"
+    esac
+}
+
+download (){
+    case "$link" in
+    *mkv|*webm|*mp4|*youtube.com/watch*|*youtube.com/playlist*|*youtu.be*|*yewtu.be/watch*|*yewtu.be/playlist*|*invidous.snopyta.org/watch*|*invidious.snopyta.org/playlist*|*hooktube.com*|*bitchute.com*|*odysee.com*) notify-send "Downloading youtube video to $download_dir..." &&
+                file_name="$(youtube-dl -f best "$link" --get-filename)" && youtube-dl -f mp4 "$link" -o "$file_name" && name_fix "$file_name" &&
+                notify-send "Successfully downloaded youtube video to $download_dir!" ;;
+    *png|*jpg|*jpe|*jpeg) notify-send "Downloading image to $download_dir..." && wget "$link" -O "$download_dir/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" &&
+        echo "Successfully downloaded image to $download_dir!" ;;
+    *gif*) notify-send "Downloading gif to $download_dir..." && wget "$link" -O "$download_dir/$(echo "$link" | sed "s/.*\///;s/%20/ /g").gif" &&
+        echo "Successfully downloaded gif to $download_dir!" ;;
+	*pdf|*cbz|*cbr) notify-send "Downloading document to $download_dir..." && wget "$link" -O "$download_dir/$(echo "$link" | sed "s/.*\///;s/%20/ /g")" &&
+        echo "Successfully downloaded document to $download_dir!" ;;
+	*mp3|*flac|*opus|*mp3*) notify-send 'Playing audio in mpv...' && wget "$link" ;;
+    */rss*|*/feed*|*/feeds*|*/feed.xml*|*/feeds.xml*) rss_add "$link" ;;
+        # if linkmenu does not know how to handle the link then it will open it in a browser
+        *) notify-send 'linkmenu is unsure how to handle that URL' "opening in $BROWSER..." && $BROWSER "$link"
+    esac
+}
+
+# the command `xclip -selection clipboard -o` removes the contents from the clipboard
+# so I assign the contents to a variable and then place it back into the clipboard
+link="$(xclip -selection clipboard -o)" && echo "$link" | xclip -selection clipboard
+
+# Check if clipboard contents are a URL.
+# vendored from Luke Smith's rssadd script
+# https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/rssadd
+if echo "$link" | grep -q "https*://\S\+\.[A-Za-z]\+\S*"; then
+    url="$link"
+else
+    url="$(grep -Eom1 '<[^>]+(rel="self"|application/[a-z]+\+xml)[^>]+>' "$1" |
+        grep -o "https?://[^\" ]")"
+
+    echo "$url" | grep -q "https*://\S\+\.[A-Za-z]\+\S*" ||
+        notify-send "That doesn't look like a full URL." && exit 1
+fi
+
+case "$(printf 'View\nDownload\nOpen' | dmenu -i)" in
+    'View') view ;;
+    'Download') download ;;
+    'Open') $BROWSER "$link"
+esac

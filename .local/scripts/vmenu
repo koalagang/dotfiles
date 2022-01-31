@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu, virtualbox
+# This script only allows for very basic usage and configuration of virtualbox. For me, personally, it meets my needs despite the simplicity of its usage.
+# If you you want a more complicated configuration then you would be better off using the virtualbox GUI.
+# I only really created this script because I like dmenu and don't like GUIs.
+
+# There's no legitimate reason to be littering the home directory with a 'VirtualBox VMs' folder
+# or using a space in the folder's name.
+vm_dir="$XDG_DATA_HOME/virtualbox-vms"
+if [ -d "$HOME/VirtualBox VMs" ]; then
+    vboxmanage setproperty machinefolder "$vm_dir"
+    mv "$HOME/VirtualBox VMs" "$vm_dir" && notify-send 'vmenu' "Your VMs have been moved to $vm_dir."
+else
+    [ -d "$XDG_DATA_HOME/virtualbox-vms" ] || notify-send 'vmenu' "It is recommended that you move your virtualbox VMs to $vm_dir."
+fi
+
+# VMs cannot use your custom keyboard layout.
+# This can create issues if your host system has remapped keys.
+# The closest thing to a solution is to just revert to the default keyboard layout. Otherwise weird things can happen.
+# For example, if you swapped capslock and backspace: you would have to use backspace in the VM to remove characters
+# but it would also activate capslock, thus, whenever you need to remove characters, you are also enabling capslock
+# and the only way to turn off capslock would be to press backspace again (extremely annoying if you don't want to remove another character).
+# Therefore, vmenu resets your keyboard layout with 'setxkbmap' whenever you launch a VM.
+
+case "$(printf 'Launch VM\nCreate VM\nDelete VM\nLaunch VirtualBox GUI' | dmenu -i -p 'Oracle VirtualBox')" in
+    'Launch VM') vboxmanage list vms | cut -d'"' -f2 | dmenu -i -l 5 | xargs -I% vboxmanage startvm '%' && setxkbmap ;;
+
+    'Create VM') vm_name="$(printf '' | dmenu -p 'Enter VM name:')" &&
+        boot_type="$(printf 'UEFI\nLegacy boot' | dmenu -p 'Boot type: ')" &&
+        iso="$(find "$HOME" -maxdepth 4 | dmenu -i -p 'Enter ISO filepath: ')"
+
+        vboxmanage createvm --name "$vm_name" --ostype Linux_64 --register
+        vboxmanage modifyvm "$vm_name" --memory 4096 --vram 128 --cpus 2 --nestedpaging on --largepages on --graphicscontroller vmsvga \
+            --boot1 disk --boot2 floppy --boot3 none --boot4 none
+        vboxmanage createhd --filename "$vm_dir/$vm_name/$vm_name.vdi" --size 20480
+        vboxmanage storagectl "$vm_name" --name "SAS Controller" --add sas --controller LSILogicSAS
+        vboxmanage storageattach "$vm_name" --storagectl "SAS Controller" --port 0 --device 0 --type hdd --medium "$vm_dir/$vm_name/$vm_name.vdi"
+        vboxmanage storagectl "$vm_name" --name "SAS Controller" --hostiocache on --name "IDE Controller" --add ide --controller PIIX4
+        vboxmanage storageattach "$vm_name" --storagectl "IDE Controller" --port 0 --device 0 --type dvddrive --medium "$iso"
+
+        [ "$boot_type" = 'UEFI' ] && vboxmanage modifyvm "$vm_name" --firmware efi && success=1
+        [ "$boot_type" = 'Legacy boot' ] && vboxmanage modifyvm "$vm_name" --firmware bios && success=1
+
+        [ -n "$success" ] && notify-send 'vmenu' "Succesfully created $vm_name VM!" && exit 0
+        notify-send 'vmenu' "Failed to create $vm_name VM. Please try again." && vboxmanage unregistervm "$vm_name" -delete && rm -r "$vm_dir/$vm_name" ;;
+
+    'Delete VM') vm_name="$(vboxmanage list vms | cut -d'"' -f2 | dmenu -i -l 5)" && vboxmanage unregistervm "$vm_name" -delete &&
+        notify-send 'vmenu' "Successfully deleted '$vm_name' VM." ;;
+    'Launch VirtualBox GUI') virtualbox &
+esac
+
+# TODO: output error when trying to create vm with existing name

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: alsa-utils
+# A script to display the volume; intended for use with my dwm status bar.
+# Outputs the current system volume in the following format:
+# '[<vol>%]', so if the volume is 30% then it will say '[30%]'.
+# If the volume is muted then it would say '[ M ]'.
+
+volume="$(amixer sget -D pulse Master | grep 'Front Right:')"
+[[ "$volume" =~ '[off]' ]] && echo '[ M ]' && exit 0
+echo "$volume" | cut -d' ' -f7

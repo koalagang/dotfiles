@@ -1,0 +1,4 @@
+#!/bin/sh
+script="$*" && file="$HOME/.local/scripts/$script"
+[ ! -f "$file" ] && touch "$file" && printf "#!/bin/sh\n\n\n" > "$file" && chmod +x "$file"
+$EDITOR "$file"

@@ -1,0 +1,13 @@
+set selection-clipboard clipboard
+set page-padding 6
+map u scroll half-up
+map d scroll half-down
+map D toggle_page_mode
+map r reload
+map R rotate
+map H zoom in
+map L zoom out
+map M zoom 100%
+map i recolor
+map p print
+map S toggle_statusbar

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: fzf, simple-mtpfs
+# THIS IS A WORK IN PROGRESS
+
+answer_prompt='fzf --reverse --prompt'
+mount_point="$HOME/Desktop/mnt"
+[ ! -d "$mount_point" ] && echo "$mount_point is either a file or does not exist. Please change the mount point (by editing this script) or create it as a directory." && exit 1
+
+case "$(printf 'Android\nUSB' | $answer_prompt 'Choose a device to interact with: ')" in
+    'Android')
+
+        #mounted="$(awk '/simple-mtpfs/ {print $2}' /etc/mtab)"
+        #[ -n "$chosen" ] && fusermount -u "$()"
+        simple-mtpfs -l || exit 1 # exit if no devices is found
+        chosen="$(simple-mtpfs -l | awk '{print $2" "$3}' | $answer_prompt 'Choose device to mount: ')"
+        simple-mtpfs --device "$(simple-mtpfs -l | grep "$chosen" | cut -d':' -f1)" "$mount_point" ;;
+    'USB') echo 'hello'
+esac

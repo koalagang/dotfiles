@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Check if you are able to establish a connection with a server (repeats until you do).
+# This is nice to use if you're having internet connection issues and you want to receive a notification when you regain a connection.
+
+[ -n "$1" ] && server="$1"
+[ -z "$1" ] && server='archlinux.org'
+
+while true; do
+    ping -c1 "$server" -q && printf '\npingable: connection established!\n' && notify-send 'pingable' 'connection established!' && break
+done

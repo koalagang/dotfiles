@@ -1,0 +1,9 @@
+#!/bin/sh
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: dmenu
+process="$(ps -u "$USER" -o pid,%mem,%cpu,comm | sort -b -k2 -r | sed -n '1!p' | dmenu -i -l 20 | cut -d' ' -f1)"
+[ -z "$process" ] || choice="$(printf 'Yes\nNo' | dmenu -i -p 'Kill process?')"
+case "$choice" in
+    'Yes') kill -15 "$process" ;;
+    'No') exit 0
+esac

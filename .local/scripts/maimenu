@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: maim, dmenu, xclip
+
+case "$(printf 'a selected area (copy)\ncurrent window (copy)\nfull screen (copy)\na selected area (save)\ncurrent window (save)\nfull screen (save)' |
+    dmenu -l 6 -i -p 'Select an area to screenshot')" in
+	'a selected area (copy)') maim -s | xclip -selection clipboard -t image/png && notify-send 'maimenu' 'Copied image to clipboard!' ;;
+	'current window (copy)') maim -i "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png && notify-send 'maimenu' 'Copied image to clipboard!' ;;
+	'full screen (copy)') maim | xclip -selection clipboard -t image/png && notify-send 'maimenu' 'Copied image to clipboard!' ;;
+    'a selected area (save)') maim -s "$HOME/Pictures/$(date '+%F_%T' | tr ':' '-').png" && notify-send 'maimenu' "Saved image to $HOME/Pictures" ;;
+    'current window (save)') maim -i "$HOME/Pictures/$(xdotool getactivewindow)" "$(date '+%F_%T' | tr ':' '-').png" && notify-send 'maimenu' "Saved image to $HOME/Pictures" ;;
+    'full screen (save)') maim "$HOME/Pictures/$(date '+%F_%T' | tr ':' '-').png" && notify-send 'maimenu' "Saved image to $HOME/Pictures"
+esac

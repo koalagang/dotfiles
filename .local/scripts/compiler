@@ -1,0 +1,13 @@
+#!/bin/sh
+
+file=$(readlink -f "$1")
+dir=${file%/*}
+name="${file%.*}"
+ext="${file##*.}"
+
+cd "$dir" || exit 1
+
+case "$ext" in
+	ms) preconv "$file" | refer -PS -e | groff -me -ms -kept -T pdf > "$name".pdf ;;
+	md) pandoc "$file" -t beamer -o "$name".pdf
+esac
