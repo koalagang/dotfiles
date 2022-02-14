@@ -1,12 +1,17 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: alsa-utils
+# Dependencies: pamixer
 # A script to display the volume; intended for use with my dwm status bar.
-# Outputs the current system volume in the following format:
-# '[<vol>%]', so if the volume is 30% then it will say '[30%]'.
-# If the volume is muted then it would say '[ M ]'.
+# Outputs the current system volume.
+# The outputted string will always be four characters long.
+# For example, if the volume level is 30% then it will output ' %30' (see the space before?).
+# This is so that the block doesn't change size when shifting between
+# single digit, double digit, and triple digit (i.e. 100) numbers.
+# When it is on mute then it will output ' [M]'.
 
-volume="$(amixer sget -D pulse Master | grep 'Front Right:')"
-[[ "$volume" =~ '[off]' ]] && echo '[ M ]' && exit 0
-echo "$volume" | cut -d' ' -f7
+[ "$(pamixer --get-volume-human)" = 'muted' ] && echo ' [M]' && exit
+vol="$(pamixer --get-volume)"
+[ "$vol" -lt 100 ] && [ "$vol" -lt 10 ] && echo "  $vol%" && exit
+[ "$vol" -lt 100 ] && echo " $vol%" && exit
+echo "$vol%" && exit

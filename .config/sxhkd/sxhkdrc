@@ -27,7 +27,7 @@ mod4 + mod1 + {a,k,s,l,m,v,d,b,f,g}
 
 # Volume controls
 {XF86AudioMute,XF86AudioLowerVolume,XF86AudioRaiseVolume}
-    amixer sset Master {toggle -q,5%-,5%+} && pkill -RTMIN+2 dwmblocks
+    pamixer {-t,-d 5,-i 5} && pkill -RTMIN+2 dwmblocks
 
 # Refresh sxhkd bindings
 mod4 + ctrl + s

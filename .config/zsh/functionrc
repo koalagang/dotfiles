@@ -74,10 +74,6 @@ while getopts 's:f:u:' OPT; do
 done
 }
 
-#lines (){ # Display how many lines are in a file if you ignore comments and empty lines (assuming hashes are used for the comments)
-#    grep -v -e '^#' -e '^$' "$1" | wc -l
-#}
-
 gimp (){ # swallow gimp and silence all output (keep the terminal devoid of annoying unimportant error messages)
     - devour gimp "$1" 2>/dev/null ; true
 }
@@ -91,6 +87,11 @@ timewl (){
 }
 
 # Enable a runit service in Artix Linux
-add-service (){
-    ln -s /etc/runit/sv/$1 /etc/runit/runsvdir/default
+enable-service (){
+    doas ln -s /etc/runit/sv/$1 /etc/runit/runsvdir/default && sv up $1
+}
+
+# Disable a runit service in Artix Linux
+disable-service(){
+    sv down $1 && doas rm /run/runit/service/$1
 }
