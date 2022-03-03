@@ -30,6 +30,10 @@ nno n nzzzv
 nno N Nzzzv
 nno r <c-r>
 nno <silent> <leader>iv :edit ~/.config/nvim/init.vim<cr>
+" Automatically enter insert mode when opening an empty file
+autocmd BufNewFile * startinsert
+autocmd VimEnter * if empty(expand("%")) | startinsert | endif
+autocmd VimEnter * if getfsize(expand("%")) == 0 | startinsert | endif
 
 " Line manipulation
 nno <m-k> ddkkp

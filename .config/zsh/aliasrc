@@ -87,17 +87,21 @@ alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -select
 alias pc='history | cut -c 8- | tail -1 | xclip -selection clipboard'                           # view history using fzf and copy selected to clipboard
 
 #--GTD
+alias tadd='task add'
+alias tmod='task modify'
+alias tedit='task edit'
+alias tstart='task start'
+alias tstop='task stop'
+alias tdone='task done'
+alias tinfo='task info'
+alias tdel='task delete'
+alias tpur='task purge'
 alias tbd='task burndown.daily'
-alias ta='task add'
-alias td='task done'
-alias tst='task start'
-alias tsp='task stop'
 alias tcal='task calendar'
-alias ti='task info'
-alias tas='task summary'
-alias tis='timew summary :ids'
-alias tism'timew summary :month :ids'
-alias tisy'timew summary :year :ids'
+alias tsum='task summary'
+alias tisum='timew summary :ids'
+alias tisumm'timew summary :month :ids'
+alias tisumy'timew summary :year :ids'
 alias vw='nvim $HOME/Documents/vimwiki/index.md'
 
 #---Misc

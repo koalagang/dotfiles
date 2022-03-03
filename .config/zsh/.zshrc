@@ -17,7 +17,6 @@ eval "$(starship init zsh)"             # TIP: the Starship prompt indicates wha
 
 # z.lua
 eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)"
-alias zc="true > $HOME/.cache/zsh/.zlua" # clear z.lua memory
 
 # History and cache
 HISTFILE="$XDG_CACHE_HOME/zsh/history"

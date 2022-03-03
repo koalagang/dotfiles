@@ -85,13 +85,3 @@ ytdl (){
 timewl (){
     timew lengthen @$1 $2mins
 }
-
-# Enable a runit service in Artix Linux
-enable-service (){
-    doas ln -s /etc/runit/sv/$1 /etc/runit/runsvdir/default && sv up $1
-}
-
-# Disable a runit service in Artix Linux
-disable-service(){
-    sv down $1 && doas rm /run/runit/service/$1
-}
