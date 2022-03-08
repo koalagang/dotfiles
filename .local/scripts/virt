@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: libvirtd, libvirtd-runit (or openrc or s6; only needed if you are on Artix), qemu, virt-manager, virt-viewer, dnsmasq, vde2, bridge-utils, openbsd-netcat
+# I wrote this script because I don't want to have libvirtd constantly taking up memory when I only need it to run while running a VM.
+
+doas ln -s /etc/runit/sv/libvirtd /etc/runit/runsvdir/default
+doas sv up libvirtd >/dev/null
+echo 'Starting libvirtd...'
+doas ln -s /etc/runit/sv/virtlogd /etc/runit/runsvdir/default
+doas sv up virtlogd >/dev/null
+echo 'Starting virtlogd...'
+doas ln -s /etc/runit/sv/virtlockd /etc/runit/runsvdir/default
+doas sv up virtlockd >/dev/null
+echo 'Starting virtlockd...'
+setxkbmap -layout us
+sleep 4 # It takes 4 seconds for libvirtd to properly start
+devour virt-manager --no-fork >/dev/null 2>&1 # virt-manager usually forks itself from the terminal; this makes it unscriptable, so we use the no-fork flag
+kbd-remaps
+doas sv down libvirtd
+doas rm /etc/runit/runsvdir/default/libvirtd
+echo 'Stopped libvirtd.'
+doas sv down virtlogd
+doas rm /etc/runit/runsvdir/default/virtlogd
+echo 'Stopped virtlogd.'
+doas rm /etc/runit/runsvdir/default/virtlockd
+echo 'Stopped virtlockd.'
