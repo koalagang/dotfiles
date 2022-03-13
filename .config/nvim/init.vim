@@ -99,6 +99,7 @@ let g:netrw_liststyle=3         " tree view
 let g:netrw_browse_split=4
 let g:netrw_winsize=15
 let g:netrw_preview=1
+let g:netrw_dirhistmax=0        " Remove netrw history
 nno <c-n> :Lexplore<cr>
 
 " Allows you to use HJKL to navigate in insert mode if you hold down ctrl
@@ -169,7 +170,6 @@ nno <c-x> "+dd
 "---Plugins
 call plug#begin()
 Plug 'vimwiki/vimwiki'
-Plug 'tools-life/taskwiki'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 " Plugin which adds support for GDscript and running the Godot Engine directly from Vim
@@ -187,11 +187,6 @@ call plug#end()
 let g:vimwiki_global_ext = 0
 let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
-" Task Wiki
-let g:taskwiki_taskrc_location='/home/dante/.config/taskwarrior/taskrc'
-let g:taskwiki_data_location='/home/dante/.local/share/taskwarrior'
-let g:taskwiki_markup_syntax='markdown'
 
 " Indent line
 let g:indentLine_setConceal = 1
@@ -283,14 +278,20 @@ set statusline+=\ [%p%%
 set statusline+=\ %l/%L]
 
 "---Misc
-map <c-s> :!shellcheck %<cr>
-map <leader>c :w! \| !compiler "<c-r>%"<cr><cr>
 map <leader>p :w! \| !python3 %<cr>
 map <leader>sc :w! \| :!shellcheck %<cr>
 map % :w! \| !./%<cr>
-nno <leader>Z :!zathura --fork %:t:r.pdf<cr><cr>
+nno <silent><leader>z :!zathura --fork %:t:r.pdf<cr><cr>
+nno <silent><leader>Z :!devour zathura %:t:r.pdf<cr><cr>
 map <leader>a :set autochdir<cr>
 
+" Compiling
+map <silent><leader>c :w! \| !compiler "<c-r>%"<cr><cr>
+map <leader>C :w! \| !compiler "<c-r>%"<cr>
+map <silent><leader>c :w! \| !compiler "<c-r>%"<cr><cr>!compiler "<c-r>%"<cr><cr>
+
 " File templates
-nno ,html :-1read ~/.config/nvim/.skeleton.html<cr>3jwf>a
-nno ,md :-1read ~/.config/nvim/.skeleton.md<cr>GkA<space>
+augroup templates
+    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
+    autocmd BufNewFile *.sh 0r ~/.config/nvim//templates/skeleton.sh
+augroup END

@@ -10,8 +10,10 @@
 # single digit, double digit, and triple digit (i.e. 100) numbers.
 # When it is on mute then it will output ' [M]'.
 
-[ "$(pamixer --get-volume-human)" = 'muted' ] && echo ' [M]' && exit
-vol="$(pamixer --get-volume)"
-[ "$vol" -lt 100 ] && [ "$vol" -lt 10 ] && echo "  $vol%" && exit
-[ "$vol" -lt 100 ] && echo " $vol%" && exit
-echo "$vol%"
+### EDIT COMMENTS ABOVE
+### ALSO TEST ON LAPTOP BEFORE PUSHING TO GITHUB
+### THEN PUSH think-dwmblocks TO GITHUB
+bat="$(>/sys/class/power_supply/BAT0/capacity)"
+[ "$bat" -lt 100 ] && [ "$bat" -lt 10 ] && echo "  $bat%" && exit
+[ "$bat" -lt 100 ] && echo " $bat%" && exit
+echo "$bat%"

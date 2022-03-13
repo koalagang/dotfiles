@@ -10,10 +10,11 @@ dunst &
 unclutter --timeout 3 &
 dwmblocks &
 
-if [ "$HOST" = 'Ljosalfheim' ]; then
+HOST_NAME="$(</etc/hostname)"
+if [ "$HOST_NAME" = 'Ljosalfheim' ]; then
     xrandr --ouput HDMI-0 --mode 1920x1080 --output HDMI-1-1 --mode 1920x1080 --left-of HDMI-0
     nvffcp
-elif [ "$HOST" = 'Svartalfheim' ]; then
+elif [ "$HOST_NAME" = 'Svartalfheim' ]; then
     xrandr --output LVDS1 --mode 1366x768
 fi
 xrdb "$XDG_CONFIG_HOME/X11/xresources"

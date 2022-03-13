@@ -14,8 +14,8 @@ ctrl + mod1 + {l,d}
     slock { ,"$(xset dpms force off)"} # using 'l' will simply lock the screen, using 'd' will lock it and turn it off
 
 # Dmenu
-mod4 + d ; {d,c,p,g,F3,F4,u,e,k,m,s,n,y,a,b,t,r,l,v}
-    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu,vmenu}
+mod4 + d ; {d,c,p,g,F3,F4,u,e,k,m,s,n,y,a,b,t,r,l}
+    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
 
 # Launch applications
 mod4 + mod1 + {a,k,s,l,m,v,d,b,f,g}
