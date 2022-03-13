@@ -1,19 +1,14 @@
 #!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: pamixer
-# A script to display the volume; intended for use with my dwm status bar.
-# Outputs the current system volume.
+# A script to display my ThinkPad's battery power; intended for use with my dwm status bar.
+# Outputs the current battery power.
 # The outputted string will always be four characters long.
-# For example, if the volume level is 30% then it will output ' %30' (see the space before?).
+# For example, if the battery level is 30% then it will output ' %30' (see the space before?).
 # This is so that the block doesn't change size when shifting between
 # single digit, double digit, and triple digit (i.e. 100) numbers.
-# When it is on mute then it will output ' [M]'.
 
-### EDIT COMMENTS ABOVE
-### ALSO TEST ON LAPTOP BEFORE PUSHING TO GITHUB
-### THEN PUSH think-dwmblocks TO GITHUB
-bat="$(>/sys/class/power_supply/BAT0/capacity)"
+bat="$(cat /sys/class/power_supply/BAT0/capacity)"
 [ "$bat" -lt 100 ] && [ "$bat" -lt 10 ] && echo "  $bat%" && exit
 [ "$bat" -lt 100 ] && echo " $bat%" && exit
 echo "$bat%"
