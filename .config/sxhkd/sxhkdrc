@@ -19,7 +19,7 @@ mod4 + d ; {d,c,p,g,F3,F4,u,e,k,m,s,n,y,a,b,t,r,l}
 
 # Launch applications
 mod4 + mod1 + {a,k,s,l,m,v,d,b,f,g}
-	{anki,keepassxc,signal-desktop,lutris,multimc,steam,discord,$BROWSER,minimal-firefox,godot} # NOTE: minimal-firefox is a script - see my scripts directory for that.
+	{anki,keepassxc,signal-desktop,lutris,multimc,steam,discord,$BROWSER,firefox-esr,godot}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
