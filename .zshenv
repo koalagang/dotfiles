@@ -26,7 +26,6 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export LESSHISTFILE=- # Disable less history
 export TASKRC="$XDG_CONFIG_HOME/taskwarrior/taskrc"
 export TIMEWARRIORDB="$XDG_CONFIG_HOME/timewarrior"
-export VIT_DIR="$XDG_CONFIG_HOME/vit"
 
 # Default applications
 export EDITOR="nvim"

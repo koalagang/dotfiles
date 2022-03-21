@@ -7,15 +7,15 @@ mod4 + Return
 
 # Power options
 ctrl + mod1 + {p,r,s}
-	loginctl {poweroff, reboot, suspend}
+	loginctl {poweroff, reboot, suspend && pkill -RTMIN+3 dwmblocks}
 
 # Lockscreen
-ctrl + mod1 + {l,d}
-    slock { ,"$(xset dpms force off)"} # using 'l' will simply lock the screen, using 'd' will lock it and turn it off
+ctrl + mod1 + l
+    slock
 
 # Dmenu
-mod4 + d ; {d,c,p,g,F3,F4,u,e,k,m,s,n,y,a,b,t,r,l}
-    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenumount,dmenuumount,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
+mod4 + d ; {d,c,p,g,u,e,k,m,s,n,y,a,b,t,r,l}
+    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
 
 # Launch applications
 mod4 + mod1 + {a,k,s,l,m,v,d,b,f,g}
@@ -36,11 +36,6 @@ mod4 + ctrl + s
 # Keyboard layouts
 mod4 + s ; {u,n,g}
     setxkbmap -layout {us,no,gb} && pkill -RTMIN+1 dwmblocks && kbd-remaps
-
-# Take a screenshot (currently active monitor [dual monitor setup])
-Print
-    import -window root "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" && convert "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" -crop 1920x1080 \
-    "$HOME/Pictures/$(date '+%F_%T' | sed -e 's/:/-/g').png" && notify-send "Screenshot saved!"
 
 # Move the mouse with the vim keys
 mod4 + ctrl + {h,j,k,l}

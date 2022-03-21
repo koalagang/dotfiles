@@ -2,7 +2,6 @@
 # Any aliases I don't actually use are commented out.
 
 #---Pacman and Paru
-alias upd-shut='paru -Syu --noconfirm ; loginctl poweroff'      # Check the update and then shutdown
 alias clc='doas paccache -r && doas paccache -ruk0'             # Clear the cache
 alias co='paru -c'                                              # Clear orphans
 alias pr='doas pacman -R'                                       # Remove a package
@@ -18,14 +17,6 @@ alias record60fps='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
 alias yt='ytfzf -tls --sort --detach'
 alias scr='$EDITOR $HOME/.local/scripts/"$(command ls $HOME/.local/scripts | fzf --bind ctrl-j:down --bind ctrl-k:up)"'
 alias conf='$EDITOR "$(find $XDG_CONFIG_HOME -maxdepth 3 -type f | fzf --bind ctrl-j:down --bind ctrl-k:up)"'
-
-#---ProtonVPN
-alias pvpns='doas protonvpn s'          # View the current status
-alias pvpnd='doas protonvpn d'          # Disconnect from the currently connected server
-alias pvpnf='doas protonvpn c -f'       # Connect to the fastest server
-alias pvpnu='doas protonvpn c --cc US'  # Connect to the fastest US server
-alias pvpnn='doas protonvpn c --cc NL'  # Connect to the fasest Netherlands server
-alias pvpnj='doas protonvpn c --cc JP'  # Connect to the fastest Japan server
 
 #---Trash CLI
 alias tp='trash-put'
