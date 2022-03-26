@@ -1,0 +1,58 @@
+!! transparency (0-1)
+*.alpha: 0.85
+!! standard Ubunto mono font
+!! requires `ttf-ubuntu-font-family` package
+*.font: Ubuntu mono:size=10:antialias=true:autohint=true;
+!! same as above but set st font as slightly larger
+st.font: Ubuntu mono:size=14:antialias=true:autohint=true;
+!! a cursor theme inspired by macOS and based on KDE Breeze
+!! requires `capitaine-cursors` package
+Xcursor.theme: capitaine-cursors
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: true
+
+/*
+!! my own personal colour scheme
+! flamingo:
+*.color0:       #3B4252
+*.color1:       #BF616A
+*.color2:       #EB49CF
+*.color3:       #EBCB8B
+*.color4:       #81A1C1
+*.color5:       #B48EAD
+*.color6:       #A7B3C9
+*.color7:       #E5E9F0
+*.color8:       #4B4252
+*.color9:       #CF616A
+*.color10:      #FB49CF
+*.color11:      #FBCB8B
+*.color12:      #82A1C1
+*.color13:      #C48EAD
+*.color14:      #B7B3C9
+*.color15:      #FCEFF4
+*.background:   #232937
+*.foreground:   #FFD2F7
+*/
+
+! Dracula Xresources palette
+! Provided by https://github.com/dracula/xresources
+*.foreground: #F8F8F2
+*.background: #282A36
+*.color0:     #000000
+*.color1:     #FF5555
+*.color2:     #50FA7B
+*.color3:     #F1FA8C
+*.color4:     #BD93F9
+*.color5:     #FF79C6
+*.color6:     #8BE9FD
+*.color7:     #BFBFBF
+*.color8:     #4D4D4D
+*.color9:     #FF6E67
+*.color10:    #5AF78E
+*.color11:    #F4F99D
+*.color12:    #CAA9FA
+*.color13:    #FF92D0
+*.color14:    #9AEDFE
+*.color15:    #E6E6E6

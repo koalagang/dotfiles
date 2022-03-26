@@ -1,0 +1,99 @@
+{
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "plaintext",
+          "markdown",
+          "tex",
+          "html",
+          "global"
+        ],
+        "path": "./snippets/global.json"
+      },
+      {
+        "language": [
+          "csharp",
+          "cs"
+        ],
+        "path": "./snippets/csharp.json"
+      },
+      {
+        "language": "lua",
+        "path": "./snippets/lua.json"
+      },
+      {
+        "language": "go",
+        "path": "./snippets/go.json"
+      },
+      {
+        "language": "rust",
+        "path": "./snippets/rust.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh",
+          "zsh"
+        ],
+        "path": "./snippets/shell.json"
+      },
+      {
+        "language": [
+          "markdown"
+        ],
+        "path": "./snippets/markdown.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "tex"
+        ],
+        "path": "./snippets/latex.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/base.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/comprehension.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/debug.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/python.json"
+      },
+      {
+        "language": "python",
+        "path": "./snippets/python/unittest.json"
+      },
+      {
+        "language": "kotlin",
+        "path": "./snippets/kotlin.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "tex"
+        ],
+        "path": "./snippets/latex/latex-snippets.json"
+      },
+      {
+        "language": [
+          "plaintex",
+          "tex"
+        ],
+        "path": "./snippets/latex/vscode-latex-snippets.json"
+      },
+      {
+        "language": "make",
+        "path": "./snippets/make.json"
+      }
+    ]
+  }
+}
