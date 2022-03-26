@@ -1,0 +1,105 @@
+{
+  "echo": {
+    "prefix": "echo",
+    "body": "echo \"${0:message}\"",
+    "description": "Echo a message."
+  },
+  "read": {
+    "prefix": "read",
+    "body": "read -r ${0:VAR}",
+    "description": "Read input of ${VAR}."
+  },
+  "if_posix": {
+    "prefix": "if",
+    "body": "if [ ${2:condition} ]; then\n\t${1}$0\nfi",
+    "description": "A POSIX-compliant IF statement."
+  },
+  "elseif_posix": {
+    "prefix": "elseif",
+    "body": "elif [ ${2:condition} ]; then\n\t${1}$0",
+    "description": "Add an elseif to an if statement."
+  },
+  "if_bash": {
+    "prefix": "if",
+    "body": "if [[ ${2:condition} ]]; then\n\t${1}$0\nfi",
+    "description": "An IF statement."
+  },
+  "elseif_bash": {
+    "prefix": "elseif",
+    "body": "elif [[ ${2:condition} ]]; then\n\t${1}$0",
+    "description": "Add an elseif to an if statement."
+  },
+  "else": {
+    "prefix": "else",
+    "body": "else\n\t${0:command}",
+    "description": "else"
+  },
+  "for_in": {
+    "prefix": "for_in",
+    "body": "for ${0:VAR} in $${1:LIST}\ndo\n\techo \"$${0:VAR}\"\ndone\n",
+    "description": "for loop in list"
+  },
+  "for_i": {
+    "prefix": "for_i",
+    "body": "for ((${0:i} = 0; ${0:i} < ${1:10}; ${0:i}++)); do\n\techo \"$${0:i}\"\ndone\n",
+    "description": "An index-based iteration for loop."
+  },
+  "while_posix": {
+    "prefix": "while",
+    "body": "while [ ${1:condition} ]; do\n\t${0}\ndone\n",
+    "description": "A POSIX-compliant while loop by condition."
+  },
+  "until_posix": {
+    "prefix": "until",
+    "body": "until [ ${1:condition} ]; do\n\t${0}\ndone\n",
+    "description": "A POSIX-compliant until loop by condition"
+  },
+  "while_bash": {
+    "prefix": "while",
+    "body": "while [[ ${1:condition} ]]; do\n\t${0}\ndone\n",
+    "description": "A while loop by condition."
+  },
+  "until_bash": {
+    "prefix": "until",
+    "body": "until [[ ${1:condition} ]]; do\n\t${0}\ndone\n",
+    "description": "until loop by condition"
+  },
+  "function": {
+    "prefix": "function",
+    "body": "${1:name} (){\n\t${0}\n}",
+    "description": [
+      "This defines a function named name.\n",
+      "The reserved word function is optional.\n",
+      "If the function reserved word is supplied, the parentheses are optional.\n",
+      "1. Recommended way:\n",
+      "name() {}\n",
+      "2. C-like-way:\nfunction name [()] {}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": "case \"$${0:VAR}\" in\n\t${1:1}) echo 1\n\t;;\n\t${2:2|3}) echo 2 or 3\n\t;;\n\t*) echo default\n\t;;\nesac\n",
+    "description": [
+      "case word in [ [(] pattern [ | pattern ] ... ) list ;; ] ... esac\n",
+      "A case command first expands word, and tries to match it against each pattern in turn."
+    ]
+  },
+  "array": {
+    "prefix": "arr",
+    "body": "${1:ARR}=\"$($0)\"",
+    "description": [
+    "Assign a value to the array ${ARR}.\n",
+    "NOTE: this is not POSIX-compliant."
+    ]
+  },
+  "var_variable": {
+    "prefix": "var",
+    "body": "${1:VAR}=\"\\$$0\"",
+    "description": "Assign a variable's value to the variable ${VAR}."
+  },
+  "var_string": {
+    "prefix": "var",
+    "body": "${1:VAR}=\"$0\"",
+    "description": "Assign a value to ${VAR}."
+  }
+}

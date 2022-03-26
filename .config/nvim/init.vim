@@ -12,8 +12,7 @@
 " WORK IN PROGRESS
 " Porting config to lua
 lua require 'init'
-" During this process,
-" instead of removing viml lines, I will comment them out.
+" During this process, instead of removing viml lines, I will comment them out.
 
 "---Basics
 "let mapleader = ','
@@ -107,18 +106,15 @@ autocmd VimEnter * if getfsize(expand("%")) == 0 | startinsert | endif
 
 "---Tidying
 "Convert text to UTF-8 and fileformat to Unix
-setglobal termencoding=utf-8 fileencodings=
-scriptencoding utf-8
-"set encoding=utf-8
-autocmd BufNewFile,BufRead  *    try
-autocmd BufNewFile,BufRead  *    set encoding=utf-8
-autocmd BufNewFile,BufRead  *    endtry
-set fileformat=unix
-"Clean up trailing spaces and single lines at the end of files
-autocmd BufWritePre * %s/\s\+$//e
-autocmd BufWritePre * %s/\n\+\%$//e
-autocmd BufWritePre *.[ch] %s/\%$/\r/e
-
+"""setglobal termencoding=utf-8 fileencodings=
+"scriptencoding utf-8
+""set encoding=utf-8
+"autocmd BufNewFile,BufRead  *    try
+"autocmd BufNewFile,BufRead  *    set encoding=utf-8
+"autocmd BufNewFile,BufRead  *    endtry
+"set fileformat=unix
+" Clean up trailing spaces and single lines at the end of files
+"autocmd BufWritePre * %s/\s\+$//e
 
 "---Appearance
 " Colours
@@ -136,6 +132,8 @@ highlight String           ctermfg=12   ctermbg=none    cterm=none
 highlight Number           ctermfg=1    ctermbg=none    cterm=none
 highlight Function         ctermfg=1    ctermbg=none    cterm=none
 set t_Co=256 " Enable 256 colours
+
+highlight SignColumn ctermbg=none guibg=none
 
 "" Statusline
 "function! FileSize() abort
@@ -188,7 +186,7 @@ set t_Co=256 " Enable 256 colours
 "map <silent><leader>c :w! \| !compiler "<c-r>%"<cr><cr>!compiler "<c-r>%"<cr><cr>
 
 " File templates
-augroup templates
-    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
-    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/skeleton.sh
-augroup END
+"augroup templates
+"    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
+"    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/skeleton.sh
+"augroup END

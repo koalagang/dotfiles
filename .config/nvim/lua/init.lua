@@ -1,4 +1,3 @@
-require('options')
-require('maps')
-require('plugins')
-require('add-on')
+require'options'
+require'mappings'
+require'plugins'

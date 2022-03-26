@@ -15,8 +15,9 @@ alias record60fps='ffmpeg -f x11grab -r 60 -s 1920x1080 -i :0.0+0,0'
 
 #---FZF
 alias yt='ytfzf -tls --sort --detach'
-alias scr='$EDITOR $HOME/.local/scripts/"$(command ls $HOME/.local/scripts | fzf --bind ctrl-j:down --bind ctrl-k:up)"'
-alias conf='$EDITOR "$(find $XDG_CONFIG_HOME -maxdepth 3 -type f | fzf --bind ctrl-j:down --bind ctrl-k:up)"'
+alias scr='$EDITOR $HOME/.local/scripts/"$(command ls $HOME/.local/scripts | fzf)"'
+alias conf='$EDITOR "$(find $XDG_CONFIG_HOME -maxdepth 3 -type f | fzf)"'
+alias vimconf='find $XDG_CONFIG_HOME/nvim -type f -printf "%P\n" | sed "/^plugin/d" | fzf | xargs -I% $EDITOR $HOME/.config/nvim/%'
 
 #---Trash CLI
 alias tp='trash-put'

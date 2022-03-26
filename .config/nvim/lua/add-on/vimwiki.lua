@@ -1,6 +1,4 @@
-vim.cmd([[
-let g:vimwiki_global_ext = 0
-let g:vimwiki_list = [{'path': '~/Documents/vimwiki', 'syntax': 'markdown', 'ext': '.md'}]
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-let g:vimwiki_conceallevel = 2
-]])
+vim.g.vimwiki_global_ext = false
+vim.g.vimwiki_list = { path = '~/Documents/vimwiki',  syntax = 'markdown', ext = '.md' }
+vim.g.vimwiki_ext2syntax = { ['.md'] = 'markdown', ['.markdown'] = 'markdown', ['.mdown'] = 'markdown' }
+vim.g.vimwiki_conceallevel = 2

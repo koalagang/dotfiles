@@ -1,11 +1,11 @@
 local fn = vim.fn
 
 -- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+local install_path = fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   PACKER_BOOTSTRAP = fn.system {
-    "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path, }
-  print "Installing packer close and re-open Neovim..."
+    'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path, }
+  print 'Installing packer. Close and re-open Neovim...'
   vim.cmd [[packadd packer.nvim]]
 end
 
@@ -18,7 +18,7 @@ vim.cmd [[
 ]]
 
 -- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
+local status_ok, packer = pcall(require, 'packer')
 if not status_ok then
   return
 end
@@ -27,82 +27,86 @@ end
 packer.init {
   display = {
     open_fn = function()
-      return require("packer.util").float { border = "rounded" }
+      return require('packer.util').float { border = 'rounded' }
     end,
   },
 }
 
+--[[
+-- Dependencies not managed by packer:
+    -- git (to automatically install packer)
+    -- tar, gzip, curl, wget, python3, node, bash, npm3, pip3 (lsp-installer)
+    -- ripgrep (telescope)
 -- TODO:
--- Install LSPs for lua, python, bash - and go or rust (?)
--- Disable built-in plugins (?)
--- Read through nvim-lspconfig, nvim-cmp and packer.nvim documentation
--- Consider installing the following??
-    -- nvim-telescope/telescope.nvim
-    -- lewis6991/gitsigns.nvim
-    -- nvim-treesitter/nvim-treesitter
-    -- kyazdani42/nvim-tree.lua
-    -- akinsho/toggleterm.nvim
-    -- molleweide/LuaSnip-snippets.nvim
--- NOTE: Try not to go too hard with the plugins and make sure to use lazy-loading
+    -- Install language servers for lua, python, bash - and go or rust (?)
+    -- Configure lazy-loading (cmd, ft, etc.)
+    -- Read through nvim-lspconfig, nvim-cmp and packer.nvim documentation
+    -- Consider installing the following??
+	-- lewis6991/gitsigns.nvim
+	-- akinsho/bufferline.nvim
+]]
 
 return packer.startup(function(use)
     --[[Plugins]]
 
-    -- explicitly install packer to avoid accidentally uninstalling
+    -- let packer manage itself
     use { 'wbthomason/packer.nvim', opt = false }
 
-    use 'lukas-reineke/indent-blankline.nvim'
+    -- indent lines
+    use { 'lukas-reineke/indent-blankline.nvim', config = function() require('add-on.indent-blankline') end }
 
-    -- I may move to feline (?)
-    use { 'nvim-lualine/lualine.nvim',
+    use { 'nvim-lualine/lualine.nvim', config = function() require('add-on.lualine') end,
         requires = {'kyazdani42/nvim-web-devicons'}}
 
-    use { 'vimwiki/vimwiki', ft = 'markdown', opt = true }
-
-    -- Snippets
-    -- TODO: create snippets
-    use { 'L3MON4D3/LuaSnip', ft = { 'tex', 'bib', 'sh', 'py', 'lua' }, opt = true }
+    -- Note-taking
+    use { 'vimwiki/vimwiki', ft = 'markdown', opt = true, config = function() require('add-on.vimwiki') end }
+    -- hologram thinks my vimwiki notes are vim files, even thoug they're markdown files
+    --use {'edluffy/hologram.nvim', ft = 'markdown', opt = true }
 
     -- LSP
-    -- TODO: configure lsp
-    use {{'neovim/nvim-lspconfig'},
-        {'williamboman/nvim-lsp-installer'}}
+    -- TODO: install and configure LSP for lua, bash, python, kotlin, csharp, rust and/or go
+    use {{ 'neovim/nvim-lspconfig', config = function() require('add-on.lsp') end },
+        { 'williamboman/nvim-lsp-installer' }}
 
-    -- completion
-    use {{'hrsh7th/nvim-cmp'},  -- The completion plugin
-        {'hrsh7th/cmp-buffer'}, -- buffer completions
-        {'hrsh7th/cmp-path'},   -- path completions
-        {'hrsh7th/cmp-cmdline'},-- cmdline completions
-        {'hrsh7th/cmp-nvim-lsp'}}
-    use {'saadparwaiz1/cmp_luasnip', -- snippet completions
-        requires = {'hrsh7th/nvim-cmp', 'L3MON4D3/LuaSnip'}}
+    -- Completion
+    use {{'hrsh7th/nvim-cmp' },
+        { 'hrsh7th/cmp-buffer' },
+        { 'hrsh7th/cmp-path' },
+        { 'hrsh7th/cmp-cmdline' },
+        { 'hrsh7th/cmp-nvim-lsp', config = function() require('add-on.cmp') end },
+        { 'hrsh7th/cmp-nvim-lua', ft = 'lua', opt = true }}
+    use { 'saadparwaiz1/cmp_luasnip', requires = { 'hrsh7th/nvim-cmp', 'L3MON4D3/LuaSnip' }}
 
-    -- can't seem to get colorizer working without using an ugly colour scheme (termguicolors), will try again later
-    --use 'norcalli/nvim-colorizer.lua'
+    -- Snippets
+    use { 'L3MON4D3/LuaSnip', require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/lua/add-on/snippets" } })}
+
+    -- Motion
+    use { 'phaazon/hop.nvim', branch = 'v1', config = function() require'hop'.setup() end }
+
+    -- Fuzzy finder
+    -- TODO: install and configure telescope
+    --use { 'nvim-telescope/telescope.nvim', requires = 'nvim-lua/plenary.nvim' }
+    --[[
+    use { "nvim-telescope/telescope-frecency.nvim",
+      config = function() require"telescope".load_extension("frecency") end,
+      requires = {"tami5/sqlite.lua"} }
+      ]]
+
+    -- Tree-sitter
+    -- TODO: install and configure nvim-treesitter
+    --Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+    -- Colour theme
+    -- TODO: install and configure dracula theme
+    --use 'Mofiqul/dracula.nvim'
+
+    -- colorizer requires using termguicolors which, at the moment, makes the colour scheme ugly
+    -- hopefully this won't be the case once I switch to the dracula theme
+    --use { 'norcalli/nvim-colorizer.lua', require'colorizer'.setup() }
     use 'ap/vim-css-color' -- will use vim-css-color in the meantime
 
     -- Automatically set up configuration after cloning packer.nvim
     if PACKER_BOOTSTRAP then
-    require("packer").sync()
+    require('packer').sync()
     end
 end)
-
---[[ Commands
-Regenerate compiled loader file
--- :PackerCompile
-
-Remove any disabled or unused plugins
--- :PackerClean
-
-Clean, then install missing plugins
--- :PackerInstall
-
-Clean, then update and install plugins
--- :PackerUpdate
-
-Perform `PackerUpdate` and then `PackerCompile`
--- :PackerSync
-
-Loads opt plugin immediately
--- :PackerLoad completion-nvim ale
-]]
