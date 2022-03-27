@@ -14,7 +14,7 @@ Xft.rgba: rgb
 Xft.autohint: true
 
 /*
-!! my own personal colour scheme
+!! my own personal-made colour scheme
 ! flamingo:
 *.color0:       #3B4252
 *.color1:       #BF616A

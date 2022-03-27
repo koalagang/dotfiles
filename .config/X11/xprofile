@@ -17,7 +17,7 @@ if [ "$HOST_NAME" = 'Ljosalfheim' ]; then
 elif [ "$HOST_NAME" = 'Svartalfheim' ]; then
     xrandr --output LVDS1 --mode 1366x768
 fi
-xrdb "$XDG_CONFIG_HOME/X11/xresources"
+xrdb "$XDG_CONFIG_HOME/X11/Xresources"
 redshift -O 2500K
 xwallpaper --focus "$XDG_DATA_HOME/wall.jpg"
 kbd-remaps

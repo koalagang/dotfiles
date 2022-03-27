@@ -93,7 +93,6 @@ return packer.startup(function(use)
       ]]
 
     -- Colour
-    -- TODO: change dracula colour for cursorcolumn
     use { 'Mofiqul/dracula.nvim', config = function() require('conf.add-on.dracula') end }
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate',
         ft = { 'sh', 'bib', 'c', 'cs', 'go', 'kotlin', 'tex', 'make', 'markdown', 'python', 'rust', 'toml', 'vim', 'lua' },
