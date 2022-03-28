@@ -9,23 +9,21 @@ export XDG_CONFIG_DIRS="/etc/xdg"
 export XDG_RUNTIME_DIR="/run/user/$UID"
 
 # Keep the home directory tidy
-export WGETRC="$XDG_CONFIG_HOME/wgetrc"
-export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export CARGO_HOME="$XDG_CACHE_HOME/cargo"
 export GOPATH="$XDG_DATA_HOME/go"
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export WGETRC="$XDG_CONFIG_HOME/wgetrc"
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export WORKON_HOME="$XDG_DATA_HOME/virtualenvs"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export GRIPHOME="$XDG_CACHE_HOME/grip"
 export XINITRC="$XDG_CONFIG_HOME/X11/xinitrc"
 export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
-export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/google/AndroidStudioX.X"
-export ANDROID_AVD_HOME="$XDG_DATA_HOME/google/AndroidStudioX.X"
-export ANDROID_EMULATOR_HOME="$XDG_CACHE_HOME/google/AndroidStudioX.X"
 export _ZL_DATA="$XDG_CACHE_HOME/zlua/zlua-hst"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export LESSHISTFILE=- # Disable less history
 export TASKRC="$XDG_CONFIG_HOME/taskwarrior/taskrc"
 export TIMEWARRIORDB="$XDG_CONFIG_HOME/timewarrior"
+export LESSHISTFILE=- # Disable less history
 
 # Default applications
 export EDITOR="nvim"
