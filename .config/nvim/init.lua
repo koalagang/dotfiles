@@ -1,3 +1,4 @@
-require'conf.options'
-require'conf.mappings'
-require'conf.plugins'
+require'core.options'
+require'core.autocmds'
+require'core.mappings'
+require'plugins.plugins'
