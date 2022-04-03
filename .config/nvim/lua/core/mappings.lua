@@ -141,6 +141,10 @@ nmap('<c-c>', '"+yy')
 nmap('<c-v>', '"+p')
 nmap('<c-x>', '"+dd')
 
+-- Use vim registers in visual mode
+vmap('y', '"ay')
+vmap('d', '"ad')
+
 -- Spellcheck
 nmap('ss', ':set spell!<cr>')
 

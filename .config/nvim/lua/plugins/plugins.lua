@@ -84,16 +84,26 @@ return packer.startup(function(use)
     -- let packer manage itself
     use { 'wbthomason/packer.nvim', opt = false }
 
+    -- some plugins depend on plenary
+    -- only loads plenary if it is needed by another plugin
+    use { 'nvim-lua/plenary.nvim', module = 'plenary' }
+
+    -- reduce startup time by caching lua modules
+    use {
+        'lewis6991/impatient.nvim',
+        config = function() require('impatient') end
+    }
 
     -- note-taking
+    -- I'd like to make my own zettelkasten note-taking plugin at some point
+    -- because I don't feel that any existing note-taking system fully meets my wants or needs
+    -- but for now I'm using vimwiki
     use {
         'vimwiki/vimwiki',
         config = function() require('plugins.conf.vimwiki') end,
         ft = 'markdown'
     }
-    -- hologram thinks my vimwiki notes are vim files, even thoug they're markdown files
-    -- :set ft? also says vimwiki
-    --use {'edluffy/hologram.nvim', ft = 'markdown', opt = true }
+
 
 
     -- LSP
@@ -113,15 +123,14 @@ return packer.startup(function(use)
         }
 
 
+
+
     -- Completion
     use {
             {
                 'hrsh7th/nvim-cmp',
+                event = 'InsertEnter',
                 config = function() require('plugins.conf.cmp') end,
-                requires = {
-                    'L3MON4D3/LuaSnip',
-                    require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/lua/plugins/snippets" } })
-                }
             },
 
             { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' },
@@ -131,14 +140,18 @@ return packer.startup(function(use)
 
             {
                 'saadparwaiz1/cmp_luasnip',
-                after = 'nvim-cmp',
-                requires = { 'hrsh7th/nvim-cmp', 'L3MON4D3/LuaSnip' }
+                after = { 'nvim-cmp', 'LuaSnip' },
+                requires = {
+                    'L3MON4D3/LuaSnip',
+                    -- might need to modify how I manage my snippets in order to lazy-load LuaSnip
+                    require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/lua/plugins/snippets" } })
+                }
             },
 
             {
                 'hrsh7th/cmp-nvim-lua',
-                after = 'nvim-cmp',
-                ft = 'lua'
+                ft = 'lua',
+                after = 'nvim-cmp'
             }
 
     }
@@ -152,7 +165,6 @@ return packer.startup(function(use)
             cmd = { 'HopWord', 'HopPattern' }
         }
 
-
     -- fuzzy finder
     use {
             {
@@ -160,11 +172,7 @@ return packer.startup(function(use)
                 config = function() require 'plugins.conf.telescope' end,
                 module = 'telescope',
                 cmd = 'Telescope',
-                requires = {
-                    -- I can't seem to get plenary to lazy-load even if telescope does
-                    'nvim-lua/plenary.nvim',
-                    module = 'telescope'
-                }
+                requires = { 'nvim-lua/plenary.nvim' }
             },
 
             {
