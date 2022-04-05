@@ -17,8 +17,10 @@
 ### CONFIGURATION ###
 # To turn an option off, simply comment it out or remove the line entirely; to turn one on, uncomment it.
 
-# Bookmenu requires an internet connection to function properly (a new bookmark's title will be an empty string if you don't have an internet connection).
-# If you want bookmenu to stop if you do not have an internet connection then enable the below option; however it will make bookmenu take slightly longer to start.
+# Bookmenu requires an internet connection to function properly
+# (a new bookmark's title will be an empty string if you don't have an internet connection).
+# If you want bookmenu to stop if you do not have an internet connection then enable the below option;
+# however it will make bookmenu take slightly longer to start.
 #ping -c 1 "archlinux.org" || exit 0
 filter_duplicates=1 # filter out identical bookmarks
 backup_bookmarks=1 # make an automatic backup before you add new bookmarks (the backup will never have the newest entry)
@@ -26,44 +28,47 @@ book_dir="$HOME/.local/share/bookmenu" # directory for storing bookmarks (both c
 
 #####################
 
-[ -d "$book_dir" ] || mkdir "$book_dir" # make the bookmenu directory if it does not already exist
-
-# export your csv bookmarks file to html (so you can import them into a browser like Firefox or Chromium) or import your html bookmarks file to csv (so that you can use it with bookmenu)
-export_import () {
-    case "$(printf 'Export bookmarks to html\nImport bookmarks from html' | dmenu -i -l 2)" in
-        'Export bookmarks to html')
-            echo '<!DOCTYPE NETSCAPE-Bookmark-file-1> <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"> <TITLE>Bookmarks</TITLE> <H1>Bookmarks Menu</H1> <DL><p>     <HR>    <DT><H3 ADD_DATE="1512088815" LAST_MODIFIED="1512088815">Imported</H3> <DL><p> ' > "$book_dir/bookmarks.html"
-            num="$(wc -l "$book_dir/bookmarks.csv" | cut -d' ' -f1)"
-            until [ "$num" -eq 0 ]; do
-                title="$(sed -n "$num"p "$book_dir/bookmarks.csv" | cut -d',' -f1 )"
-                url="$(sed -n "$num"p "$book_dir/bookmarks.csv" | cut -d',' -f2 )"
-                echo "<DT><A HREF=\"$url\">$title</A>" >> "$book_dir/bookmarks.html"
-                num="$((num - 1))"
-            done
-            echo '</DL><p> </DL>' >> "$book_dir/bookmarks.html"
-            notify-send 'bookmenu' "Your html bookmarks file has been saved to '$book_dir/bookmarks.html'" -t 5000 ;;
-        'Import bookmarks from html')
-            grep '<DT>' "$book_dir"/bookmarks.html | cut -d '"' -f2 | sed '1d;$d' > "/tmp/temp_urls"
-            grep '<DT>' "$book_dir"/bookmarks.html | cut -d '>' -f3 | sed -e 's/<\/A//g' -e '1d;$d' > "/tmp/temp_titles"
-            num="$(wc -l "/tmp/temp_urls" | cut -d' ' -f1)"
-            until [ "$num" -eq 0 ]; do
-                title="$(sed -n "$num"p "/tmp/temp_titles" )"
-                url="$(sed -n "$num"p "/tmp/temp_urls")"
-                echo "$url,$title" >> "$book_dir/bookmarks.csv"
-                num="$((num - 1))"
-            done
-            notify-send 'bookmenu' "Your csv bookmarks file has been saved to '$book_dir/bookmarks.csv'" -t 5000
-    esac
-}
+[ -d "$book_dir" ] || mkdir -p "$book_dir" # make the bookmenu directory if it does not already exist
 
 case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nExport/import bookmarks\nView quickmarks' | dmenu -i -l 5)" in
-    'View bookmarks') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" && grep "$title" "$book_dir/bookmarks.csv" | cut -d',' -f2 | xargs "$BROWSER" ;;
-    'Add a bookmark') [ -n "$backup_bookmarks" ] && ( cp "$book_dir/bookmarks.csv" "$book_dir/bookmarks.csv.bak" ) ; url="$(xclip -selection c -o)" && \
-        title="$(wget -qO- robots=off -U mozilla "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | recode html.. | iconv -c -f utf-8 -t ascii)" \
-        && echo "$title,$url" >> "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Added '$title' to bookmarks." && [ -n "$filter_duplicates" ] && \
-        ( sort -u "$book_dir/bookmarks.csv" > "/tmp/out.csv" && cat "/tmp/out.csv" > "$book_dir/bookmarks.csv" ) ;;
+    'View bookmarks') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" &&
+        grep "$title" "$book_dir/bookmarks.csv" | cut -d',' -f2 | xargs "$BROWSER" ;;
+    'Add a bookmark') [ -n "$backup_bookmarks" ] &&
+        cp "$book_dir/bookmarks.csv" "$book_dir/bookmarks.csv.bak" ; url="$(xclip -selection c -o)" &&
+        title="$(wget -qO- robots=off -U mozilla "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | \
+        recode html.. | iconv -c -f utf-8 -t ascii)" &&
+        echo "$title,$url" >> "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Added '$title' to bookmarks." &&
+        [ -n "$filter_duplicates" ] &&
+        ( sort -u "$book_dir/bookmarks.csv" > '/tmp/out.csv' && cat '/tmp/out.csv' > "$book_dir/bookmarks.csv" && rm '/tmp/out.csv' ) ;;
     'Remove a bookmark') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" && grep "$title" "$book_dir/bookmarks.csv" \
         && sed -i "/$title/d" "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
-    'Export/import bookmarks') export_import ;;
-    'View quickmarks') title="$(cut -d',' -f1 "$book_dir/quickmarks.csv" | dmenu -i -l 20)" && grep "$title" "$book_dir/quickmarks.csv" | cut -d',' -f2 | xargs "$BROWSER"
+    'Export/import bookmarks')
+# export your csv bookmarks file to html (so you can import them into a browser like Firefox or Chromium) or
+# import your html bookmarks file to csv (so that you can use it with bookmenu)
+        case "$(printf 'Export bookmarks to html\nImport bookmarks from html' | dmenu -i -l 2)" in
+            'Export bookmarks to html')
+                echo '<!DOCTYPE NETSCAPE-Bookmark-file-1> <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8"> <TITLE>Bookmarks</TITLE> <H1>Bookmarks Menu</H1> <DL><p>     <HR>    <DT><H3 ADD_DATE="1512088815" LAST_MODIFIED="1512088815">Imported</H3> <DL><p> ' > "$book_dir/bookmarks.html"
+                num="$(wc -l "$book_dir/bookmarks.csv" | cut -d' ' -f1)"
+                until [ "$num" -eq 0 ]; do
+                    title="$(sed -n "$num"p "$book_dir/bookmarks.csv" | cut -d',' -f1 )"
+                    url="$(sed -n "$num"p "$book_dir/bookmarks.csv" | cut -d',' -f2 )"
+                    echo "<DT><A HREF=\"$url\">$title</A>" >> "$book_dir/bookmarks.html"
+                    num="$((num - 1))"
+                done
+                echo '</DL><p> </DL>' >> "$book_dir/bookmarks.html"
+                notify-send 'bookmenu' "Your html bookmarks file has been saved to '$book_dir/bookmarks.html'" -t 5000 ;;
+            'Import bookmarks from html')
+                grep '<DT>' "$book_dir"/bookmarks.html | cut -d '"' -f2 | sed '1d;$d' > "/tmp/temp_urls"
+                grep '<DT>' "$book_dir"/bookmarks.html | cut -d '>' -f3 | sed -e 's/<\/A//g' -e '1d;$d' > "/tmp/temp_titles"
+                num="$(wc -l "/tmp/temp_urls" | cut -d' ' -f1)"
+                until [ "$num" -eq 0 ]; do
+                    title="$(sed -n "$num"p "/tmp/temp_titles" )"
+                    url="$(sed -n "$num"p "/tmp/temp_urls")"
+                    echo "$url,$title" >> "$book_dir/bookmarks.csv"
+                    num="$((num - 1))"
+                done
+                notify-send 'bookmenu' "Your csv bookmarks file has been saved to '$book_dir/bookmarks.csv'" -t 5000
+        esac ;;
+    'View quickmarks') title="$(cut -d',' -f1 "$book_dir/quickmarks.csv" | dmenu -i -l 20)" &&
+        grep "$title" "$book_dir/quickmarks.csv" | cut -d',' -f2 | xargs "$BROWSER"
 esac

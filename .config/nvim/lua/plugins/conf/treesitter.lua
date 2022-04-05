@@ -1,10 +1,7 @@
 require'nvim-treesitter.configs'.setup {
     ensure_installed = {
-        'bash', 'bibtex', 'c', 'c_sharp', 'go', 'kotlin', 'latex', 'make', 'markdown', 'python', 'rust', 'toml', 'vim', 'lua'  },
+        'bash', 'bibtex', 'c', 'c_sharp', 'kotlin', 'latex', 'make', 'markdown', 'python', 'rust', 'toml', 'vim', 'lua'  },
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
-    -- allow only bash, bibtex, c, c_sharp, comment, go, kotlin, latex, make, markdown, python, rust, toml, vim and lua
-    -- they should probably add a whitelist option as well
-    --ignore_install = { },
     highlight = {
         -- `false` will disable the whole extension
         enable = true,

@@ -6,7 +6,7 @@
 # I've set this to be called on startup.
 
 # remap right shift to escape
-xmodmap -e 'keycode 62 = Escape'
+xmodmap -e 'keycode 62 = Escape' # r_shift -> escape
 
 # swap capslock and backspace
 xmodmap -e 'keycode 66 = BackSpace' # capslock -> backspace

@@ -140,6 +140,7 @@ vmap('<c-x>', '"+d')
 nmap('<c-c>', '"+yy')
 nmap('<c-v>', '"+p')
 nmap('<c-x>', '"+dd')
+-- EXTERNAL DEPENDENCIES: xclip
 
 -- Use vim registers in visual mode
 vmap('y', '"ay')

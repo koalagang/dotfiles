@@ -8,6 +8,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   print 'Installing packer. Close and re-open Neovim...'
   vim.cmd [[packadd packer.nvim]]
 end
+-- EXTERNAL DEPENDENCIES: git
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 vim.cmd [[
@@ -33,14 +34,7 @@ packer.init {
 }
 
 --[[
--- Dependencies not managed by packer:
-    -- git (to automatically install packer)
-    -- xclip (to copy data to system clipboard)
-    -- tar, gzip, curl, wget, python3, node, bash, npm3, pip3 (lsp-installer)
-    -- ripgrep, fd (telescope)
-    -- tar, curl, gcc (treesitter)
 -- TODO:
-    -- Install language servers for lua, python, bash - and go or rust (?)
     -- Configure lazy-loading (cmd, ft, etc.)
     -- Read through nvim-treesitter, nvim-lspconfig, nvim-cmp and packer.nvim documentation
     -- Consider installing the following??
@@ -78,15 +72,25 @@ for _, plugin in pairs(disabled_built_ins) do
 end
 
 
-local languages = { 'sh', 'bib', 'c', 'cs', 'go', 'kotlin', 'tex', 'make', 'markdown', 'python', 'rust', 'toml', 'vim', 'lua' }
+local languages = { 'sh', 'bib', 'c', 'cs', 'kotlin', 'tex', 'make', 'markdown', 'python', 'rust', 'toml', 'lua' }
 
 return packer.startup(function(use)
     -- let packer manage itself
     use { 'wbthomason/packer.nvim', opt = false }
 
-    -- some plugins depend on plenary
-    -- only loads plenary if it is needed by another plugin
-    use { 'nvim-lua/plenary.nvim', module = 'plenary' }
+    -- dependencies which may be required by multiple plugins
+    -- 'module' is used to only load them when they are required
+    use {
+            {
+                'nvim-lua/plenary.nvim',
+                module = 'plenary'
+            },
+
+            {
+                'kyazdani42/nvim-web-devicons',
+                module = 'nvim-web-devicons'
+            }
+    }
 
     -- reduce startup time by caching lua modules
     use {
@@ -108,7 +112,6 @@ return packer.startup(function(use)
 
     -- LSP
     -- Configurations for Neovim's built-in language server client
-    -- TODO: install and configure LSP for lua, bash, python, kotlin, csharp, rust and/or go
     use {
             {
                 'neovim/nvim-lspconfig',
@@ -118,10 +121,13 @@ return packer.startup(function(use)
 
             {
                 'williamboman/nvim-lsp-installer',
-                ft = languages
+                ft = languages,
+                -- would be nice if there was an :LspUpdate command
+                -- I might submit an issue to nvim-lsp-installer
+                --run = ':LspInstall bashls kotlin_language_server pyright rust_analyzer sumneko_lua texlab zeta_note'
+                -- EXTERNAL DEPENDENCIES: tar, gzip, curl, wget, bash, npm3, pip3
             }
         }
-
 
 
 
@@ -143,7 +149,8 @@ return packer.startup(function(use)
                 after = { 'nvim-cmp', 'LuaSnip' },
                 requires = {
                     'L3MON4D3/LuaSnip',
-                    -- might need to modify how I manage my snippets in order to lazy-load LuaSnip
+                    -- I might need to modify how I manage my snippets in order to lazy-load LuaSnip
+                    -- i.e. not use vscode snippets
                     require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/lua/plugins/snippets" } })
                 }
             },
@@ -170,14 +177,13 @@ return packer.startup(function(use)
             {
                 'nvim-telescope/telescope.nvim',
                 config = function() require 'plugins.conf.telescope' end,
-                module = 'telescope',
                 cmd = 'Telescope',
-                requires = { 'nvim-lua/plenary.nvim' }
+                requires = 'nvim-lua/plenary.nvim'
+                -- EXTERNAL DEPENDENCIES: ripgrep, fd
             },
 
             {
                 'nvim-telescope/telescope-fzf-native.nvim',
-                module = 'telescope',
                 cmd = 'Telescope',
                 run = 'make'
             }
@@ -188,8 +194,6 @@ return packer.startup(function(use)
     use {
             'Mofiqul/dracula.nvim',
             config = function() require('plugins.conf.dracula') end
-            -- don't lazy-load dracula
-            -- that causes nvim-ts-rainbow to stop working
         }
 
 
@@ -201,6 +205,7 @@ return packer.startup(function(use)
                 event = 'BufWinEnter',
                 run = ':TSUpdate',
                 ft = languages
+                -- EXTERNAL DEPENDENCIES: tar, curl, gcc
             },
 
             {
@@ -233,10 +238,7 @@ return packer.startup(function(use)
             'nvim-lualine/lualine.nvim',
             config = function() require('plugins.conf.lualine') end,
             after = 'dracula.nvim',
-                requires = {
-                    'kyazdani42/nvim-web-devicons',
-                    opt = true
-                }
+            requires = 'kyazdani42/nvim-web-devicons'
         }
 
 

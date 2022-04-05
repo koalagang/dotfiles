@@ -3,5 +3,7 @@
 # Dependencies: ddgr, dmenu
 # You can easily swap ddgr out with googler if you prefer that.
 search="$(printf '' | dmenu -p 'Search: ')" || exit 0
-choice="$(notify-send 'ddgmenu' 'Searching...' -t 1000 && ddgr "$search" --json | tee "/tmp/ddgmenu.json" | awk -F ":" '/title/ {print $NF}' | tr -d ',' | dmenu -i -l 20)" || exit 0
-grep -A1 "$choice" "/tmp/ddgmenu.json" | awk '/url/ {print $NF}' | xargs "$BROWSER"
+choice="$(notify-send 'ddgmenu' 'Searching...' -t 1000 && ddgr "$search" --json | tee '/tmp/ddgmenu.json' |
+    awk -F ":" '/title/ {print $NF}' | tr -d ',' | dmenu -i -l 20)" || exit 0
+grep -A1 "$choice" '/tmp/ddgmenu.json' | awk '/url/ {print $NF}' | xargs "$BROWSER"
+rm '/tmp/ddgmenu.json'

@@ -10,6 +10,7 @@ export XDG_RUNTIME_DIR="/run/user/$UID"
 
 # Keep the home directory tidy
 export CARGO_HOME="$XDG_CACHE_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
 export GOPATH="$XDG_DATA_HOME/go"
 export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export WGETRC="$XDG_CONFIG_HOME/wgetrc"
