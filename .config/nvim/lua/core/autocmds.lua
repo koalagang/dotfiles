@@ -55,7 +55,6 @@ aug END
 autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
 
 
-
 "--- Misc
 
 " Clean up trailing spaces and single lines at the end of files

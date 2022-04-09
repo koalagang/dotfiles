@@ -3,7 +3,7 @@
 #   \\|   \'---'/   Dante (@koalagang)
 #    \   _'.'O'.'   https://github.com/koalagang
 #     | :___   \
-#     |  _| :  |    "No need for a file manager for navigation. All you need is fzf, z.lua!"
+#     |  _| :  |    "No need for a file manager for navigation. All you need is fzf and z.lua!"
 #     | :__,___/
 #     |   |
 #     |   |
@@ -19,7 +19,7 @@ eval "$(starship init zsh)"             # TIP: the Starship prompt indicates wha
 eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)"
 
 # History and cache
-HISTFILE="$XDG_CACHE_HOME/zsh/history"
+HISTFILE="$XDG_CACHE_HOME/zsh/zsh-hst"
 HISTSIZE=1000
 SAVEHIST=1000
 setopt INC_APPEND_HISTORY
