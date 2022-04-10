@@ -41,7 +41,7 @@ case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nExport/import
         [ -n "$filter_duplicates" ] &&
         ( sort -u "$book_dir/bookmarks.csv" > '/tmp/out.csv' && cat '/tmp/out.csv' > "$book_dir/bookmarks.csv" && rm '/tmp/out.csv' ) ;;
     'Remove a bookmark') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" && grep "$title" "$book_dir/bookmarks.csv" \
-        && sed -i "/$title/d" "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
+        && sed -i "/$(echo "$title" | sed 's#/#\\/#g')/d" "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
     'Export/import bookmarks')
 # export your csv bookmarks file to html (so you can import them into a browser like Firefox or Chromium) or
 # import your html bookmarks file to csv (so that you can use it with bookmenu)
