@@ -1,8 +1,9 @@
+require("telescope").load_extension("fzf") -- nvim-telescope/telescope-fzf-native.nvim
 require("telescope").setup({
 	defaults = {
 		layout_strategy = "horizontal",
 		layout_config = {
-			horizontal = { width = 0.9, height = 0.95 },
+			horizontal = { width = 0.9, height = 0.9 },
 		},
 		mappings = {
 			i = {
@@ -30,5 +31,3 @@ require("telescope").setup({
 		-- please take a look at the readme of the extension you want to configure
 	},
 })
-
-require("telescope").load_extension("fzf") -- nvim-telescope/telescope-fzf-native.nvim

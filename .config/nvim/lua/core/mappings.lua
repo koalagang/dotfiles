@@ -28,9 +28,9 @@ end
 -- [[Basics]]
 
 -- Basic bindings
-nmap("<c-s>", ":w<cr>")
-nmap("<space>", ":noh<cr>")
-nmap("cc", ":set cursorcolumn!<cr>")
+nmap("<c-s>", "<cmd>w<cr>")
+nmap("<space>", "<cmd>noh<cr>")
+nmap("cc", "<cmd>set cursorcolumn!<cr>")
 vmap("<", "<gv")
 vmap(">", ">gv")
 nmap("n", "nzzzv")
@@ -54,26 +54,26 @@ nmap("<c-j>", "<c-w><c-j>")
 nmap("<c-k>", "<c-w><c-k>")
 nmap("<c-l>", "<c-w><c-l>")
 nmap("<c-h>", "<c-w><c-h>")
-nmap("<c-p>", ":vertical resize +2<cr>")
-nmap("<c-m>", ":vertical resize -2<cr>")
-nmap("<m-p>", ":resize +2<cr>")
-nmap("<m-m>", ":resize -2<cr>")
-nmap("<leader>sv", ":vs<cr>")
-nmap("<leader>sh", ":sp<cr>")
+nmap("<c-p>", "<cmd>vertical resize +2<cr>")
+nmap("<c-m>", "<cmd>vertical resize -2<cr>")
+nmap("<m-p>", "<cmd>resize +2<cr>")
+nmap("<m-m>", "<cmd>resize -2<cr>")
+nmap("<leader>sv", "<cmd>vs<cr>")
+nmap("<leader>sh", "<cmd>sp<cr>")
 nmap("<leader>sw", "<c-w><c-x>")
 
 -- Tabs
 nmap("<Tab>", "gt")
 nmap("<S-Tab>", "gT")
-nmap("<c-t>", ":tabnew<cr>")
+nmap("<c-t>", "<cmd>tabnew<cr>")
 nmap("tf", "tabfind<space>")
 
 -- Move between files
-nmap("o", ":browse old<cr>")
+nmap("o", "<cmd>browse old<cr>")
 nsnmap("<c-e>", ":edit<space>")
-nmap("<c-b>l", ":b <c-d>")
-nmap("<c-b>p", ":bp<cr>")
-nmap("<c-b>n", ":bn<cr>")
+nmap("<c-b>l", "<cmd>b <c-d>")
+nmap("<c-b>p", "<cmd>bp<cr>")
+nmap("<c-b>n", "<cmd>bn<cr>")
 
 -- [[Autosurround]]
 imap('"', '""<left>')
@@ -102,18 +102,16 @@ imap("<m->>", ">")
 
 -- [[External software]]
 -- Plugin mappings
-nmap("f", ":HopWord<cr>")
-nsnmap("<leader>p", ":HopPattern<cr>")
-nmap("<leader>ff", ":Telescope find_files<cr>")
-nmap("<leader>lg", ":Telescope live_grep<cr>")
+nmap("<leader>ff", "<cmd>Telescope find_files<cr>")
+nmap("<leader>lg", "<cmd>Telescope live_grep<cr>")
 
 -- Scripts and other external software
-nmap("<leader>c", ':w! | !compiler "<c-r>%"<cr><cr>')
+nmap("<leader>c", '<cmd>w! | !compiler "<c-r>%"<cr><cr>')
 nsnmap("<leader>C", ':w! | !compiler "<c-r>%"<cr>')
-nmap("<leader>cc", ':w! | !compiler "<c-r>%"<cr><cr>!compiler "<c-r>%"<cr><cr>')
-nmap("<leader>sc", ":w! | :!shellcheck %<cr>")
-nmap("<leader>z", ":!zathura --fork %:t:r.pdf<cr><cr>")
-nmap("<leader>Z", ":!devour zathura %:t:r.pdf<cr><cr>")
+nmap("<leader>cc", '<cmd>w! | !compiler "<c-r>%"<cr><cr>!compiler "<c-r>%"<cr><cr>')
+nmap("<leader>sc", "<cmd>w! | <cmd>!shellcheck %<cr>")
+nmap("<leader>z", "<cmd>!zathura --fork %<cmd>t<cmd>r.pdf<cr><cr>")
+nmap("<leader>Z", "<cmd>!devour zathura %<cmd>t<cmd>r.pdf<cr><cr>")
 
 -- [[Misc]]
 -- Navigate using HJKL in insert mode (while holding down ctrl)
@@ -123,24 +121,24 @@ imap("<c-k>", "<up>")
 imap("<c-l>", "<right>")
 
 -- Yanking to system clipboard
--- NOTE: as ctrl-v has been remapped, use ctrl-q to enter visual block mode
+-- NOTE<cmd> as ctrl-v has been remapped, use ctrl-q to enter visual block mode
 vmap("<c-c>", '"+y')
 vmap("<c-x>", '"+d')
 nmap("<c-c>", '"+yy')
 nmap("<c-v>", '"+p')
 nmap("<c-x>", '"+dd')
--- EXTERNAL DEPENDENCIES: xclip
+-- EXTERNAL DEPENDENCIES<cmd> xclip
 
 -- Use vim registers in visual mode
 vmap("y", '"ay')
 vmap("d", '"ad')
 
 -- Spellcheck
-nmap("ss", ":set spell!<cr>")
+nmap("ss", "<cmd>set spell!<cr>")
 
 -- Other shortcuts
-nmap("<c-n>", ":Lexplore<cr>")
+nmap("<c-n>", "<cmd>Lexplore<cr>")
 vmap("$", "$<left>")
 nmap("Q", "gq") -- replace exmode with gq
 nsnmap("M", ":marks<cr>")
-nmap("<leader>src", ":source %<cr>")
+nmap("<leader>src", "<cmd>source %<cr>")

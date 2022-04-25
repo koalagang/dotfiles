@@ -61,13 +61,31 @@ autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype
 autocmd BufWritePre * %s/\s\+$//e
 
 " File templates
-augroup templates
-    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
-    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/skeleton.sh
-augroup END
+"augroup templates
+"    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
+"    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/skeleton.sh
+"augroup END
 
 " Automatically enter insert mode when opening an empty file
-autocmd BufNewFile * startinsert
-autocmd VimEnter * if empty(expand("%")) | startinsert | endif
-autocmd VimEnter * if getfsize(expand("%")) == 0 | startinsert | endif
+"autocmd BufNewFile * startinsert
+"autocmd VimEnter * if empty(expand("%")) | startinsert | endif
+"autocmd VimEnter * if getfsize(expand("%")) == 0 | startinsert | endif
 ]])
+
+-- now that neovim 0.7 is out, we can use autocmds in lua!
+-- I have started porting my autocmds to lua.
+
+local api = vim.api
+
+-- File templates
+local templates = api.nvim_create_augroup("templates", { clear = true })
+api.nvim_create_autocmd("BufNewFile", {
+    pattern = "*.sh",
+    command = "0r ~/.config/nvim/templates/skeleton.sh | call feedkeys('ji')",
+    group = templates
+})
+api.nvim_create_autocmd("BufNewFile", {
+    pattern = "*.tex",
+    command = "0r ~/.config/nvim/templates/skeleton.tex | call feedkeys('jjellciw')",
+    group = templates
+})

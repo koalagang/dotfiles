@@ -116,14 +116,16 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "path" },
+		{ name = "cmdline" },
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
 		select = false,
 	},
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-	},
+	-- commented due to being deprecated
+	--documentation = {
+	--	border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+	--},
 	experimental = {
 		ghost_text = false,
 		native_menu = false,

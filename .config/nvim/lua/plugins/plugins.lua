@@ -39,14 +39,6 @@ packer.init({
 	},
 })
 
---[[
--- TODO:
-    -- Configure lazy-loading (cmd, ft, etc.)
-    -- Read through nvim-treesitter, nvim-lspconfig, nvim-cmp and packer.nvim documentation
-    -- Consider installing the following??
-    -- tpope/vim-repeat
-]]
-
 -- disable built-in plugins
 local disabled_built_ins = {
 	-- I like to use netrw instead of something like nerdtree or nvim-tree
@@ -77,7 +69,21 @@ end
 
 local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
 
+-- I still need to figure out how to lazy-load the following:
+-- LuaSnip
+-- cmp-nvim-lua
+-- null-ls.nvim
+-- packer.nvim
+
 return packer.startup(function(use)
+	-- reduce startup time by caching lua modules
+	use({
+		"lewis6991/impatient.nvim",
+		config = function()
+			require("impatient")
+		end,
+	})
+
 	-- let packer manage itself
 	use({ "wbthomason/packer.nvim", opt = false })
 
@@ -95,14 +101,6 @@ return packer.startup(function(use)
 		},
 	})
 
-	-- reduce startup time by caching lua modules
-	use({
-		"lewis6991/impatient.nvim",
-		config = function()
-			require("impatient")
-		end,
-	})
-
 	use({
 		"lewis6991/gitsigns.nvim",
 		config = function()
@@ -110,6 +108,7 @@ return packer.startup(function(use)
 		end,
 		-- I will add more commands as I explore Gitsigns more
 		cmd = { "Gitsigns get_hunks" },
+		requires = "nvim-lua/plenary.nvim",
 	})
 
 	-- note-taking
@@ -190,10 +189,10 @@ return packer.startup(function(use)
 	use({
 		"phaazon/hop.nvim",
 		config = function()
-			require("hop").setup()
+			require("plugins.conf.hop")
 		end,
 		branch = "v1",
-		cmd = { "HopWord", "HopPattern" },
+		keys = { "f", "F", "P", "<leader>1" },
 	})
 
 	-- fuzzy finder
@@ -204,7 +203,7 @@ return packer.startup(function(use)
 				require("plugins.conf.telescope")
 			end,
 			cmd = "Telescope",
-			requires = "nvim-lua/plenary.nvim",
+			requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons" },
 			-- EXTERNAL DEPENDENCIES: ripgrep, fd
 		},
 
@@ -212,6 +211,7 @@ return packer.startup(function(use)
 			"nvim-telescope/telescope-fzf-native.nvim",
 			cmd = "Telescope",
 			run = "make",
+			requires = "nvim-telescope/telescope.nvim",
 		},
 	})
 
