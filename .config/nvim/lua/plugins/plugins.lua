@@ -69,11 +69,20 @@ end
 
 local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
 
+--[[ TODO:
+-- Consider installing:
+-- lewis6991/foldsigns.nvim
+-- tpope/vim-fugitive
+-- tpope/vim-rhubarb
+-- tpope/vim-repeat
+-- mattn/emmet-vim
+--
 -- I still need to figure out how to lazy-load the following:
 -- LuaSnip
 -- cmp-nvim-lua
 -- null-ls.nvim
 -- packer.nvim
+]]
 
 return packer.startup(function(use)
 	-- reduce startup time by caching lua modules
@@ -85,7 +94,7 @@ return packer.startup(function(use)
 	})
 
 	-- let packer manage itself
-	use({ "wbthomason/packer.nvim", opt = false })
+	use("wbthomason/packer.nvim")
 
 	-- dependencies which may be required by multiple plugins
 	-- 'module' is used so that plugins are only loaded when they are required by another plugin
@@ -139,6 +148,7 @@ return packer.startup(function(use)
 			ft = languages,
 			-- would be nice if there was an :LspUpdate command
 			-- I might submit an issue to nvim-lsp-installer
+			-- TODO: set up a file with `ensure_installed`
 			--run = ':LspInstall bashls kotlin_language_server pyright rust_analyzer sumneko_lua texlab zeta_note'
 			-- EXTERNAL DEPENDENCIES: tar, gzip, curl, wget, bash, npm3, pip3
 		},
@@ -192,7 +202,7 @@ return packer.startup(function(use)
 			require("plugins.conf.hop")
 		end,
 		branch = "v1",
-		keys = { "f", "F", "P", "<leader>1" },
+		keys = { "f", "F", "<c-p>", "<leader>1" },
 	})
 
 	-- fuzzy finder

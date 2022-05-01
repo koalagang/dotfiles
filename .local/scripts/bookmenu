@@ -36,12 +36,12 @@ case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nExport/import
     'Add a bookmark') [ -n "$backup_bookmarks" ] &&
         cp "$book_dir/bookmarks.csv" "$book_dir/bookmarks.csv.bak" ; url="$(xclip -selection c -o)" &&
         title="$(wget -qO- robots=off -U mozilla "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | \
-        recode html.. | iconv -c -f utf-8 -t ascii)" &&
+        recode html.. | iconv -c -f utf-8 -t ascii | tr '[]/' '-')" &&
         echo "$title,$url" >> "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Added '$title' to bookmarks." &&
         [ -n "$filter_duplicates" ] &&
         ( sort -u "$book_dir/bookmarks.csv" > '/tmp/out.csv' && cat '/tmp/out.csv' > "$book_dir/bookmarks.csv" && rm '/tmp/out.csv' ) ;;
-    'Remove a bookmark') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" && grep "$title" "$book_dir/bookmarks.csv" \
-        && sed -i "/$(echo "$title" | sed 's#/#\\/#g')/d" "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
+    'Remove a bookmark') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20 | sed 's/-/\\-/g')" && grep "$title" "$book_dir/bookmarks.csv" \
+        && sed -i "/$title/d" "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Removed '$title' from bookmarks." ;;
     'Export/import bookmarks')
 # export your csv bookmarks file to html (so you can import them into a browser like Firefox or Chromium) or
 # import your html bookmarks file to csv (so that you can use it with bookmenu)

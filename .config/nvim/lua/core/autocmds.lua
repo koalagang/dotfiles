@@ -1,91 +1,80 @@
-vim.cmd([[
-"--- Netrw
-
-" Open split of currently selected file in netrw to the right
-function! OpenRight()
-    :normal v
-    let g:path=expand('%:p')
-    echo g:path
-    :q!
-    execute 'belowright vnew' g:path
-    :normal <c-l>
-endfunction
-
-" Open split of currently selected file in netrw on the bottom
-function! OpenBelow()
-    :normal v
-    let g:path=expand('%:p')
-    echo g:path
-    :q!
-    execute 'belowright new' g:path
-    :normal <c-l>
-endfunction
-
-" Netrw mappings
-function! NetrwMappings()
-    nnoremap <buffer> <c-l> <c-w>l
-    nnoremap V :call OpenRight()<cr>
-    nnoremap H :call OpenBelow()<cr>
-endfunction
-augroup netrw_mappings
-    autocmd!
-    autocmd filetype netrw call NetrwMappings()
-augroup END
-
-" Close netrw after opening a file (which gets opened in another window)
-let g:netrw_fastbrowse = 0
-autocmd FileType netrw setl bufhidden=wipe
-function! CloseNetrw() abort
-  for bufn in range(1, bufnr('$'))
-    if bufexists(bufn) && getbufvar(bufn, '&filetype') ==# 'netrw'
-      silent! execute 'bwipeout ' . bufn
-      if getline(2) =~# '^" Netrw '
-        silent! bwipeout
-      endif
-      return
-    endif
-  endfor
-endfunction
-augroup closeOnOpen
-  autocmd!
-  autocmd BufWinEnter * if getbufvar(winbufnr(winnr()), "&filetype") != "netrw"|call CloseNetrw()|endif
-aug END
-
-" Close vim if netrw is the only open buffer
-autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw" || &buftype == 'quickfix' |q|endif
-
-
-"--- Misc
-
-" Clean up trailing spaces and single lines at the end of files
-autocmd BufWritePre * %s/\s\+$//e
-
-" File templates
-"augroup templates
-"    autocmd BufNewFile *.tex 0r ~/.config/nvim/templates/skeleton.tex
-"    autocmd BufNewFile *.sh 0r ~/.config/nvim/templates/skeleton.sh
-"augroup END
-
-" Automatically enter insert mode when opening an empty file
-"autocmd BufNewFile * startinsert
-"autocmd VimEnter * if empty(expand("%")) | startinsert | endif
-"autocmd VimEnter * if getfsize(expand("%")) == 0 | startinsert | endif
-]])
-
--- now that neovim 0.7 is out, we can use autocmds in lua!
--- I have started porting my autocmds to lua.
-
 local api = vim.api
+local cmd = vim.cmd
 
--- File templates
+-- [[ File templates ]]
 local templates = api.nvim_create_augroup("templates", { clear = true })
+-- shell
 api.nvim_create_autocmd("BufNewFile", {
-    pattern = "*.sh",
-    command = "0r ~/.config/nvim/templates/skeleton.sh | call feedkeys('ji')",
-    group = templates
+	pattern = "*.sh",
+	command = "0r ~/.config/nvim/templates/skeleton.sh | call feedkeys('ji')",
+	group = templates,
 })
+-- latex
 api.nvim_create_autocmd("BufNewFile", {
-    pattern = "*.tex",
-    command = "0r ~/.config/nvim/templates/skeleton.tex | call feedkeys('jjellciw')",
-    group = templates
+	pattern = "*.tex",
+	command = "0r ~/.config/nvim/templates/skeleton.tex | call feedkeys('jjellciw')",
+	group = templates,
+})
+
+-- [[ Formatting ]]
+local formatting = api.nvim_create_augroup("formatting", { clear = true })
+-- Clean up trailing spaces
+api.nvim_create_autocmd("BufWritePre", {
+	pattern = "*",
+	command = [[%s/\s\+$//e]],
+	group = formatting,
+})
+-- prevent autocommenting new lines
+api.nvim_create_autocmd("VimEnter", {
+	pattern = "*",
+	command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o",
+	group = formatting,
+})
+
+-- [[ Netrw preferences ]]
+local Netrw = api.nvim_create_augroup("Netrw", { clear = true })
+api.nvim_create_autocmd("filetype", {
+	pattern = "netrw",
+	group = Netrw,
+	callback = function()
+		-- close vim if netrw is the only open buffer
+		cmd(
+			"autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), '&filetype') == 'netrw' || &buftype == 'quickfix' |q|endif"
+		)
+
+		-- unfocus Netrw with <c-l>
+		api.nvim_buf_set_keymap(0, "n", "<c-l>", "<c-w>l", { noremap = true, silent = true })
+
+		-- open a vertical split for the currently selected file with V
+		api.nvim_buf_set_keymap(0, "n", "V", "", {
+			callback = function()
+				cmd([[
+                :normal v
+                let g:path=expand('%:p')
+                :q!
+                execute 'vsplit' g:path
+                :normal <c-l>
+                :Lexplore
+                ]])
+			end,
+			noremap = true,
+			silent = true,
+		})
+
+		-- open a horizontal split for the currently selected file with H
+		api.nvim_buf_set_keymap(0, "n", "H", "", {
+			callback = function()
+				cmd([[
+                :normal v
+                let g:path=expand('%:p')
+                :q!
+                execute 'split' g:path
+                :normal <c-l>
+                :Lexplore
+                ]])
+			end,
+			noremap = true,
+			silent = true,
+		})
+	end,
 })

@@ -18,6 +18,7 @@ alias yt='ytfzf -tls --sort --detach'
 alias scr='$EDITOR $HOME/.local/scripts/"$(command ls $HOME/.local/scripts | fzf)"'
 alias conf='$EDITOR "$(find $XDG_CONFIG_HOME -maxdepth 3 -type f | fzf)"'
 alias vimconf='find $XDG_CONFIG_HOME/nvim -type f -printf "%P\n" | sed "/^plugin/d" | fzf | xargs -I% $EDITOR $HOME/.config/nvim/%'
+alias vwf='$EDITOR "$(find $HOME/Documents/vimwiki -maxdepth 3 -type f | fzf)"'
 
 #---Trash CLI
 alias tp='trash-put'
@@ -94,7 +95,7 @@ alias tsum='task summary'
 alias tisum='timew summary :ids'
 alias tisumm'timew summary :month :ids'
 alias tisumy'timew summary :year :ids'
-alias vw='nvim $HOME/Documents/vimwiki/index.md'
+alias vw='$EDITOR $HOME/Documents/vimwiki/index.md'
 
 #---Misc
 alias wp='wikicurses'               # Search Wikipedia with a curses interface
@@ -104,15 +105,14 @@ alias dictt='trans -d'              # Use translate-shell shell as a dictionary
 #alias cc='calcurse'                # TUI calendar
 #alias vf='vifmrun'                 # Allows Ueberzug image previewing in vifm
 alias ax='axel -n 10'               # Open-source CLI alternative to Internet Download Manager (IDM)
-alias vi='nvim'
+alias vi='$EDITOR'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias scim='sc-im'
 alias ncs='ncspot'
 alias ncm='ncmpcpp'
 alias ncu="$XDG_CONFIG_HOME/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp-ueberzug"
-alias bp='bpytop'
+alias bp='btop'
 alias rss='newsboat'
 alias sc='shellcheck'
 alias scrape='wget -qO- robots=off -U mozilla'
-alias combib='cat [abp]*.bib > "$BIB_DIR/mega.bib"'

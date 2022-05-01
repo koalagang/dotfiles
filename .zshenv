@@ -40,10 +40,10 @@ export OPENER="xdg-open"
 export PAGER="less"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'" # set bat as the manpager - gives pretty colours ;)
 export COLORTERM="truecolor"
-#export FILE="vifm" # I don't really use vifm anymore
 
 # Misc
 export PATH="$PATH:$HOME/.local/bin:$HOME/.local/scripts"
 export UCOLLAGE_EXPAND_DIRS="1"
 export BIB_DIR="$HOME/Documents/latex/bibliography"
-export BIB="$BIB_DIR/mega.bib"
+export BIB="$BIB_DIR/bibliography.bib"
+export _ZL_ADD_ONCE=1

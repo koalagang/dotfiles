@@ -6,7 +6,7 @@ require("lualine").setup({
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
 		always_divide_middle = true,
-		globalstatus = false, -- set to true once updated to neovim 0.7
+		globalstatus = true,
 	},
 	sections = {
 		lualine_a = { "mode" },

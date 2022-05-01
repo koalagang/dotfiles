@@ -1,41 +1,57 @@
-local o = vim.o
-local g = vim.g
-local go = vim.go
-local bo = vim.bo
-local wo = vim.wo
+-- see `:h options` for more options
+-- note that neovim has much saner defaults than vim;
+-- see `:h nvim-defaults` for those
 
--- local to buffer
-o.encoding = "utf-8"
-o.shiftwidth = 4
-o.ignorecase = true
-bo.swapfile = false
-bo.tabstop = 4
-bo.softtabstop = 4
-bo.expandtab = true
-bo.autoindent = true
-bo.smartindent = true
-bo.spelllang = "en_gb,en_us,nb_no"
+local options = {
 
--- local to window
-wo.number = true
-wo.relativenumber = true
-wo.signcolumn = "yes"
-wo.cursorline = true
+	encoding = "utf-8",
+	shiftwidth = 4,
+	ignorecase = true,
+	undofile = true,
 
--- global
-g.mapleader = ","
-g.nobackup = true
-g.netrw_banner = false
-g.netrw_dirhistmax = false
-g.netrw_preview = 1
-g.netrw_liststyle = 3
-g.netrw_browse_split = 4
-g.netrw_winsize = 15
-g.netrw_keepdir = 0
-go.smartcase = true
-go.lazyredraw = true
-go.wildmenu = true
-go.wildignore = "*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp"
-go.wildignorecase = true
-go.autowrite = false
-go.termguicolors = true
+	-- local to buffer,
+	swapfile = false,
+	tabstop = 4,
+	softtabstop = 4,
+	expandtab = true,
+	autoindent = true,
+	smartindent = true,
+	spelllang = "en_gb,en_us,nb_no",
+
+	-- local to window,
+	number = true,
+	relativenumber = true,
+	signcolumn = "yes",
+	cursorline = true,
+
+	-- global
+	laststatus = 3,
+	smartcase = true,
+	lazyredraw = true,
+	wildmenu = true,
+	wildignore = "*.jpg,*.png,*.gif,*.bmp,*.ico,*.pdf,*.a,*.o,*.so,*.pyc,*.git,*.tmp,*.swp",
+	wildignorecase = true,
+	autowrite = false,
+	termguicolors = true,
+}
+
+local netrw = {
+	netrw_banner = false,
+	netrw_dirhistmax = false,
+	netrw_preview = true,
+	netrw_liststyle = 3,
+	netrw_browse_split = 4,
+	netrw_winsize = 15,
+	netrw_keepdir = false,
+}
+
+for k, v in pairs(options) do
+	vim.opt[k] = v
+end
+for k, v in pairs(netrw) do
+	vim.g[k] = v
+end
+
+vim.g.mapleader = ","
+vim.g.nobackup = true
+vim.g.noswapfile = true
