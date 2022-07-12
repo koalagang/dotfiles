@@ -1,5 +1,7 @@
 #---KOALA'S KEYBINDINGS
-# In some cases you may see 'pkill -RTMIN+n dwmblocks' - that is to update my statusbar; feel free to remove it if you don't use dwm and/or dwmblocks.
+# In some cases you may see 'pkill -RTMIN+n dwmblocks'
+# - that is to update my statusbar.
+# Feel free to remove them if you are copying my dotfiles but you don't use dwmblocks.
 
 # Launch terminal
 mod4 + Return
@@ -7,7 +9,7 @@ mod4 + Return
 
 # Power options
 ctrl + mod1 + {p,r,s}
-	loginctl {poweroff, reboot, suspend && pkill -RTMIN+3 dwmblocks}
+	loginctl {poweroff, reboot, suspend && killall dwmblocks && dwmblocks &} # restart dwmblocks after suspending to reload all blocks
 
 # Lockscreen
 ctrl + mod1 + l
@@ -18,8 +20,8 @@ mod4 + d ; {d,c,p,g,u,e,k,m,s,n,y,a,b,t,r,l}
     {dmenu_run,calcmenu,colourpick,ddgmenu,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
 
 # Launch applications
-mod4 + mod1 + {a,k,s,l,m,v,d,b,f}
-	{anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,discord,$BROWSER,firefox-esr}
+mod4 + mod1 + {a,k,s,l,m,v,d,b}
+	{anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,discord,$BROWSER}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -43,4 +45,4 @@ mod4 + ctrl + {h,j,k,l}
 
 # Kill window
 mod4 + ctrl + semicolon
-    xkill -id "$(xprop -root _NET_ACTIVE_WINDOW | cut -d\# -f2)"
+    xkill -id "$(xprop -root _NET_ACTIVE_WINDOW | cut -d'#' -f2)"

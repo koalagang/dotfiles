@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# RECOMMENDED
+# To have better looking tables and bulletpoints:
+# Create a new Anki note type containing the following styling
+
+# .card {
+#   font-family: arial;
+#   font-size: 17.5px;
+#   text-align: left;
+#   color: black;
+#   background-color: white;
+# }
+#
+# table {
+#     margin-left: auto;
+#     margin-right: auto;
+#     margin-bottom: 24px;
+#     border-spacing: 0;
+#     border-bottom: 2px solid black;
+#     border-top: 2px solid black;
+#   	color: black;
+#   	background-color: white;
+# }
+# table th {
+#     padding: 3px 10px;
+#     border-top: 2px solid black;
+#     border-left: 2px solid black;
+#     border-right: 2px solid black;
+#     border-bottom: 2px solid black;
+#   	color: black;
+#   	background-color: white;
+# }
+# table td {
+#     padding: 3px 10px;
+#     border-top: 2px solid black;
+#     border-left: 2px solid black;
+#     border-bottom: 2px solid black;
+#     border-right: 2px solid black;
+#   	color: black;
+#   	background-color: white;
+# }
+
+# You can also generate nice PDFs with your markdown notes
+# by including the following at the bottom of your markdown file
+
+# ---
+# title: "What Happens in The Cell Cycle?"
+# geometry: margin=2cm
+# classoption: table
+# documentclass: extarticle
+# urlcolor: blue
+# fontsize: 12pt
+# header-includes: |
+#     \rowcolors{2}{gray!10}{gray!30}
+# output: pdf_document
+# ---
+
+# except the title should obviously be different.
+# Then use `pandoc note.md -o note.pdf` to generate the pdf_document
+# (file extension is important for pandoc to deduce the filetype).
+
+# remember to set the correct sepearator when importing the file
+# select 'Fields sepearated by:'
+separator='@'
+
+# also, make sure 'Allow HTML in fields' is enabled.
+# By default, it should be enabled already.
+
+
+# Remove first two lines of markdown file
+#tail -n +3 "$1" > "temp-$1"
+#cp "$1" "temp-$1"
+
+filename="$(echo "$1" | cut -d'.' -f1)"
+#filename="temp-$filename"
+
+# convert markdown file to html
+pandoc "$1" -o "$filename.html"
+
+# One side of the card contains a level 2 heading
+# and the other side contains everything between that heading and the next level 2 heading
+sed -i -e "s#</h2>#</h2>$separator#g" -e 's/<h2 id=/\n<h2 id=/g' "$filename.html"
+
+awk -v RS= '{print > ("card-" NR ".txt")}' "$filename.html"
+
+cards="$(find ./card*.txt | cut -d'/' -f2)"
+mapfile -t 'cards_list' <<< "$cards"
+
+for card in "${cards_list[@]}"; do
+	tr '\n' ' ' < "$card" >> "$filename-anki_card.html"
+	printf '\n' >> "$filename-anki_card.html"
+done
+
+# don't run anki-gen in a directory which contains txt files
+# or anything of importance beginning with 'temp'
+#rm -f temp* ./*.txt
+
+rm "$filename.html" ./*.txt

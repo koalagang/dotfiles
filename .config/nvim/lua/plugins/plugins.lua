@@ -17,12 +17,12 @@ end
 -- EXTERNAL DEPENDENCIES: git
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-  augroup end
-]])
+local plugins = vim.api.nvim_create_augroup("plugins", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+	pattern = "plugins.lua",
+	command = "source <afile> | PackerSync",
+	group = plugins,
+})
 
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
@@ -67,21 +67,29 @@ for _, plugin in pairs(disabled_built_ins) do
 	vim.g["loaded_" .. plugin] = 1
 end
 
-local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
+--local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
+local languages = { "sh", "bib", "tex", "rust", "toml", "lua" }
 
 --[[ TODO:
--- Consider installing:
--- lewis6991/foldsigns.nvim
--- tpope/vim-fugitive
--- tpope/vim-rhubarb
--- tpope/vim-repeat
--- mattn/emmet-vim
---
--- I still need to figure out how to lazy-load the following:
--- LuaSnip
--- cmp-nvim-lua
--- null-ls.nvim
--- packer.nvim
+Consider installing:
+lewis6991/foldsigns.nvim
+mattn/emmet-vim
+numToStr/Comment.nvim
+iamcco/markdown-preview.nvim
+
+Git:
+tpope/vim-fugitive
+tpope/vim-rhubarb
+tpope/vim-repeat
+OR
+TimUntersberger/neogit
+sindrets/diffview.nvim
+
+Create luasnippets: https://youtube.com/watch?v=ub0REXjhpmk
+
+I still need to figure out how to lazy-load the following:
+LuaSnip (probably the solution it switch from vscode snippets to luasnippets)
+cmp-nvim-lua
 ]]
 
 return packer.startup(function(use)
@@ -121,9 +129,7 @@ return packer.startup(function(use)
 	})
 
 	-- note-taking
-	-- I'd like to make my own zettelkasten note-taking plugin at some point
-	-- because I don't feel that any existing note-taking system fully meets my wants or needs
-	-- but for now I'm using vimwiki
+	-- I'm considering switching to nvim-neorg/neorg or nvim-orgmode/orgmode
 	use({
 		"vimwiki/vimwiki",
 		config = function()
@@ -174,8 +180,8 @@ return packer.startup(function(use)
 
 		{ "hrsh7th/cmp-buffer", after = "nvim-cmp" },
 		{ "hrsh7th/cmp-path", after = "nvim-cmp" },
-		{ "hrsh7th/cmp-cmdline", after = "nvim-cmp" },
-		{ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" },
+		{ "hrsh7th/cmp-cmdline", after = "nvim-cmp", ft = languages },
+		{ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp", ft = languages },
 
 		{
 			"saadparwaiz1/cmp_luasnip",

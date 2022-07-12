@@ -8,6 +8,7 @@ ext="${file##*.}"
 cd "$dir" || exit 1
 
 case "$ext" in
-	ms) preconv "$file" | refer -PS -e | groff -me -ms -kept -T pdf > "$name".pdf ;;
-    tex) pdflatex "$file"
+	ms) preconv "$file" | refer -PS -e | groff -me -ms -kept -T pdf > "$name.pdf" ;;
+    tex) pdflatex "$file" ;;
+    md) pandoc "$file" -o "$name.pdf"
 esac

@@ -30,6 +30,12 @@ api.nvim_create_autocmd("VimEnter", {
 	command = "setlocal formatoptions-=c formatoptions-=r formatoptions-=o",
 	group = formatting,
 })
+-- make bulletpoints wrap nicely
+api.nvim_create_autocmd("filetype", {
+	pattern = "markdown",
+	command = [[set linebreak breakindent showbreak =\ \ ]],
+	group = formatting,
+})
 
 -- [[ Netrw preferences ]]
 local Netrw = api.nvim_create_augroup("Netrw", { clear = true })
