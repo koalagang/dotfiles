@@ -12,16 +12,14 @@ dwmblocks &
 
 HOST_NAME="$(cat /etc/hostname)"
 if [ "$HOST_NAME" = 'Ljosalfheim' ]; then
-    xrandr --ouput HDMI-0 --mode 1920x1080 --output HDMI-1-1 --mode 1920x1080 --left-of HDMI-0
+    xrandr --output HDMI-0 --primary --mode 1920x1080 --output HDMI-1-1 --mode 1920x1080 --left-of HDMI-0
     nvffcp
 elif [ "$HOST_NAME" = 'Svartalfheim' ]; then
     xrandr --output LVDS1 --mode 1366x768
-    setxkbmap -layout gb
 fi
-
 xrdb "$XDG_CONFIG_HOME/X11/Xresources"
 redshift -O 2500K
-xwallpaper --focus "$XDG_DATA_HOME/wall.jpg"
+xwallpaper --focus "$XDG_DATA_HOME/wallpapers/wall"
 kbd-remaps
 
 exec "$WM"
