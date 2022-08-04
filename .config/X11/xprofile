@@ -16,6 +16,7 @@ if [ "$HOST_NAME" = 'Ljosalfheim' ]; then
     nvffcp
 elif [ "$HOST_NAME" = 'Svartalfheim' ]; then
     xrandr --output LVDS1 --mode 1366x768
+    setxkbmap -layout gb
 fi
 xrdb "$XDG_CONFIG_HOME/X11/Xresources"
 redshift -O 2500K

@@ -19,7 +19,7 @@ mod4 + d ; {d,c,p,g,u,e,k,m,s,n,y,a,b,t,r,l}
 
 # Launch applications
 mod4 + mod1 + {a,k,s,l,m,v,d,b,f,g}
-	{anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,discord,$BROWSER,firefox-esr,godot}
+	{anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,discord,$BROWSER}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -39,4 +39,4 @@ mod4 + s ; {u,n,g}
 
 # Kill window
 mod4 + ctrl + semicolon
-    xkill -id "$(xprop -root _NET_ACTIVE_WINDOW | cut -d\# -f2)"
+    xkill -id "$(xprop -root _NET_ACTIVE_WINDOW | cut -d'#' -f2)"
