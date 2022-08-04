@@ -70,42 +70,31 @@ end
 --local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
 local languages = { "sh", "bib", "tex", "rust", "toml", "lua" }
 
---[[ TODO:
-Consider installing:
-lewis6991/foldsigns.nvim
-mattn/emmet-vim
-numToStr/Comment.nvim
-iamcco/markdown-preview.nvim
-
-Git:
-tpope/vim-fugitive
-tpope/vim-rhubarb
-tpope/vim-repeat
-OR
-TimUntersberger/neogit
-sindrets/diffview.nvim
-
-Create luasnippets: https://youtube.com/watch?v=ub0REXjhpmk
-
-I still need to figure out how to lazy-load the following:
-LuaSnip (probably the solution it switch from vscode snippets to luasnippets)
-cmp-nvim-lua
-]]
-
 return packer.startup(function(use)
-	-- reduce startup time by caching lua modules
+	-- reduce startup time
 	use({
-		"lewis6991/impatient.nvim",
-		config = function()
-			require("impatient")
-		end,
+		{
+			"lewis6991/impatient.nvim",
+			config = function()
+				require("impatient")
+			end,
+		},
+
+		-- NOTE: this was merged into Neovim 0.8
+		-- I will remove this plugin when that drops
+		"nathom/filetype.nvim",
+
+		{
+			"tweekmonster/startuptime.vim",
+			cmd = "StartupTime",
+		},
 	})
 
 	-- let packer manage itself
 	use("wbthomason/packer.nvim")
 
 	-- dependencies which may be required by multiple plugins
-	-- 'module' is used so that plugins are only loaded when they are required by another plugin
+	-- 'module' is used so that these plugins are only loaded when they are required by another plugin
 	use({
 		{
 			"nvim-lua/plenary.nvim",
@@ -123,9 +112,9 @@ return packer.startup(function(use)
 		config = function()
 			require("gitsigns").setup()
 		end,
-		-- I will add more commands as I explore Gitsigns more
-		cmd = { "Gitsigns get_hunks" },
+		--cmd = {}
 		requires = "nvim-lua/plenary.nvim",
+		disable = true,
 	})
 
 	-- note-taking
@@ -152,10 +141,7 @@ return packer.startup(function(use)
 		{
 			"williamboman/nvim-lsp-installer",
 			ft = languages,
-			-- would be nice if there was an :LspUpdate command
-			-- I might submit an issue to nvim-lsp-installer
-			-- TODO: set up a file with `ensure_installed`
-			--run = ':LspInstall bashls kotlin_language_server pyright rust_analyzer sumneko_lua texlab zeta_note'
+			-- TODO: migrate to mason.nvim
 			-- EXTERNAL DEPENDENCIES: tar, gzip, curl, wget, bash, npm3, pip3
 		},
 
@@ -188,8 +174,7 @@ return packer.startup(function(use)
 			after = { "nvim-cmp", "LuaSnip" },
 			requires = {
 				"L3MON4D3/LuaSnip",
-				-- I might need to modify how I manage my snippets in order to lazy-load LuaSnip
-				-- i.e. not use vscode snippets
+				-- TODO: write snippets in lua
 				require("luasnip.loaders.from_vscode").lazy_load({ paths = { "~/.config/nvim/lua/plugins/snippets" } }),
 			},
 		},
@@ -207,8 +192,8 @@ return packer.startup(function(use)
 		config = function()
 			require("plugins.conf.hop")
 		end,
-		branch = "v1",
 		keys = { "f", "F", "<c-p>", "<leader>1" },
+		branch = "v1",
 	})
 
 	-- fuzzy finder
@@ -219,15 +204,19 @@ return packer.startup(function(use)
 				require("plugins.conf.telescope")
 			end,
 			cmd = "Telescope",
+			branch = "0.1.x",
 			requires = { "nvim-lua/plenary.nvim", "kyazdani42/nvim-web-devicons" },
+			disable = true,
 			-- EXTERNAL DEPENDENCIES: ripgrep, fd
 		},
 
 		{
 			"nvim-telescope/telescope-fzf-native.nvim",
-			cmd = "Telescope",
+			--cmd = "Telescope",
+			after = "telescope.nvim",
 			run = "make",
 			requires = "nvim-telescope/telescope.nvim",
+			disable = true,
 		},
 	})
 
@@ -253,9 +242,12 @@ return packer.startup(function(use)
 
 		{
 			"p00f/nvim-ts-rainbow",
-			config = function()
-				require("plugins.conf.treesitter")
-			end,
+			after = "nvim-treesitter",
+			requires = "nvim-treesitter/nvim-treesitter",
+		},
+
+		{
+			"nvim-treesitter/nvim-treesitter-textobjects",
 			after = "nvim-treesitter",
 			requires = "nvim-treesitter/nvim-treesitter",
 		},
@@ -286,6 +278,15 @@ return packer.startup(function(use)
 		end,
 		after = "dracula.nvim",
 		requires = "kyazdani42/nvim-web-devicons",
+	})
+
+	-- move splits' borders with arrow keys
+	use({
+		"breuckelen/vim-resize",
+		config = function()
+			vim.cmd("let resize_count = 2")
+		end,
+		keys = { "<c-right>", "<c-left>", "<c-up>", "<c-down>" },
 	})
 
 	-- Automatically set up configuration after cloning packer.nvim

@@ -1,5 +1,5 @@
-local api = vim.api
 local cmd = vim.cmd
+local api = vim.api
 
 -- [[ File templates ]]
 local templates = api.nvim_create_augroup("templates", { clear = true })

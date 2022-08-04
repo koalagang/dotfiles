@@ -28,6 +28,8 @@ book_dir="$HOME/.local/share/bookmenu" # directory for storing bookmarks (both c
 
 #####################
 
+# TODO: implement solution for bookmarks with identical titles
+
 [ -d "$book_dir" ] || mkdir -p "$book_dir" # make the bookmenu directory if it does not already exist
 
 case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nExport/import bookmarks\nView quickmarks' | dmenu -i -l 5)" in

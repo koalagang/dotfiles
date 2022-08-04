@@ -1,24 +1,14 @@
--- TODO: swap out `vim.api.nvim_set_keymap` with `vim.keymap.set`
-
 -- [[ Functions ]]
--- These make the syntax for creating mappings with lua far easier
-local function map(mode, shortcut, command)
-	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
-end
-
--- Use nmap('shortcut', 'command') for normal mode mappings
 local function nmap(shortcut, command)
-	map("n", shortcut, command)
+	vim.keymap.set("n", shortcut, command)
 end
 
--- Use imap('shortcut', 'command') for normal mode mappings
-local function imap(shortcut, command)
-	map("i", shortcut, command)
-end
-
--- Use vmap('shortcut', 'command') for normal mode mappings
 local function vmap(shortcut, command)
-	map("v", shortcut, command)
+	vim.keymap.set("v", shortcut, command)
+end
+
+local function imap(shortcut, command)
+	vim.keymap.set("i", shortcut, command)
 end
 
 -- [[ Basics ]]
@@ -48,24 +38,12 @@ nmap("<c-j>", "<c-w><c-j>")
 nmap("<c-k>", "<c-w><c-k>")
 nmap("<c-l>", "<c-w><c-l>")
 nmap("<c-h>", "<c-w><c-h>")
-nmap("<c-p>", "<cmd>vertical resize +2<cr>")
-nmap("<c-m>", "<cmd>vertical resize -2<cr>")
-nmap("<m-p>", "<cmd>resize +2<cr>")
-nmap("<m-m>", "<cmd>resize -2<cr>")
-nmap("<leader>sv", "<cmd>vs<cr>")
-nmap("<leader>sh", "<cmd>sp<cr>")
-nmap("<leader>sw", "<c-w><c-x>")
+
 -- Tabs
 nmap("<Tab>", "gt")
 nmap("<S-Tab>", "gT")
 nmap("<c-t>", "<cmd>tabnew<cr>")
 nmap("tf", "tabfind<space>")
--- Move between files
-nmap("o", "<cmd>browse old<cr>")
-nmap("<c-e>", ":edit<space>")
-nmap("<c-b>l", "<cmd>b <c-d>")
-nmap("<c-b>p", "<cmd>bp<cr>")
-nmap("<c-b>n", "<cmd>bn<cr>")
 
 -- [[ Autosurround ]]
 imap('"', '""<left>')
@@ -119,7 +97,5 @@ nmap("ss", "<cmd>set spell!<cr>") -- Spellcheck
 -- Scripts and other external software
 nmap("<leader>c", '<cmd>w! | !compiler "<c-r>%"<cr><cr>')
 nmap("<leader>C", ':w! | !compiler "<c-r>%"<cr>')
-nmap("<leader>cc", '<cmd>w! | !compiler "<c-r>%"<cr><cr>!compiler "<c-r>%"<cr><cr>')
 nmap("<leader>sc", "<cmd>w! | <cmd>!shellcheck %<cr>")
-nmap("<leader>z", "<cmd>!zathura --fork %<cmd>t<cmd>r.pdf<cr><cr>")
-nmap("<leader>Z", "<cmd>!devour zathura %<cmd>t<cmd>r.pdf<cr><cr>")
+nmap("<leader>z", "<cmd>!zathura --fork %:t:r.pdf<cr><cr>")

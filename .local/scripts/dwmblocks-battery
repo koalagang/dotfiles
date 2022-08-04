@@ -8,7 +8,7 @@
 # This is so that the block doesn't change size when shifting between
 # single digit, double digit, and triple digit (i.e. 100) numbers.
 
-supply="$(cat /sys/class/power_supply/BAT0/uevent | grep 'POWER_SUPPLY_STATUS' | cut -d'=' -f2)"
+supply="$(grep 'POWER_SUPPLY_STATUS' /sys/class/power_supply/BAT0/uevent | cut -d'=' -f2)"
 bat="$(cat /sys/class/power_supply/BAT0/capacity)"
 if [ "$supply" = 'Charging' ]; then
     [ "$bat" -lt 100 ] && [ "$bat" -lt 10 ] && echo "[CHARGING]   $bat%" && exit
