@@ -16,7 +16,6 @@ kpop_url='https://listen.moe/kpop/stream'
 jpop_url='https://listen.moe/stream'
 classical_url='https://live.musopen.org:8085/streamvbr0?'
 
-
 change_radio (){
     pkill --full "$kpop_url"
     pkill --full "$jpop_url"
@@ -29,11 +28,8 @@ case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | d
     'J-pop') change_radio "$jpop_url" ;;
     'Classical') change_radio "$classical_url" ;;
     'Currently playing song')
-        # I couldn't figure out how to properly use these awk commands all in one command
-        # I tried `awk '$1=$1; {FS="artist "; print $2}; "[[:blank:]]*$"'`
-        # but it didn't work out
-        notify-send -t 5000 'Artist' "$(playerctl metadata | awk '$1=$1' | awk -F'artist ' '{print $2}'| awk '!/^[[:blank:]]*$/')"
-        notify-send -t 5000 'Song' "$(playerctl metadata | awk '$1=$1' | awk -F'title ' '{print $2}' | awk '!/^[[:blank:]]*$/')"
-        notify-send -t 5000 'Album' "$(playerctl metadata | awk '$1=$1' | awk -F'album ' '{print $2}' | awk '!/^[[:blank:]]*$/')" ;;
+        notify-send -t 5000 'Artist' "$(playerctl metadata artist)"
+        notify-send -t 5000 'Song' "$(playerctl metadata title)"
+        notify-send -t 5000 'Album' "$(playerctl metadata album)" ;;
     'Stop radio') change_radio
 esac
