@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: dmenu, mpv, songrec, ffmpeg, pulseaudio (these last three are for checking what song is currently playing)
+# Dependencies: dmenu, mpv, playerctl, mpv-mpris
+# (these last two are for checking what song is currently playing; as a bonus, they also allow you to use the media keys to pause and unpause mpv)
 # Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a browser ;)
 # To find the URL you need for your chosen radio, inspect element on the play button on the website and then press it.
 # This should point you to the URL (at least that's how it works for Chromium-based browsers). Easy as pie.
@@ -9,26 +10,31 @@
 # If, for example, you wanted to listen to BBC radio without creating an account, you could use URLs shown on this page:
 # https://gist.githubusercontent.com/bpsib/67089b959e4fa898af69fea59ad74bc3/raw/66afe675421d912a4461d3d86abe1b30b1d041fa/BBC-Radio.m3u
 # You can also play music from Soundcloud by using the 'share' URL; this can actually also be used to bypass premium songs.
-# WARNING: it is not recommended that you use mpv for other things at the same time, otherwise this script may accidentally kill your other content.
 
 # URLs
 kpop_url='https://listen.moe/kpop/stream'
 jpop_url='https://listen.moe/stream'
-classical_url='https://live.musopen.org:8085/streamvbr0?1626306796133'
+classical_url='https://live.musopen.org:8085/streamvbr0?'
+
+
+change_radio (){
+    pkill --full "$kpop_url"
+    pkill --full "$jpop_url"
+    pkill --full "$classical_url"
+    [ -n "$1" ] && mpv --volume=45 "$1" &
+}
 
 case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | dmenu -i)" in
-    'K-pop') pkill -n mpv ; mpv --volume=45 "$kpop_url" & ;;
-    'J-pop') pkill -n mpv ; mpv --volume=45 "$jpop_url" & ;;
-    'Classical') pkill -n mpv ; mpv --volume=45 "$classical_url" & ;;
+    'K-pop') change_radio "$kpop_url" ;;
+    'J-pop') change_radio "$jpop_url" ;;
+    'Classical') change_radio "$classical_url" ;;
     'Currently playing song')
-        notify-send 'Radiomenu' 'Please allow 15 seconds to check what song is currently playing.'
-        ffmpeg -f pulse -i default -y -t 15 '/tmp/shazam.wav'
-        songrec audio-file-to-recognized-song '/tmp/shazam.wav'
-        song="$(songrec audio-file-to-recognized-song '/tmp/shazam.wav' | grep -A6 'metadata' | tail -n1 | tr -d '",' | cut -d':' -f2 | sed 's/[ \t]*//')"
-        artist="$(songrec audio-file-to-recognized-song '/tmp/shazam.wav' | grep -A2 'metadata' | tail -n1 | tr -d '",' | cut -d':' -f2 | sed 's/[ \t]*//')"
-        notify-send 'Radiomenu' "$artist - $song"
-        rm '/tmp/shazam.wav' ;;
-    'Stop radio') pkill -n mpv
+        # I couldn't figure out how to properly use these awk commands all in one command
+        # I tried `awk '$1=$1; {FS="artist "; print $2}; "[[:blank:]]*$"'`
+        # but it didn't work out
+        notify-send -t 5000 'Artist' "$(playerctl metadata | awk '$1=$1' | awk -F'artist ' '{print $2}'| awk '!/^[[:blank:]]*$/')"
+        notify-send -t 5000 'Song' "$(playerctl metadata | awk '$1=$1' | awk -F'title ' '{print $2}' | awk '!/^[[:blank:]]*$/')"
+        notify-send -t 5000 'Album' "$(playerctl metadata | awk '$1=$1' | awk -F'album ' '{print $2}' | awk '!/^[[:blank:]]*$/')"
+        ;;
+    'Stop radio') change_radio
 esac
-
-# NOTE TO SELF: make radiomenu save PID so that you can kill that specific instance of mpv
