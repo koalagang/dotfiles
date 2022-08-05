@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: dmenu, mpv, playerctl, mpv-mpris
-# (these last two are for checking what song is currently playing; as a bonus, they also allow you to use the media keys to pause and unpause mpv)
+# Dependencies: dmenu, mpv, mpv-mpris, playerctl
+# (these latter two are for checking what song is currently playing; as a bonus, they also allow you to use the media keys to pause and unpause mpv)
 # Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a browser ;)
 # To find the URL you need for your chosen radio, inspect element on the play button on the website and then press it.
 # This should point you to the URL (at least that's how it works for Chromium-based browsers). Easy as pie.
@@ -34,7 +34,6 @@ case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | d
         # but it didn't work out
         notify-send -t 5000 'Artist' "$(playerctl metadata | awk '$1=$1' | awk -F'artist ' '{print $2}'| awk '!/^[[:blank:]]*$/')"
         notify-send -t 5000 'Song' "$(playerctl metadata | awk '$1=$1' | awk -F'title ' '{print $2}' | awk '!/^[[:blank:]]*$/')"
-        notify-send -t 5000 'Album' "$(playerctl metadata | awk '$1=$1' | awk -F'album ' '{print $2}' | awk '!/^[[:blank:]]*$/')"
-        ;;
+        notify-send -t 5000 'Album' "$(playerctl metadata | awk '$1=$1' | awk -F'album ' '{print $2}' | awk '!/^[[:blank:]]*$/')" ;;
     'Stop radio') change_radio
 esac
