@@ -67,7 +67,7 @@ for _, plugin in pairs(disabled_built_ins) do
 	vim.g["loaded_" .. plugin] = 1
 end
 
---local languages = { "sh", "bib", "cs", "kotlin", "tex", "make", "markdown", "python", "rust", "toml", "lua" }
+--local languages = { "sh", "bib", "kotlin", "tex", "make", "markdown", "rust", "toml", "lua" }
 local languages = { "sh", "bib", "tex", "rust", "toml", "lua" }
 
 return packer.startup(function(use)
@@ -141,8 +141,11 @@ return packer.startup(function(use)
 		{
 			"williamboman/nvim-lsp-installer",
 			ft = languages,
-			-- TODO: migrate to mason.nvim
-			-- EXTERNAL DEPENDENCIES: tar, gzip, curl, wget, bash, npm3, pip3
+			-- TODO:
+            -- migrate to mason.nvim
+            -- ensure_installed: kotlin_language_server, texlab, sumneko_lua, prosemd_lsp, rnix, taplo, rust_analyzer, vimls
+			-- EXTERNAL DEPENDENCIES: tar, gzip, curl, wget, bash,
+            -- cargo (texlab, prosemd_lsp, rnix, taplo and rust_analyzer are all written in rust; I will install also stylua (also written in rust) through mason)
 		},
 
 		{
