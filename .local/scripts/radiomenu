@@ -24,6 +24,13 @@ kpop_url='https://listen.moe/kpop/stream'
 jpop_url='https://listen.moe/stream'
 classical_url='https://live.musopen.org:8085/streamvbr0?'
 
+change_radio (){
+    pkill --full "$kpop_url"
+    pkill --full "$jpop_url"
+    pkill --full "$classical_url"
+    [ -n "$1" ] && mpv --volume=45 "$1" &
+}
+
 ###############
 
 change_radio (){

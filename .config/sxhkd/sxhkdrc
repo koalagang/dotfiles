@@ -7,19 +7,19 @@ mod4 + Return
 
 # Power options
 ctrl + mod1 + {p,r,s}
-	loginctl {poweroff, reboot, suspend && pkill -RTMIN+3 dwmblocks}
+    loginctl {poweroff, reboot, suspend && pkill -RTMIN+3 dwmblocks}
 
 # Lockscreen
 ctrl + mod1 + l
     slock
 
 # Dmenu
-mod4 + d ; {d,c,p,g,u,e,k,m,s,n,y,a,b,t,r,l}
-    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,dnotes,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
+mod4 + d ; {d,c,p,g,u,e,k,m,s,y,a,b,t,r,l}
+    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
 
 # Launch applications
 mod4 + mod1 + {a,k,s,l,m,v,b}
-	{anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,$BROWSER}
+    {anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,$BROWSER}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -31,7 +31,7 @@ mod4 + mod1 + {a,k,s,l,m,v,b}
 
 # Refresh sxhkd bindings
 mod4 + ctrl + s
-	notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
+    notify-send "Refreshed sxhkd bindings." && killall sxhkd && sxhkd &
 
 # Keyboard layouts
 mod4 + s ; {u,n,g}

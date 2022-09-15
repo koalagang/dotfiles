@@ -91,6 +91,7 @@ Xft.autohint: true
 *.color14: nord7
 *.color15: nord6
 */
+<<<<<<< HEAD
 
 /*
 ! Catpuccin (macchiato)
@@ -113,3 +114,5 @@ Xft.autohint: true
 *color14: #8BD5CA
 *color15: #A5ADCB
 */
+=======
+>>>>>>> 6b7b72a7a15e2b1e8194e644ac873f37cf609d91
