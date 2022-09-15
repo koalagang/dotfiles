@@ -3,7 +3,7 @@
 #   \\|   \'---'/   Dante (@koalagang)
 #    \   _'.'O'.'   https://github.com/koalagang
 #     | :___   \
-#     |  _| :  |    "No need for a file manager for navigation. All you need is fzf and z.lua!"
+#     |  _| :  |
 #     | :__,___/
 #     |   |
 #     |   |
@@ -13,10 +13,10 @@
 setopt autocd                           # cd just by typing in the directory name
 source $HOME/.config/zsh/aliasrc        # source aliases
 source $HOME/.config/zsh/functionrc     # source functions
-eval "$(starship init zsh)"             # TIP: the Starship prompt indicates what vi mode you are in
+eval "$(starship init zsh)"             # TIP: the Starship prompt indicates if you are in vi mode
 
-# z.lua
-eval "$(lua /usr/share/z.lua/z.lua --init zsh enhanced)"
+# zoxide
+eval "$(zoxide init zsh)"
 
 # History and cache
 HISTFILE="$XDG_CACHE_HOME/zsh/zsh-hst"
@@ -32,30 +32,25 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots) # Include hidden files.
+_comp_options+=(globdots) # include hidden files
 
-# vi mode
+# enter vi mode with escape
 bindkey '^[' vi-cmd-mode
 export KEYTIMEOUT=1
 
-# Edit line in vim buffer with ctrl-v
-autoload edit-command-line; zle -N edit-command-line
-autoload -U edit-command-line && zle -N edit-command-line && bindkey -M vicmd "^v" edit-command-line # Enter vim buffer from normal mode
+# edit line in vim buffer with ctrl-v when in vi mode
+autoload -U edit-command-line && zle -N edit-command-line && bindkey -M vicmd "^v" edit-command-line
 
-# Use vim keys in tab complete menu
+# use vi keys in tab complete menu
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'left' vi-backward-char
-bindkey -M menuselect 'down' vi-down-line-or-history
-bindkey -M menuselect 'up' vi-up-line-or-history
-bindkey -M menuselect 'right' vi-forward-char
-bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
+bindkey "^?" backward-delete-char # fix backspace bug when switching modes
 
-# Plugins
+# plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # fish-like autosuggestion
 
-# Bindings
+# open new terminal window in the current directory
 bindkey -s '^t' 'samedir\n' # check my scripts for `samedir`

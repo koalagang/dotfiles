@@ -1,14 +1,14 @@
 -- [[ Functions ]]
 local function nmap(shortcut, command)
-	vim.keymap.set("n", shortcut, command)
+    vim.keymap.set("n", shortcut, command)
 end
 
 local function vmap(shortcut, command)
-	vim.keymap.set("v", shortcut, command)
+    vim.keymap.set("v", shortcut, command)
 end
 
 local function imap(shortcut, command)
-	vim.keymap.set("i", shortcut, command)
+    vim.keymap.set("i", shortcut, command)
 end
 
 -- [[ Basics ]]
@@ -28,9 +28,9 @@ nmap("<m-k>", "<cmd>m .-2<cr>==")
 nmap("<m-j>", "<cmd>m .+1<cr>==")
 vmap("<m-k>", ":m '<-2<cr>gv=gv")
 vmap("<m-j>", ":m '>+1<cr>gv=gv")
--- Find and replace (similar to sed)
+-- Find and replace
 nmap("S", ":%s//g<left><left>")
-vmap("S", ":s//g<left><left>")
+vmap("S", ":s/\\%V/g<left><left>")
 
 -- [[ Navigate multiple files ]]
 -- Splits
@@ -93,6 +93,8 @@ vmap("$", "$<left>")
 nmap("M", "<cmd>marks<cr>")
 nmap("<leader>src", "<cmd>source %<cr>")
 nmap("ss", "<cmd>set spell!<cr>") -- Spellcheck
+nmap("gA", "GA")
+nmap("gI", "ggI")
 
 -- Scripts and other external software
 nmap("<leader>c", '<cmd>w! | !compiler "<c-r>%"<cr><cr>')

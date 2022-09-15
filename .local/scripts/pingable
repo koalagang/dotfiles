@@ -8,5 +8,8 @@
 [ -z "$1" ] && server='archlinux.org'
 
 while true; do
-    ping -c1 "$server" -q && printf '\npingable: connection established!\n' && notify-send 'pingable' 'connection established!' && break
+    ping -c1 "$server" -q &&
+        printf '\npingable: connection established!\n' &&
+        notify-send 'pingable' 'connection established!' &&
+        break
 done

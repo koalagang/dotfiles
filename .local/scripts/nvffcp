@@ -12,7 +12,6 @@
 # It is a slightly improved version of a script made by user 'vitkin' on this post:
 # https://unix.stackexchange.com/a/550695
 
-
 mode="$(nvidia-settings -q CurrentMetaMode -t)"
 [ -n "$mode" ] && mode="${mode#*" :: "}" && nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings" -a CurrentMetaMode="${mode//\}/, ForceFullCompositionPipeline=On\}}"
 

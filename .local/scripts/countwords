@@ -1,0 +1,2 @@
+#!/bin/sh
+notify-send 'Word count' "$(pdftotext $1 - | tr -d '[:punct:]' | wc -w)"

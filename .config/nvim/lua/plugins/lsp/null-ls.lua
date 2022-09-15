@@ -1,6 +1,6 @@
 local status_ok, null_ls = pcall(require, "null-ls")
 if not status_ok then
-	return
+    return
 end
 
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
@@ -13,25 +13,21 @@ local code_actions = null_ls.builtins.code_actions
 -- TODO: setup null-ls with other languages I use
 
 null_ls.setup({
-	debug = false,
-	sources = {
-		-- lua
-		formatting.stylua,
+    debug = false,
+    sources = {
+        -- lua
+        formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
 
-		-- python
-		formatting.black,
-		diagnostics.flake8,
+        -- shell
+        formatting.shfmt.with({ extra_args = { "-i 4", "-sr", "-s", "-ln posix" } }),
+        diagnostics.shellcheck,
 
-		-- shell
-		formatting.shfmt.with({ extra_args = { "-i 4", "-sr", "-s", "-ln posix" } }),
-		diagnostics.shellcheck,
+        -- rust
+        formatting.rustfmt,
 
-		-- rust
-		formatting.rustfmt,
-
-		-- other
-		code_actions.gitsigns,
-	},
+        -- other
+        code_actions.gitsigns,
+    },
 })
 
 -- format on save

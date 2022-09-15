@@ -1,0 +1,7 @@
+#!/bin/sh
+if pkill "xcompmgr"; then
+	notify-send 'Compositor off'
+else
+	"xcompmgr" &
+	notify-send 'Compositor on'
+fi

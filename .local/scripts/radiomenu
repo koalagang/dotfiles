@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: dmenu, mpv, songrec, ffmpeg, pulseaudio (these last three are for checking what song is currently playing)
+# Dependencies: dmenu, mpv, mpv-mpris, playerctl
+# (these latter two are for checking what song is currently playing; as a bonus, they also allow you to use the media keys to pause and unpause mpv)
 # Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a browser ;)
 # To find the URL you need for your chosen radio, inspect element on the play button on the website and then press it.
 # This should point you to the URL (at least that's how it works for Chromium-based browsers). Easy as pie.
@@ -9,26 +10,42 @@
 # If, for example, you wanted to listen to BBC radio without creating an account, you could use URLs shown on this page:
 # https://gist.githubusercontent.com/bpsib/67089b959e4fa898af69fea59ad74bc3/raw/66afe675421d912a4461d3d86abe1b30b1d041fa/BBC-Radio.m3u
 # You can also play music from Soundcloud by using the 'share' URL; this can actually also be used to bypass premium songs.
-# WARNING: it is not recommended that you use mpv for other things at the same time, otherwise this script may accidentally kill your other content.
+
+### OPTIONS ###
+
+# Copy song and artist name to clipboard when using 'Currently playing song' option
+# set to 1 to enable
+# set to 0 to disable
+copy=1
 
 # URLs
+# Remember to modify the `change_radio` function and menu section after modifying the URLs
 kpop_url='https://listen.moe/kpop/stream'
 jpop_url='https://listen.moe/stream'
-classical_url='https://live.musopen.org:8085/streamvbr0?1626306796133'
+classical_url='https://live.musopen.org:8085/streamvbr0?'
 
+###############
+
+change_radio (){
+    pkill --full 'mpv-radiomenu'
+    [ -n "$1" ] && mpv --title='mpv-radiomenu' --volume=45 "$1" &
+}
+
+# Open menu
 case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | dmenu -i)" in
-    'K-pop') pkill -n mpv ; mpv --volume=45 "$kpop_url" & ;;
-    'J-pop') pkill -n mpv ; mpv --volume=45 "$jpop_url" & ;;
-    'Classical') pkill -n mpv ; mpv --volume=45 "$classical_url" & ;;
+    'K-pop') change_radio "$kpop_url" ;;
+    'J-pop') change_radio "$jpop_url" ;;
+    'Classical') change_radio "$classical_url" ;;
     'Currently playing song')
-        notify-send 'Radiomenu' 'Please allow 15 seconds to check what song is currently playing.'
-        ffmpeg -f pulse -i default -y -t 15 '/tmp/shazam.wav'
-        songrec audio-file-to-recognized-song '/tmp/shazam.wav'
-        song="$(songrec audio-file-to-recognized-song '/tmp/shazam.wav' | grep -A6 'metadata' | tail -n1 | tr -d '",' | cut -d':' -f2 | sed 's/[ \t]*//')"
-        artist="$(songrec audio-file-to-recognized-song '/tmp/shazam.wav' | grep -A2 'metadata' | tail -n1 | tr -d '",' | cut -d':' -f2 | sed 's/[ \t]*//')"
-        notify-send 'Radiomenu' "$artist - $song"
-        rm '/tmp/shazam.wav' ;;
-    'Stop radio') pkill -n mpv
+        playerctl -ps mpv.instance"$(pgrep --full mpv-radiomenu)" metadata && uses_pid=1
+        if [ -z "$uses_pid" ]; then
+            player='mpv'
+        else
+            player="mpv.instance$(pgrep --full mpv-radiomenu)"
+        fi
+        [ "$copy" -eq 1 ] && echo "$(playerctl -p "$player" metadata artist) - $(playerctl -p "$player" metadata title)" | xclip -sel c
+        notify-send -t 10000 'Artist' "$(playerctl -p "$player" metadata artist)"
+        notify-send -t 10000 'Song' "$(playerctl -p "$player" metadata title)"
+        notify-send -t 10000 'Album' "$(playerctl -p "$player" metadata album)" ;;
+    'Stop radio') change_radio
 esac
-
-# NOTE TO SELF: make radiomenu save PID so that you can kill that specific instance of mpv

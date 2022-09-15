@@ -4,7 +4,7 @@ vim.g.vimwiki_ext2syntax = { [".md"] = "markdown", [".markdown"] = "markdown", [
 vim.g.vimwiki_conceallevel = 2
 
 local function map(shortcut, command)
-	vim.api.nvim_set_keymap("n", shortcut, command, { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("n", shortcut, command, { noremap = true, silent = true })
 end
 
 -- Find files in vimwiki

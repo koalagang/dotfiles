@@ -1,12 +1,7 @@
 !! transparency (0-1)
 *.alpha: 0.85
-!! standard Ubunto mono font
-!! requires `ttf-ubuntu-font-family` package
-*.font: Ubuntu mono:size=10:antialias=true:autohint=true;
-!! same as above but set st font as slightly larger
-st.font: Ubuntu mono:size=14:antialias=true:autohint=true;
-!! a cursor theme inspired by macOS and based on KDE Breeze
-!! requires `capitaine-cursors` package
+*.font: Fira Code:size=10:antialias=true:autohint=true;
+st.font: Fira Code:size=12:antialias=true:autohint=true;
 Xcursor.theme: capitaine-cursors
 Xft.antialias: true
 Xft.hinting: true
@@ -36,7 +31,7 @@ Xft.autohint: true
 *.foreground:   #FFD2F7
 */
 
-! Dracula Xresources palette
+! Dracula
 ! Provided by https://github.com/dracula/xresources
 *.foreground: #F8F8F2
 *.background: #282A36
@@ -56,3 +51,65 @@ Xft.autohint: true
 *.color13:    #FF92D0
 *.color14:    #9AEDFE
 *.color15:    #E6E6E6
+
+/*
+! Nord
+! Provided by https://github.com/arcticicestudio/nord-xresources
+#define nord0 #2E3440
+#define nord1 #3B4252
+#define nord2 #434C5E
+#define nord3 #4C566A
+#define nord4 #D8DEE9
+#define nord5 #E5E9F0
+#define nord6 #ECEFF4
+#define nord7 #8FBCBB
+#define nord8 #88C0D0
+#define nord9 #81A1C1
+#define nord10 #5E81AC
+#define nord11 #BF616A
+#define nord12 #D08770
+#define nord13 #EBCB8B
+#define nord14 #A3BE8C
+#define nord15 #B48EAD
+
+*.foreground:   nord4
+*.background:   nord0
+*.color0: nord1
+*.color1: nord11
+*.color2: nord14
+*.color3: nord13
+*.color4: nord9
+*.color5: nord15
+*.color6: nord8
+*.color7: nord5
+*.color8: nord3
+*.color9: nord11
+*.color10: nord14
+*.color11: nord13
+*.color12: nord9
+*.color13: nord15
+*.color14: nord7
+*.color15: nord6
+*/
+
+/*
+! Catpuccin (macchiato)
+*background: #24273A
+*foreground: #CAD3F5
+*color0: #494D64
+*color1: #ED8796
+*color2: #A6DA95
+*color3: #EED49F
+*color4: #8AADF4
+*color5: #F5BDE6
+*color6: #8BD5CA
+*color7: #B8C0E0
+*color8: #5B6078
+*color9: #ED8796
+*color10: #A6DA95
+*color11: #EED49F
+*color12: #8AADF4
+*color13: #F5BDE6
+*color14: #8BD5CA
+*color15: #A5ADCB
+*/

@@ -23,7 +23,6 @@ export XAUTHORITY="$XDG_RUNTIME_DIR/Xauthority"
 export TASKRC="$XDG_CONFIG_HOME/taskwarrior/taskrc"
 export TIMEWARRIORDB="$XDG_CONFIG_HOME/timewarrior"
 export LESSHISTFILE=- # Disable less history
-export _ZL_DATA="$XDG_CACHE_HOME/zsh/zlua-hst"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
