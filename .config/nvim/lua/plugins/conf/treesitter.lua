@@ -2,12 +2,9 @@ require("nvim-treesitter.configs").setup({
     ensure_installed = {
         "bash",
         "bibtex",
-        --"c_sharp",
-        --"kotlin",
         "latex",
         "make",
         "markdown",
-        --"python",
         "rust",
         "toml",
         "lua",

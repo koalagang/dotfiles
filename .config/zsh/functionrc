@@ -3,22 +3,22 @@
 
 # File/folder extraction
 ex (){
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2)   tar xjf $1    ;;
-            *.tar.gz)    tar xf $1     ;;
-            *.bz2)       bunzip2 $1    ;;
-            *.rar)       unrar x $1    ;;
-            *.gz)        gunzip $1     ;;
-            *.tar)       tar xf $1     ;;
-            *.tbz2)      tar xjf $1    ;;
-            *.tgz)       tar xzf $1    ;;
-            *.zip)       unzip $1      ;;
-            *.Z)         uncompress $1 ;;
-            *.7z)        7z x $1       ;;
-            *.deb)       ar x $1       ;;
-            *.tar.xz)    tar xf $1     ;;
-            *.tar.zst)   unzstd $1     ;;
+    if [ -f "$1" ] ; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"    ;;
+            *.tar.gz)    tar xf "$1"     ;;
+            *.bz2)       bunzip2 "$1"    ;;
+            *.rar)       unrar x "$1"    ;;
+            *.gz)        gunzip "$1"     ;;
+            *.tar)       tar xf "$1"     ;;
+            *.tbz2)      tar xjf "$1"    ;;
+            *.tgz)       tar xzf "$1"    ;;
+            *.zip)       unzip "$1"      ;;
+            *.Z)         uncompress "$1" ;;
+            *.7z)        7z x "$1"       ;;
+            *.deb)       ar x "$1"       ;;
+            *.tar.xz)    tar xf "$1"     ;;
+            *.tar.zst)   unzstd "$1"     ;;
             *)           echo "'$1' cannot be extracted with ex"
         esac
     else
@@ -45,14 +45,14 @@ comp (){
 #bindkey -s '^o' 'vifmcd\n'
 
 xcp (){ # Copy files to clipboard (using xclip)
-    case $1 in
-        *.jpeg) xclip -selection clipboard -target image/jpeg $1 ;;
-        *.jpg)  xclip -selection clipboard -target image/jpg $1 ;;
-        *.png)  xclip -selection clipboard -target image/png $1 ;;
-        *.bpm)  xclip -selection clipboard -target image/bpm $1 ;;
-        *.xpm)  xclip -selection clipboard -target image/xpm $1 ;;
-        *.gif)  xclip -selection clipboard -target image/gif $1 ;;
-        *)      xclip -selection clipboard $1
+    case "$1" in
+        *.jpeg) xclip -selection clipboard -target image/jpeg "$1" ;;
+        *.jpg)  xclip -selection clipboard -target image/jpg "$1" ;;
+        *.png)  xclip -selection clipboard -target image/png "$1" ;;
+        *.bpm)  xclip -selection clipboard -target image/bpm "$1" ;;
+        *.xpm)  xclip -selection clipboard -target image/xpm "$1" ;;
+        *.gif)  xclip -selection clipboard -target image/gif "$1" ;;
+        *)      xclip -selection clipboard "$1"
     esac
 }
 
@@ -61,27 +61,22 @@ xcp (){ # Copy files to clipboard (using xclip)
 #}
 
 bak () { # Backup a file
-    cp --backup=numbered $1 $1.bak
+    cp --backup=numbered "$1" "$1.bak"
 }
 
-0x0 (){ # Upload content to 0x0.st
+oxo (){ # Upload content to 0x0.st
 while getopts 's:f:u:' OPT; do
   case $OPT in
     s) curl -F "shorten=$OPTARG" http://0x0.st ;;
     f) curl -F "file=@$OPTARG" http://0x0.st   ;;
     u) curl -F "url=$OPTARG" http://0x0.st     ;;
+    *) echo 'error: invalid flag'
   esac
 done
 }
 
-gimp (){ # swallow gimp and silence all output (keep the terminal devoid of annoying unimportant error messages)
-    - devour gimp "$1" 2>/dev/null ; true
-}
-
+# TOOD: configure filename formatting
 ytdl (){
-    youtube-dl "$1" --external-downloader 'axel' --external-downloader-args '-n 10'
-}
-
-timewl (){
-    timew lengthen @$1 $2mins
+    # swap `yt-dlp` out for `yotube-dl` if you prefer that
+    yt-dlp "$1" --external-downloader 'axel' --external-downloader-args '-n 10'
 }

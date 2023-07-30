@@ -170,7 +170,7 @@ return packer.startup(function(use)
             "hrsh7th/nvim-cmp",
             event = "InsertEnter",
             config = function()
-                require("plugins.conf.cmp")
+                require("conf.cmp")
             end,
         },
 
@@ -194,7 +194,7 @@ return packer.startup(function(use)
         {
             "L3MON4D3/LuaSnip",
             config = function()
-                require("plugins.conf.luasnip")
+                require("conf.luasnip")
             end,
         },
 
@@ -208,7 +208,7 @@ return packer.startup(function(use)
     use({
         "L3MON4D3/LuaSnip",
         config = function()
-            require("plugins.conf.luasnip")
+            require("conf.luasnip")
         end,
     })
     ]]
@@ -217,7 +217,7 @@ return packer.startup(function(use)
     use({
         "phaazon/hop.nvim",
         config = function()
-            require("plugins.conf.hop")
+            require("conf.hop")
         end,
         keys = { "f", "F", "<leader>1", "<leader>2" },
         branch = "v2",
@@ -228,7 +228,7 @@ return packer.startup(function(use)
         {
             "nvim-telescope/telescope.nvim",
             config = function()
-                require("plugins.conf.telescope")
+                require("conf.telescope")
             end,
             cmd = "Telescope",
             branch = "0.1.x",
@@ -251,7 +251,7 @@ return packer.startup(function(use)
     use({
         "Mofiqul/dracula.nvim",
         config = function()
-            require("plugins.conf.dracula")
+            require("conf.dracula")
         end,
     })
 
@@ -260,7 +260,7 @@ return packer.startup(function(use)
         {
             "nvim-treesitter/nvim-treesitter",
             config = function()
-                require("plugins.conf.treesitter")
+                require("conf.treesitter")
             end,
             run = ":TSUpdate",
             ft = languages,
@@ -293,7 +293,7 @@ return packer.startup(function(use)
     use({
         "lukas-reineke/indent-blankline.nvim",
         config = function()
-            require("plugins.conf.indent-blankline")
+            require("conf.indent-blankline")
         end,
     })
 
@@ -302,7 +302,7 @@ return packer.startup(function(use)
         {
             "nvim-lualine/lualine.nvim",
             config = function()
-                require("plugins.conf.lualine")
+                require("conf.lualine")
             end,
             after = "dracula.nvim",
             requires = "kyazdani42/nvim-web-devicons",

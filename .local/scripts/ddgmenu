@@ -1,9 +1,33 @@
 #!/bin/sh
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: ddgr, dmenu
-# You can easily swap ddgr out with googler if you prefer that.
-search="$(printf '' | dmenu -p 'Search: ')" || exit 0
-choice="$(notify-send 'ddgmenu' 'Searching...' -t 1000 && ddgr "$search" --json | tee '/tmp/ddgmenu.json' |
-    awk -F ":" '/title/ {print $NF}' | tr -d ',' | dmenu -i -l 20)" || exit 0
-grep -A1 "$choice" '/tmp/ddgmenu.json' | awk '/url/ {print $NF}' | xargs "$BROWSER"
+# Dependencies: jq, $searcher and $menu (see options below)
+
+### OPTIONS ###
+
+# you can easily swap $searcher out with googler if you prefer that
+searcher='ddgr'
+#searcher='googler'
+
+menu='dmenu'
+#menu='rofi -dmenu'
+#menu='bemenu'
+
+###############
+
+# take user input for what to search and place it in a variable
+query="$(printf '' | $menu -p 'Search: ')" || exit 0 # exit if the user hits escape
+[ -z "$query" ] && exit 0 # exit if the user hits enter/return without inputting any text
+
+# lookup the contents of $query and give the user the first 20 available options
+# also store the json file for later use
+# shellcheck disable=SC1003
+choice="$($searcher "$query" --json -n 20 | tee '/tmp/ddgmenu.json' | jq '.[].title' | tr -d '\\' | $menu -l 20)"
+# remove the first and last quotation mark
+choice2=${choice#'"'}
+choice2=${choice2%'"'}
+
+# search ddgmenu.json for a title containing the contents of $choice2, grab the URL and then open it in the browser
+jq --arg choice "$choice2" '.[] | select(.title==$choice)' '/tmp/ddgmenu.json' | jq '.url' | xargs "$BROWSER"
+
+# cleanup
 rm '/tmp/ddgmenu.json'

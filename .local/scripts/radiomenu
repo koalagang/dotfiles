@@ -3,10 +3,11 @@
 # AUTHOR: koalagang (https://github.com/koalagang)
 # Dependencies: dmenu, mpv, mpv-mpris, playerctl
 # (these latter two are for checking what song is currently playing; as a bonus, they also allow you to use the media keys to pause and unpause mpv)
-# Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a browser ;)
+# Listen to the radio using dmenu and mpv. No need for an API or some bloated application like a web browser. ;)
 # To find the URL you need for your chosen radio, inspect element on the play button on the website and then press it.
 # This should point you to the URL (at least that's how it works for Chromium-based browsers). Easy as pie.
-# Some websites force you into creating an account to listen but if you can get the URL another way then you can listen without an account.
+# Some websites force you into creating an account to listen
+# but if you can get the URL another way then you can listen without an account.
 # If, for example, you wanted to listen to BBC radio without creating an account, you could use URLs shown on this page:
 # https://gist.githubusercontent.com/bpsib/67089b959e4fa898af69fea59ad74bc3/raw/66afe675421d912a4461d3d86abe1b30b1d041fa/BBC-Radio.m3u
 # You can also play music from Soundcloud by using the 'share' URL; this can actually also be used to bypass premium songs.
@@ -17,29 +18,36 @@
 # set to 1 to enable
 # set to 0 to disable
 copy=1
+# change this if you use another clipboard utility like xsel or wl-clipboard
+# For example:
+#clip_command='wl-copy'
+clip_command='xclip -sel c'
+
+# change this if you use another menu like rofi or bemenu
+# For example:
+#menu='bemenu'
+#menu='rofi -dmenu'
+menu='dmenu'
+
+# self-explanatory
+volume=45
 
 # URLs
-# Remember to modify the `change_radio` function and menu section after modifying the URLs
+# Remember to modify the menu section after modifying the URLs
 kpop_url='https://listen.moe/kpop/stream'
 jpop_url='https://listen.moe/stream'
 classical_url='https://live.musopen.org:8085/streamvbr0?'
-
-change_radio (){
-    pkill --full "$kpop_url"
-    pkill --full "$jpop_url"
-    pkill --full "$classical_url"
-    [ -n "$1" ] && mpv --volume=45 "$1" &
-}
 
 ###############
 
 change_radio (){
     pkill --full 'mpv-radiomenu'
-    [ -n "$1" ] && mpv --title='mpv-radiomenu' --volume=45 "$1" &
+    [ -n "$1" ] && mpv --title='mpv-radiomenu' --volume="$volume" "$1" &
 }
 
 # Open menu
-case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | dmenu -i)" in
+case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | $menu -i)" in
+    # feel free to add your own radios here
     'K-pop') change_radio "$kpop_url" ;;
     'J-pop') change_radio "$jpop_url" ;;
     'Classical') change_radio "$classical_url" ;;
@@ -50,9 +58,10 @@ case "$(printf 'K-pop\nJ-pop\nClassical\nCurrently playing song\nStop radio' | d
         else
             player="mpv.instance$(pgrep --full mpv-radiomenu)"
         fi
-        [ "$copy" -eq 1 ] && echo "$(playerctl -p "$player" metadata artist) - $(playerctl -p "$player" metadata title)" | xclip -sel c
+        [ "$copy" -eq 1 ] && echo "$(playerctl -p "$player" metadata artist) - $(playerctl -p "$player" metadata title)" |
+            $clip_command
         notify-send -t 10000 'Artist' "$(playerctl -p "$player" metadata artist)"
         notify-send -t 10000 'Song' "$(playerctl -p "$player" metadata title)"
         notify-send -t 10000 'Album' "$(playerctl -p "$player" metadata album)" ;;
-    'Stop radio') change_radio
+    'Stop radio') pkill --full 'mpv-radiomenu'
 esac

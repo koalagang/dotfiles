@@ -2,4 +2,4 @@
 # AUTHOR: koalagang (https://github.com/koalagang)
 # Dependencies: dmenu, arch-wiki-docs
 # Search a local copy of the Arch Wiki. Not only is this useful to have for when you don't have access to the internet but it is also much faster than loading up an online page.
-page="$(find /usr/share/doc/arch-wiki/html/en -type f | sed -e 's#/usr/share/doc/arch-wiki/html/en/##g' -e 's/.html//g' | dmenu -i)" && $BROWSER "/usr/share/doc/arch-wiki/html/en/$page.html" &
+page="$(find /usr/share/doc/arch-wiki/html/en -type f | sed -e 's#/usr/share/doc/arch-wiki/html/en/##g' -e 's/.html//g' | dmenu -i)" && "$BROWSER" "/usr/share/doc/arch-wiki/html/en/$page.html" &

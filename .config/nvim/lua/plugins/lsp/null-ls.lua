@@ -1,14 +1,18 @@
-local status_ok, null_ls = pcall(require, "null-ls")
+local status_ok, _ = pcall(require, "lspconfig")
 if not status_ok then
     return
 end
 
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
+local status_okay, null_ls = pcall(require, "null-ls")
+if not status_okay then
+    return
+end
+
 local formatting = null_ls.builtins.formatting
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
 local diagnostics = null_ls.builtins.diagnostics
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/code_actions
 local code_actions = null_ls.builtins.code_actions
+local hover = null_ls.builtins.hover
+--local completion = null_ls.builtins.completion
 
 -- TODO: setup null-ls with other languages I use
 
@@ -17,32 +21,32 @@ null_ls.setup({
     sources = {
         -- lua
         formatting.stylua.with({ extra_args = { "--indent-type", "Spaces" } }),
+        --completion.luasnip, -- consider
 
         -- shell
         formatting.shfmt.with({ extra_args = { "-i 4", "-sr", "-s", "-ln posix" } }),
+        --formatting.shellharden, -- considering replacing shfmt with shellharden
         diagnostics.shellcheck,
+        code_actions.shellcheck,
+        hover.printenv,
 
-        -- rust
-        formatting.rustfmt,
-
-        -- other
+        -- misc
         code_actions.gitsigns,
+        formatting.rustfmt,
+        --completion.spell, -- consider
+        --diagnostics.todo_comments, -- only seems to work for lua; might use folke/todo-comments.nvim instead
+        --hover.dictionary, -- consider
+        -- to consider: alejandra, mdformat, nixfmt, nixpkgs_fmt
     },
 })
 
 -- format on save
-vim.cmd([[
-augroup LspFormatting
-    autocmd! * <buffer>
-    autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-augroup END
-]])
+local LspFormatting = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre <buffer>", {
+    pattern = "*",
+    command = "lua vim.lsp.buf.format()",
+    group = LspFormatting,
+})
 
---[[ TODO:
-https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/builtins/completion/luasnip.lua
-https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/builtins/completion/spell.lua
-https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/builtins/diagnostics/rstcheck.lua
-https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/builtins/code_actions/gitsigns.lua
-https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/lua/null-ls/builtins/hover/dictionary.lua
-Also, set up rust formatting?
-]]
+require("plugins.lsp.keymaps")
+lsp_keymaps()

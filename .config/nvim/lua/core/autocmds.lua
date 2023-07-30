@@ -87,3 +87,14 @@ api.nvim_create_autocmd("filetype", {
         })
     end,
 })
+
+-- [[ misc ]]
+
+-- source vimwiki config (for some reason it doesn't work unless it is sourced before the plugins)
+local vimwiki = api.nvim_create_augroup("vimwiki", { clear = true })
+api.nvim_create_autocmd("filetype", {
+    pattern = "markdown",
+    --event = "BufNewFile,BufRead $HOME/Documents*.md",
+    command = "source ~/.config/nvim/lua/plugins/conf/vimwiki.vim",
+    group = vimwiki,
+})

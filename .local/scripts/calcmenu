@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: dmenu, bc
-# Note that bc is a lot more than just a basic command.
-# Like awk, it is a language which can be used for simple commands as well.
+# Dependencies: dmenu, bc, bash
+# Uses bash rather than POSIX shell to allow for globbing
+
 equation="$(: | dmenu -p 'Enter equation' | bc -l)"
-[ -z "$equation" ] && exit 0 # exit if no input is given
+[ -z "$equation" ] && exit 0 # exit if no valid input is given
+# Escape the minus in negative numbers (to avoid notify-send seeing it as a flag)
+[[ "$equation" == *'-'* ]] && equation="\\$equation"
 notify-send 'Result' "$equation"

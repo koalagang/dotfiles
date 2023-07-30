@@ -4,7 +4,7 @@
 # Dependencies: dmenu, ytfzf, youtube-dl, axel
 
 case "$(printf 'Search\nHistory\nClear history\nDownload\nDownload with Axel\nFind link' | dmenu -i -l 7)" in
-    'Search') ytfzf -DN ;;
+    'Search') ytfzf -D ;;
     'History') ytfzf -DH || notify-send 'ytmenu' 'History is empty!' ;;
     'Clear history') ytfzf -x && notify-send 'ytmenu' 'History has been cleared' ;;
     'Download') ytfzf -Dd ;;
@@ -12,5 +12,6 @@ case "$(printf 'Search\nHistory\nClear history\nDownload\nDownload with Axel\nFi
     'Find link') ytfzf -DL | xclip -sel c && notify-send 'ytmenu' 'Copied link to clipboard!'
 esac
 
-# TODO: create a subscriptions system
+# TODO: add subscriptions (ytfzf has a built-in subscription system)
 # TODO: specify download directory
+# TODO: notify-send an error if there is no internet connection

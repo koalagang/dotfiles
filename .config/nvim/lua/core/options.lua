@@ -33,6 +33,7 @@ local options = {
     wildignorecase = true,
     autowrite = false,
     termguicolors = true,
+    mouse = "",
 }
 
 local netrw = {

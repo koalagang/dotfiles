@@ -15,7 +15,7 @@ if [ "$supply" = 'Charging' ]; then
     [ "$bat" -lt 100 ] && echo "[CHARGING]  $bat%" && exit
     echo "[CHARGING] $bat%"
 else
-    [ "$bat" -lt 100 ] && [ "$bat" -lt 10 ] && echo "  $bat%" && notify-send 'Battery low' "$bat%" && exit
+    [ "$bat" -lt 100 ] && [ "$bat" -lt 20 ] && echo "  $bat%" && notify-send 'Battery low' "$bat%" && exit
     [ "$bat" -lt 100 ] && echo " $bat%" && exit
     echo "$bat%"
 fi

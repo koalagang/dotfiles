@@ -1,6 +1,6 @@
 #  \##|   |
 ###\\ |   |
-#   \\|   \'---'/   Dante (@koalagang)
+#   \\|   \'---'/   Gabriel (@koalagang)
 #    \   _'.'O'.'   https://github.com/koalagang
 #     | :___   \
 #     |  _| :  |
@@ -51,6 +51,3 @@ bindkey "^?" backward-delete-char # fix backspace bug when switching modes
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null # syntax highlighting
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null # fish-like autosuggestion
-
-# open new terminal window in the current directory
-bindkey -s '^t' 'samedir\n' # check my scripts for `samedir`

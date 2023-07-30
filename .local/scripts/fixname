@@ -1,6 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # AUTHOR: koalagang (https://github.com/koalagang)
 # Renames a file by stripping out the spaces, making all letters lowercase and removing all punctutation except for dots.
 # Not to be confused with the `rename` utility.
 # Credits for the sed command go to this poster: https://unix.stackexchange.com/q/391480
-mv "$1" "$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed '/[[:punct:]]*/{ s/[^[:alnum:][:space:].-]//g}' | tr -s '[:blank:]' '-')"
+# TODO: add file globbing support
+
+#mv "$1" "$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed '/[[:punct:]]*/{ s/[^[:alnum:][:space:].-]//g}' | tr -s '[:blank:]' '-')"
+
+# WIP:
+change_name(){
+    mv "$1" "$(echo "$1" | tr '[:upper:]' '[:lower:]' | sed '/[[:punct:]]*/{ s/[^[:alnum:][:space:].-]//g}' | tr -s '[:blank:]' '-')"
+}
+
+if [[ "$1" == '*' ]]; then
+    for i in *; do
+        change_name "$i"
+    done
+else
+    change_name "$1"
+fi

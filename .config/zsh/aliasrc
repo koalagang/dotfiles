@@ -18,7 +18,6 @@ alias yt='ytfzf -tls --sort --detach'
 alias scr='$EDITOR $HOME/.local/scripts/"$(command ls $HOME/.local/scripts | fzf)"'
 alias conf='$EDITOR "$(find $XDG_CONFIG_HOME -maxdepth 3 -type f | fzf)"'
 alias vimconf='find $XDG_CONFIG_HOME/nvim -type f -printf "%P\n" | sed "/^plugin/d" | fzf | xargs -I% $EDITOR $HOME/.config/nvim/%'
-alias vwf='$EDITOR "$(find $HOME/Documents/vimwiki -maxdepth 3 -type f | fzf)"'
 
 #---Trash CLI
 alias tp='trash-put'
@@ -50,19 +49,7 @@ alias fgrep='fgrep --colour=auto'
 #---Window swallowing
 alias sxiv='devour sxiv'
 alias mpv='devour mpv'
-alias zathura='devour zathura'
 alias za='devour zathura'
-#alias qutebrowser='devour qutebrowser'
-#alias qtb='devour qutebrowser'
-#alias gimp='devour gimp' # see my functionrc
-
-##---Suffixes
-#alias -s {txt,md,ms,yml,toml,conf,cfg,log,vim,bak}='nvim'
-#alias -s {png,jpg,jpeg,bpm,gif,xpm}='ucollage'
-#alias -s {xcf}='devour gimp'
-#alias -s {pdf,ps,eps,ps.gz}='devour zathura'
-#alias -s {wav,mp3,flac,m4a,wma,ape,ac3,ogg,spx,opus,avi,mp4,wmv,dat,3gp,ogv,mkv,mpg,mpeg,vob,m2v,mov,webm,ts,mts,m4v,qt,divx}='devour mpv'
-#alias -s {html}='lynx'
 
 #---Shortcuts
 alias desk='cd $HOME/Desktop'
@@ -74,46 +61,18 @@ alias vids='cd $HOME/Videos'
 alias gdr='cd $HOME/Desktop/git'
 
 # History
-alias hc="true > $XDG_CACHE_HOME/zsh/history" # clear history
 alias hl='history 1 | less'
 alias hf='history 1 | cut -c 8- | sort | uniq | fzf | tr -d "\n" | xclip -selection clipboard'  # view history using fzf and copy selected to clipboard
 alias pc='history | cut -c 8- | tail -1 | xclip -selection clipboard'                           # view history using fzf and copy selected to clipboard
 
-#--GTD
-alias tadd='task add'
-alias tmod='task modify'
-alias tedit='task edit'
-alias tstart='task start'
-alias tstop='task stop'
-alias tdone='task done'
-alias tinfo='task info'
-alias tdel='task delete'
-alias tpur='task purge'
-alias tbd='task burndown.daily'
-alias tcal='task calendar'
-alias tsum='task summary'
-alias tisum='timew summary :ids'
-alias tisumm'timew summary :month :ids'
-alias tisumy'timew summary :year :ids'
-alias vw='$EDITOR $HOME/Documents/vimwiki/index.md'
-
 #---Misc
-alias wp='wikicurses'               # Search Wikipedia with a curses interface
-alias ucp='ucollage $HOME/Pictures' # Preview all images in Pictures directory with Ucollage
-alias uc='ucollage'                 # Preview a specific image or directory with Ucollage
 alias dictt='trans -d'              # Use translate-shell shell as a dictionary
-#alias cc='calcurse'                # TUI calendar
-#alias vf='vifmrun'                 # Allows Ueberzug image previewing in vifm
 alias ax='axel -n 10'               # Open-source CLI alternative to Internet Download Manager (IDM)
 alias vi='$EDITOR'
+alias iwc='iwctl station wlan0'
 alias ...='cd ../..'
 alias ....='cd ../../..'
-alias scim='sc-im'
-alias ncs='ncspot'
-alias ncm='ncmpcpp'
-alias ncu="$XDG_CONFIG_HOME/ncmpcpp/ncmpcpp-ueberzug/ncmpcpp-ueberzug"
 alias bp='btop'
-alias rss='newsboat'
-alias sc='shellcheck'
 alias scrape='wget -qO- robots=off -U mozilla'
-alias tpb='doas tpacpi-bat -s ST 0 80 && doas tpacpi-bat -s SP 0 95'
+alias tpb='doas tpacpi-bat -s ST 0 80 && doas tpacpi-bat -s SP 0 90'
+alias diff='diff --color' # colourise diffs

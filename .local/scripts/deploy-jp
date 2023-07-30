@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# TODO: Add a dmenu option here to select desired video or audio and open with mpv
+# Also add option to add bookmark to imabi pages (similarly to how I handle it with bookmenu)
+# Have it paste into my clipboard any text I need to ctrl-f
+
+$BROWSER 'imabi.net' &
+anki &
+libreoffice 'Documents/self-actualisation/learning/immersion_journal.xlsx' &

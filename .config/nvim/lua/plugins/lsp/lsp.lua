@@ -1,3 +1,8 @@
+local status_ok, _ = pcall(require, "lspconfig")
+if not status_ok then
+    return
+end
+
 local signs = {
     { name = "DiagnosticSignError", text = "" },
     { name = "DiagnosticSignWarn", text = "" },
@@ -39,40 +44,23 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
     border = "rounded",
 })
 
-local function nmap(shortcut, command)
-    vim.keymap.set("n", shortcut, command)
-end
-
-local function lsp_keymaps()
-    nmap("gD", "<cmd>lua vim.lsp.buf.declaration()<cr>")
-    nmap("gd", "<cmd>lua vim.lsp.buf.definition()<cr>")
-    nmap("K", "<cmd>lua vim.lsp.buf.hover()<cr>")
-    nmap("gi", "<cmd>lua vim.lsp.buf.implementation()<cr>")
-    --nmap("<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<cr>")
-    -- nmap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<cr>')
-    nmap("gr", "<cmd>lua vim.lsp.buf.references()<cr>")
-    -- nmap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<cr>')
-    -- nmap('n', '<leader>f', '<cmd>lua vim.diagnostic.open_float()<cr>')
-    nmap("[d", "<cmd>lua vim.diagnostic.goto_prev({ border = 'rounded' })<cr>")
-    nmap("gl", "<cmd>lua vim.diagnostic.open_float({ border = 'rounded' })<cr>")
-    nmap("]d", "<cmd>lua vim.diagnostic.goto_next({ border = 'rounded' })<cr>")
-    nmap("<leader>q", "<cmd>lua vim.diagnostic.setloclist()<cr>")
-    vim.cmd([[ command! Format execute "lua vim.lsp.buf.formatting()" ]])
-end
+require("plugins.lsp.keymaps")
 
 local on_attach = function(_)
-    if _.name == "sumneko_lua" then
-        _.resolved_capabilities.document_formatting = false
+    if _.name == "lua_ls" then
+        _.server_capabilities.documentFormattingProvider = false
     elseif _.name == "rust_analyzer" then
-        _.resolved_capabilities.document_formatting = false
+        _.server_capabilities.documentFormattingProvider = false
     end
     lsp_keymaps()
 end
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+--local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()) -- deprecated
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local servers = { "kotlin_language_server", "texlab", "sumneko_lua", "prosemd_lsp", "rnix", "taplo", "rust_analyzer" }
+--local servers = { "texlab", "lua_ls", "prosemd_lsp", "rnix", "taplo", "rust_analyzer" }
+local servers = { "texlab", "lua_ls", "rnix", "taplo", "rust_analyzer" }
 
 -- Ensure the servers above are installed
 require("mason-lspconfig").setup({
@@ -91,7 +79,7 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-require("lspconfig").sumneko_lua.setup({
+require("lspconfig").lua_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {

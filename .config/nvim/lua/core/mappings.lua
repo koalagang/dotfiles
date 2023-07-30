@@ -92,12 +92,13 @@ nmap("<c-n>", "<cmd>Lexplore<cr>")
 vmap("$", "$<left>")
 nmap("M", "<cmd>marks<cr>")
 nmap("<leader>src", "<cmd>source %<cr>")
-nmap("ss", "<cmd>set spell!<cr>") -- Spellcheck
+nmap("<leader>ss", "<cmd>set spell!<cr>") -- Spellcheck
 nmap("gA", "GA")
 nmap("gI", "ggI")
+nmap("K", "kddpkJ")
+nmap("cD", "Da")
 
 -- Scripts and other external software
-nmap("<leader>c", '<cmd>w! | !compiler "<c-r>%"<cr><cr>')
-nmap("<leader>C", ':w! | !compiler "<c-r>%"<cr>')
+nmap("<leader>c", ':w! | !compiler "<c-r>%"<cr><cr>')
 nmap("<leader>sc", "<cmd>w! | <cmd>!shellcheck %<cr>")
 nmap("<leader>z", "<cmd>!zathura --fork %:t:r.pdf<cr><cr>")

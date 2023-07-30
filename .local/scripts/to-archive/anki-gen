@@ -88,8 +88,8 @@ cards="$(find ./card*.txt | cut -d'/' -f2)"
 mapfile -t 'cards_list' <<< "$cards"
 
 for card in "${cards_list[@]}"; do
-	tr '\n' ' ' < "$card" >> "$filename-anki_card.html"
-	printf '\n' >> "$filename-anki_card.html"
+    tr '\n' ' ' < "$card" >> "$filename-anki_card.html"
+    printf '\n' >> "$filename-anki_card.html"
 done
 
 # don't run anki-gen in a directory which contains txt files

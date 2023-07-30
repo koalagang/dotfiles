@@ -1,25 +1,29 @@
 #---KOALA'S KEYBINDINGS
 # In some cases you may see 'pkill -RTMIN+n dwmblocks' - that is to update my statusbar; feel free to remove it if you don't use dwm and/or dwmblocks.
 
+# TODO: add shortcut for toggling the compositor
+
+# TODO: remove this after switching dwm build
 # Launch terminal
 mod4 + Return
     $TERMINAL
 
 # Power options
-ctrl + mod1 + {p,r,s}
-    loginctl {poweroff, reboot, suspend && pkill -RTMIN+3 dwmblocks}
+ctrl + mod1 + {p,r}
+    loginctl {poweroff, reboot}
 
 # Lockscreen
 ctrl + mod1 + l
     slock
 
+# TODO: remove dmenu_run after switching dwm build
 # Dmenu
-mod4 + d ; {d,c,p,g,u,e,k,m,s,y,a,b,t,r,l}
-    {dmenu_run,calcmenu,colourpick,ddgmenu,dmenuunicode,epicmenu,killmenu,maimenu,soundmenu,ytmenu,awmenu,bookmenu,dtranslate,radiomenu,linkmenu}
+mod4 + d ; {d,c,p,g,u,k,m,y,b,t,r,l}
+    {dmenu_run,calcmenu,colourmenu,ddgmenu,dmenuunicode,killmenu,maimenu,ytmenu,bookmenu,translatemenu,radiomenu,linkmenu}
 
 # Launch applications
-mod4 + mod1 + {a,k,s,l,m,v,b}
-    {anki --no-sandbox,keepassxc,signal-desktop,lutris,polymc,steam,$BROWSER}
+mod4 + mod1 + {n,k,s,b}
+    {anki &,keepassxc &,signal-desktop &,$BROWSER}
 
 # Media controls
 {XF86AudioNext,XF86AudioPrev,XF86AudioPlay}
@@ -37,6 +41,7 @@ mod4 + ctrl + s
 mod4 + s ; {u,n,g}
     setxkbmap -layout {us,no,gb} && pkill -RTMIN+1 dwmblocks && kbd-remaps
 
+# TODO: remove this after switching dwm build
 # Kill window
 mod4 + ctrl + semicolon
     xkill -id "$(xprop -root _NET_ACTIVE_WINDOW | cut -d'#' -f2)"

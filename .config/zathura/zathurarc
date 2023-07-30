@@ -1,4 +1,5 @@
 set selection-clipboard clipboard # enable clipboard
+set selection-notification false # disable notification which displays when copying
 set guioptions = # disable the statusbar by default
 set page-padding 6
 map u scroll half-up
@@ -13,4 +14,4 @@ map i recolor
 map p print
 map S toggle_statusbar
 # display how many words there are in the current pdf file
-map w exec "countwords '$FILE'" # notify-send 'Word count' "$(pdftotext $1 - | tr -d '[:punct:]' | wc -w)"
+map w exec "countwords '$FILE'" # run the following: notify-send 'Word count' "$(pdftotext $1 - | tr -d '[:punct:]' | wc -w)"

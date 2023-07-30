@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # AUTHOR: koalagang (https://github.com/koalagang)
-# Dependencies: dmenu, perl, xclip, any browser, wget, recode
+# Dependencies: dmenu, xclip, any browser, wget, recode, coreutils
 # Bookmenu is a browser independent bookmark manager.
 # When adding a bookmark the URL is pulled from the clipboard (you don't need to paste into dmenu).
 # If you have a html file which you have exported from your browser, you may import it into bookmenu.
@@ -13,6 +13,8 @@
 # NOTE: as I feel there is no need for it, there is no way to add new quickmarks via this script;
 # you can manually do so by creating a file called 'quickmarks.csv' in $book_dir.
 # It should be formatted just like the bookmarks file is. For an example, see mine in my dotfiles repo.
+
+# TODO: fix this script (switch to xdg-open?)
 
 ### CONFIGURATION ###
 # To turn an option off, simply comment it out or remove the line entirely; to turn one on, uncomment it.
@@ -28,17 +30,17 @@ book_dir="$HOME/.local/share/bookmenu" # directory for storing bookmarks (both c
 
 #####################
 
-# TODO: implement solution for bookmarks with identical titles
-
 [ -d "$book_dir" ] || mkdir -p "$book_dir" # make the bookmenu directory if it does not already exist
 
 case "$(printf 'View bookmarks\nAdd a bookmark\nRemove a bookmark\nExport/import bookmarks\nView quickmarks' | dmenu -i -l 5)" in
     'View bookmarks') title="$(cut -d',' -f1 "$book_dir/bookmarks.csv" | dmenu -i -l 20)" &&
         grep "$title" "$book_dir/bookmarks.csv" | cut -d',' -f2 | xargs "$BROWSER" ;;
-    'Add a bookmark') [ -n "$backup_bookmarks" ] &&
-        cp "$book_dir/bookmarks.csv" "$book_dir/bookmarks.csv.bak" ; url="$(xclip -selection c -o)" &&
-        title="$(wget -qO- robots=off -U mozilla "$url" | perl -l -0777 -ne 'print $1 if /<title.*?>\s*(.*?)\s*<\/title/si' | \
-        recode html.. | iconv -c -f utf-8 -t ascii | tr '[]/' '-')" &&
+    'Add a bookmark') [ -n "$backup_bookmarks" ] && cp "$book_dir/bookmarks.csv" "$book_dir/bookmarks.csv.bak"
+        url="$(xclip -selection c -o)"
+        title="$(wget -qO- robots=off -U mozilla "$url" | \
+        gawk -v IGNORECASE=1 -v RS='</title' 'RT{gsub(/.*<title[^>]*>/,"");print;exit}'| \
+        recode html.. | iconv -c -f utf-8 -t ascii | tr '[]/' '-')"
+        [ -z "$title" ] && notify-send 'bookmenu' "Oops! Something went wrong" && exit 1
         echo "$title,$url" >> "$book_dir/bookmarks.csv" && notify-send 'Bookmenu' "Added '$title' to bookmarks." &&
         [ -n "$filter_duplicates" ] &&
         ( sort -u "$book_dir/bookmarks.csv" > '/tmp/out.csv' && cat '/tmp/out.csv' > "$book_dir/bookmarks.csv" && rm '/tmp/out.csv' ) ;;
