@@ -1,5 +1,5 @@
 # dotfiles
 Various configs and scripts I use regularly.
 
-NOTE: I am in the process of migrating to a home-manager based setup. My new dotfiles repo can be found
-[here](https://github.com/koalagang/kudos).
+NOTE:\
+These are old dotfiles. For the new dotfiles repo, see [koalagang/kudos](http://github.com/koalagang/kudos).
